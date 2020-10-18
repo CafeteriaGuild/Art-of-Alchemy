@@ -33,7 +33,7 @@
   ],
   "depends": {
     "autoconfig1u": ">=2.0.0",
-  	"libgui": ">=1.8.0",
+    "libgui": ">=1.8.0",
     "fabricloader": ">=0.4.0",
     "fabric": "*"
   }
