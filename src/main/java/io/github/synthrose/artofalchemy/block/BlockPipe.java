@@ -70,11 +70,8 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		if (be instanceof BlockEntityPipe) {
 			return ((BlockEntityPipe) be).getFaces();
 		} else {
-			Map<Direction, IOFace> map = new HashMap<>();
-			for (Direction dir : Direction.values()) {
-				map.put(dir, IOFace.NONE);
-			}
-			return map;
+			// Returning a dummy map here would just hide bugs
+			return null;
 		}
 	}
 
