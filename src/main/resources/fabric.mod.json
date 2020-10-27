@@ -2,18 +2,17 @@
   "schemaVersion": 1,
   "id": "artofalchemy",
   "version": "$version",
-  "name": "Art of Alchemy",
-  "description": "An industrial magic mod that allows you to unleash the power of transmutation!",
+  "name": "Art of Alchemy: Memoriam",
+  "description": "An industrial magic mod that allows you to unleash the power of transmutation!\nIn loving memory of Amelia aka SynthRose.",
   "authors": [
     "SynthRose"
   ],
   "contributors": [],
   "contact": {
-    "sources": "https://github.com/SynthRose/art-of-alchemy",
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/art-of-alchemy",
-    "issues": "https://github.com/SynthRose/art-of-alchemy/issues",
-    "discord": "SynthRose#8312",
-    "twitter": "https://twitter.com/synth_rose"
+    "sources": "https://github.com/CumulusMC/Art-of-Alchemy",
+    "homepage": "https://cumulusmc.com/mods/art-of-alchemy",
+    "issues": "https://github.com/CumulusMC/Art-of-Alchemy/issues",
+    "discord": "https://discord.gg/gHMN9mj"
   },
   "license": "MIT",
   "icon": "assets/artofalchemy/icon.png",
