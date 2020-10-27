@@ -171,6 +171,24 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		return connections;
 	}
 
+	// Same as getConnections, but doesn't interact with the block entity at
+	// 'pos' itself. Useful when said block entity might already be disposed
+	// and not available (eg. on broken block).
+	private Set<BlockPos> getConnectionsBlockless(World world, BlockPos pos) {
+		Set<BlockPos> connections = new HashSet<>();
+		for (Direction dir : Direction.values()) {
+			BlockPos neighbour = pos.offset(dir);
+			BlockEntity be = world.getBlockEntity(neighbour);
+			if (be instanceof BlockEntityPipe) {
+				BlockEntityPipe bep = (BlockEntityPipe) be;
+				if (bep.getFace(dir.getOpposite()) == IOFace.CONNECT) {
+					connections.add(neighbour);
+				}
+			}
+		}
+		return connections;
+	}
+
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
 		super.neighborUpdate(state, world, pos, block, fromPos, notify);
@@ -232,7 +250,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean notify) {
 		super.onStateReplaced(state, world, pos, newState, notify);
 		if (!world.isClient()) {
-			EssentiaNetworker.get((ServerWorld) world).remove(pos, getConnections(world, pos));
+			EssentiaNetworker.get((ServerWorld) world).remove(pos, getConnectionsBlockless(world, pos));
 		}
 	}
 
