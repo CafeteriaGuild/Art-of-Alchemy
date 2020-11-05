@@ -7,6 +7,8 @@ import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
 import io.github.synthrose.artofalchemy.ArtOfAlchemy;
 import io.github.synthrose.artofalchemy.essentia.Essentia;
 import io.github.synthrose.artofalchemy.essentia.RegistryEssentia;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -19,10 +21,10 @@ public class WEssentiaSubPanel extends WPlainPanel {
 	private Essentia essentia = null;
 	private Integer amount = 0;
 	private Integer required = 0;
-	private final WSprite bg = new WSprite(ArtOfAlchemy.id("textures/gui/essentia_banner.png"));
-	private final WSprite sprite = new WSprite(SYMBOLS_EMPTY);
-	private final WLabel amtLabel = new WLabel("0");
-	private final WLabel typeLabel = new WLabel("Empty");
+	private final WSprite bg = new EssentiaSprite(ArtOfAlchemy.id("textures/gui/essentia_banner.png"));
+	private final WSprite sprite = new EssentiaSprite(SYMBOLS_EMPTY);
+	private final WLabel amtLabel = new EssentiaLabel("0");
+	private final WLabel typeLabel = new EssentiaLabel("Empty");
 
 	public WEssentiaSubPanel() {
 		bg.setParent(this);
@@ -79,6 +81,43 @@ public class WEssentiaSubPanel extends WPlainPanel {
 
 	public Integer getAmount() {
 		return amount;
+	}
+
+	// Ideally, every WWidget would automatically pass any unhandled scroll events
+	// up to the parent. Until that happens, we can manually emulate this behavior
+	// without having to touch LibGui for the time being.
+	private static class EssentiaSprite extends WSprite {
+
+		public EssentiaSprite(Identifier image) {
+			super(image);
+		}
+
+		@Environment(EnvType.CLIENT)
+		@Override
+		public void onMouseScroll(int x, int y, double amount) {
+			parent.onMouseScroll(-1, -1, amount);
+		}
+
+	}
+
+	private static class EssentiaLabel extends WLabel {
+
+		public EssentiaLabel(String text) {
+			super(text);
+		}
+
+		@Environment(EnvType.CLIENT)
+		@Override
+		public void onMouseScroll(int x, int y, double amount) {
+			parent.onMouseScroll(-1, -1, amount);
+		}
+
+	}
+
+	@Environment(EnvType.CLIENT)
+	@Override
+	public void onMouseScroll(int x, int y, double amount) {
+		parent.onMouseScroll(-1, -1, amount);
 	}
 
 }
