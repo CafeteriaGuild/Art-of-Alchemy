@@ -8,14 +8,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.Random;
-
 public class AoAHelper {
 
+	// Coerces a rational number x into its neighbouring integers such
+	// that over many invocations, the average of returned values approaches x.
+	// Eg. stochasticRound(4.7) has a 70% chance of returning 5, and
+	// a 30% chance of returning 4.
 	public static int stochasticRound(double x) {
-		Random r = new Random();
 		double frac = MathHelper.fractionalPart(x);
-		int rounding = r.nextDouble() >= frac ? 0 : 1;
+		int rounding = Math.random() >= frac ? 0 : 1;
 		return (int) (Math.floor(x) + rounding);
 	}
 
