@@ -81,6 +81,10 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 		this.forEach((essentia, __) -> multiply(essentia, scalar));
 	}
 
+	public void multiplyStochastic(double scalar) {
+		this.replaceAll((__, value) -> AoAHelper.stochasticRound(value * scalar));
+	}
+
 	// Non-mutating scalar multiplication. Can go negative - try not to break things.
 	public static EssentiaStack multiply(EssentiaStack inStack, int scalar) {
 		EssentiaStack outStack = new EssentiaStack();

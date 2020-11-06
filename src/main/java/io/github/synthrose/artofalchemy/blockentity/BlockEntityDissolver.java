@@ -228,7 +228,7 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 		if (inSlot.isDamageable()) {
 			factor *= 1.0 - (float) inSlot.getDamage() / inSlot.getMaxDamage();
 		}
-		results.multiply(factor);
+		results.multiplyStochastic(factor);
 
 		if (container != ItemStack.EMPTY) {
 			items.set(0, container.copy());
