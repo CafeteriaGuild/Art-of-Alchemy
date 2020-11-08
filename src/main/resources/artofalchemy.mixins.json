@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.synthrose.artofalchemy.mixin",
+  "package": "com.cumulusmc.artofalchemy.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "RegistryAccessor"

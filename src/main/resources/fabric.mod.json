@@ -19,13 +19,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.synthrose.artofalchemy.ArtOfAlchemy"
+      "com.cumulusmc.artofalchemy.ArtOfAlchemy"
     ],
     "client": [
-      "io.github.synthrose.artofalchemy.ArtOfAlchemyClient"
+      "com.cumulusmc.artofalchemy.ArtOfAlchemyClient"
     ],
     "modmenu": [
-      "io.github.synthrose.artofalchemy.integration.AoAxModMenu"
+      "com.cumulusmc.artofalchemy.integration.AoAxModMenu"
     ]
   },
   "mixins": [
