@@ -4,7 +4,8 @@
   "package": "com.cumulusmc.artofalchemy.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "RegistryAccessor"
+    "RegistryAccessor",
+    "MixinRecipeManager"
   ],
   "client": [
     "MixinClientRecipeBook"

@@ -2,11 +2,17 @@ package com.cumulusmc.artofalchemy.item;
 
 import com.cumulusmc.artofalchemy.block.AoABlocks;
 import com.cumulusmc.artofalchemy.blockentity.BlockEntityPipe;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
 public class ItemEssentiaPort extends Item {
 	public final BlockEntityPipe.IOFace IOFACE;
@@ -31,11 +37,23 @@ public class ItemEssentiaPort extends Item {
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		if (context.getWorld().getBlockState(context.getBlockPos()).getBlock() == AoABlocks.PIPE) {
-			return context.getWorld().getBlockState(context.getBlockPos()).onUse(context.getWorld(), context.getPlayer(), context.getHand(),
-					new BlockHitResult(context.getHitPos(), context.getSide(), context.getBlockPos(), context.hitsInsideBlock()));
+		World world = context.getWorld();
+		BlockPos pos = context.getBlockPos();
+		BlockState state = world.getBlockState(pos);
+		Direction side = context.getSide();
+		PlayerEntity player = context.getPlayer();
+		if (state.getBlock() == AoABlocks.PIPE) {
+			return state.onUse(world, player, context.getHand(),
+				new BlockHitResult(context.getHitPos(), side, pos, context.hitsInsideBlock()));
 		} else {
-			return super.useOnBlock(context);
+			BlockPos offPos = pos.offset(side);
+			BlockState offState = world.getBlockState(offPos);
+			if (offState.getBlock() == AoABlocks.PIPE) {
+				return offState.onUse(world, player, context.getHand(),
+					new BlockHitResult(context.getHitPos(), player.isSneaking() ? side : side.getOpposite(),
+						offPos, context.hitsInsideBlock()));
+			}
 		}
+		return super.useOnBlock(context);
 	}
 }

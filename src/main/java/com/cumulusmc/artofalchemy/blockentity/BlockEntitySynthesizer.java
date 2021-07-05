@@ -397,9 +397,7 @@ public class BlockEntitySynthesizer extends BlockEntity implements ImplementedIn
 
 	@Override
 	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-		if (slot == 1) {
-			return TagRegistry.item(ArtOfAlchemy.id("containers")).contains(stack.getItem());
-		} else if (slot == 2) {
+		if (slot == 2) {
 			return world.isReceivingRedstonePower(pos);
 		} else {
 			return true;
