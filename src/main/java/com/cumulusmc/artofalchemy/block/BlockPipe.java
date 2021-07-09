@@ -249,7 +249,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean notify) {
 		super.onStateReplaced(state, world, pos, newState, notify);
-		if (!world.isClient()) {
+		if (!world.isClient() && newState.getBlock() != this) {
 			EssentiaNetworker.get((ServerWorld) world).remove(pos, getConnectionsBlockless(world, pos));
 		}
 	}
@@ -272,6 +272,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		if (TagRegistry.item(ArtOfAlchemy.id("usable_on_pipes")).contains(heldStack.getItem())) {
 			return ActionResult.PASS;
 		}
+		Set<BlockPos> oldConnections = getConnections(world, pos);
 		IOFace face = getFace(world, pos, dir);
 		switch (face) {
 			case NONE:
@@ -308,7 +309,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		}
 		if (!world.isClient()) {
 			EssentiaNetworker networker = EssentiaNetworker.get((ServerWorld) world);
-			networker.remove(pos, getConnections(world, pos));
+			networker.remove(pos, oldConnections);
 			networker.add(pos);
 		}
 		return ActionResult.SUCCESS;

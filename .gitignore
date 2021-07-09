@@ -17,6 +17,9 @@ run/
 .classpath
 .settings/
 
+# vscode
+.vscode/
+
 bin/
 
 oldSrc/
