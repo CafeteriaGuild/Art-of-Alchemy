@@ -4,6 +4,7 @@ import io.github.cottonmc.cotton.gui.widget.WListPanel;
 import com.cumulusmc.artofalchemy.essentia.Essentia;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
 import com.cumulusmc.artofalchemy.essentia.EssentiaStack;
+import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -89,9 +90,10 @@ public class WEssentiaPanel extends WListPanel<Essentia, WEssentiaSubPanel> {
 
 	@Environment(EnvType.CLIENT)
 	@Override
-	public void onMouseScroll(int x, int y, double amount) {
+	public InputResult onMouseScroll(int x, int y, double amount) {
 		// Pass this as a fake event to the scrollbar for centralized scroll handling
 		this.scrollBar.onMouseScroll(-1, -1, amount);
+		return InputResult.PROCESSED;
 	}
 
 }

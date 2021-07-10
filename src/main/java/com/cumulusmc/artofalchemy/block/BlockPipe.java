@@ -1,6 +1,8 @@
 package com.cumulusmc.artofalchemy.block;
 
 import com.cumulusmc.artofalchemy.ArtOfAlchemy;
+import com.cumulusmc.artofalchemy.blockentity.AoABlockEntities;
+import com.cumulusmc.artofalchemy.blockentity.BlockEntityAstroCentrifuge;
 import com.cumulusmc.artofalchemy.blockentity.BlockEntityPipe;
 import com.cumulusmc.artofalchemy.blockentity.BlockEntityPipe.IOFace;
 import com.cumulusmc.artofalchemy.item.AoAItems;
@@ -13,6 +15,8 @@ import com.cumulusmc.artofalchemy.transport.NetworkNode;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -280,7 +284,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 				world.playSound(null, pos, SoundEvents.BLOCK_NETHERITE_BLOCK_FALL, SoundCategory.BLOCKS, 0.6f, 1.0f);
 				if (heldStack.getItem() instanceof ItemEssentiaPort) {
 					setFace(world, pos, dir, ((ItemEssentiaPort) heldStack.getItem()).IOFACE);
-					if (!player.abilities.creativeMode) {
+					if (!player.getAbilities().creativeMode) {
 						heldStack.decrement(1);
 					}
 				} else {
@@ -294,7 +298,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 			case EXTRACTOR:
 			case PASSIVE:
 				world.playSound(null, pos, SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundCategory.BLOCKS, 0.6f, 1.0f);
-				if (!player.abilities.creativeMode) {
+				if (!player.getAbilities().creativeMode) {
 					ItemStack stack = new ItemStack(ItemEssentiaPort.getItem(face));
 					dropStack(world, pos, stack);
 				}
@@ -316,7 +320,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView world) {
-		return new BlockEntityPipe();
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new BlockEntityPipe(pos, state);
 	}
 }

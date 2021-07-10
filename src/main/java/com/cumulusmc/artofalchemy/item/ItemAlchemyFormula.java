@@ -24,7 +24,7 @@ public class ItemAlchemyFormula extends AbstractItemFormula {
 	}
 
 	public static Item getFormula(ItemStack stack) {
-		NbtCompound tag = stack.hasTag() ? stack.getTag() : new NbtCompound();
+		NbtCompound tag = stack.hasNbt() ? stack.getNbt() : new NbtCompound();
 		if (tag.contains("formula")) {
 			Identifier id = new Identifier(tag.getString("formula"));
 			return Registry.ITEM.get(id);
@@ -34,7 +34,7 @@ public class ItemAlchemyFormula extends AbstractItemFormula {
 	}
 
 	public static void setFormula(ItemStack stack, Item formula) {
-		NbtCompound tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 		tag.put("formula", NbtString.of(Registry.ITEM.getId(formula).toString()));
 	}
 

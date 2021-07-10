@@ -1,9 +1,13 @@
 package com.cumulusmc.artofalchemy.block;
 
+import com.cumulusmc.artofalchemy.blockentity.AoABlockEntities;
+import com.cumulusmc.artofalchemy.blockentity.BlockEntityCalcinatorPlus;
 import com.cumulusmc.artofalchemy.blockentity.BlockEntityDissolver;
 import com.cumulusmc.artofalchemy.item.AoAItems;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
@@ -68,7 +72,7 @@ public class BlockDissolver extends BlockWithEntity {
 		if (blockEntity instanceof BlockEntityDissolver) {
 			BlockEntityDissolver dissolver = (BlockEntityDissolver) blockEntity;
 			if (inHand.getItem() == AoAItems.ALKAHEST_BUCKET && dissolver.addAlkahest(1000)) {
-				if (!player.abilities.creativeMode) {
+				if (!player.getAbilities().creativeMode) {
 					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
 				}
 				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY,
@@ -92,8 +96,8 @@ public class BlockDissolver extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView world) {
-		return new BlockEntityDissolver();
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new BlockEntityDissolver(pos, state);
 	}
 
 	@Override
@@ -133,6 +137,11 @@ public class BlockDissolver extends BlockWithEntity {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return checkType(type, AoABlockEntities.DISSOLVER, (world2, pos, state2, entity) -> ((BlockEntityDissolver) entity).tick(world2, pos, state2, (BlockEntityDissolver) entity));
 	}
 
 }

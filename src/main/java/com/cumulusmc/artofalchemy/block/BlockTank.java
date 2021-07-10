@@ -1,5 +1,7 @@
 package com.cumulusmc.artofalchemy.block;
 
+import com.cumulusmc.artofalchemy.blockentity.AoABlockEntities;
+import com.cumulusmc.artofalchemy.blockentity.BlockEntityElementCentrifuge;
 import com.cumulusmc.artofalchemy.blockentity.BlockEntityTank;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
 import net.minecraft.block.Block;
@@ -7,6 +9,8 @@ import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -65,8 +69,8 @@ public class BlockTank extends Block implements BlockEntityProvider {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView world) {
-		return new BlockEntityTank();
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new BlockEntityTank(pos, state);
 	}
 
 	@Override
@@ -88,5 +92,10 @@ public class BlockTank extends Block implements BlockEntityProvider {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return type == AoABlockEntities.TANK ? (world2, pos, state2, entity) -> ((BlockEntityTank) entity).tick(world2, pos, state2, (BlockEntityTank) entity) : null;
 	}
 }

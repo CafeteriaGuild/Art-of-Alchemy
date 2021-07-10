@@ -1,8 +1,12 @@
 package com.cumulusmc.artofalchemy.block;
 
+import com.cumulusmc.artofalchemy.blockentity.AoABlockEntities;
 import com.cumulusmc.artofalchemy.blockentity.BlockEntityCalcinator;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
@@ -17,6 +21,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockCalcinator extends BlockWithEntity {
 
@@ -66,8 +71,8 @@ public class BlockCalcinator extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView world) {
-		return new BlockEntityCalcinator();
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new BlockEntityCalcinator(pos, state);
 	}
 
 	@Override
@@ -95,4 +100,8 @@ public class BlockCalcinator extends BlockWithEntity {
 		return BlockRenderType.MODEL;
 	}
 
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return checkType(type, AoABlockEntities.CALCINATOR, (world2, pos, state2, entity) -> ((BlockEntityCalcinator) entity).tick(world2, pos, state2, (BlockEntityCalcinator) entity));
+	}
 }

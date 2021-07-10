@@ -13,6 +13,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.Property;
@@ -25,12 +26,11 @@ import java.util.Collection;
 
 // Shoutouts to 2xsaiko
 
-public class RendererTank extends BlockEntityRenderer<BlockEntityTank> {
+public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 
 	MinecraftClient client = MinecraftClient.getInstance();
 
-	public RendererTank(BlockEntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RendererTank(BlockEntityRendererFactory.Context ctx) {
 	}
 
 	@Override

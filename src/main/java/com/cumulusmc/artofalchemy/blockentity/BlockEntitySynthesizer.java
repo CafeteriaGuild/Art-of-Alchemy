@@ -1,5 +1,6 @@
 package com.cumulusmc.artofalchemy.blockentity;
 
+import com.cumulusmc.artofalchemy.util.AoATags;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import com.cumulusmc.artofalchemy.AoAConfig;
 import com.cumulusmc.artofalchemy.ArtOfAlchemy;
@@ -17,6 +18,7 @@ import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -34,11 +36,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.Tag;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 
-public class BlockEntitySynthesizer extends BlockEntity implements ImplementedInventory,  Tickable, SidedInventory,
+public class BlockEntitySynthesizer extends BlockEntity implements ImplementedInventory, BlockEntityTicker<BlockEntitySynthesizer>, SidedInventory,
 		PropertyDelegateHolder, BlockEntityClientSerializable, HasEssentia, ExtendedScreenHandlerFactory {
 
 	private static final int[] TOP_SLOTS = new int[]{0};
@@ -99,8 +103,8 @@ public class BlockEntitySynthesizer extends BlockEntity implements ImplementedIn
 
 	};
 
-	public BlockEntitySynthesizer() {
-		this(AoABlockEntities.SYNTHESIZER);
+	public BlockEntitySynthesizer(BlockPos pos, BlockState state) {
+		this(AoABlockEntities.SYNTHESIZER, pos, state);
 		AoAConfig.SynthesizerSettings settings = AoAConfig.get().synthesizerSettings;
 		tankSize = settings.tankBasic;
 		speedMod = settings.speedBasic;
@@ -111,8 +115,8 @@ public class BlockEntitySynthesizer extends BlockEntity implements ImplementedIn
 				.setOutput(false);
 	}
 
-	protected BlockEntitySynthesizer(BlockEntityType type) {
-		super(type);
+	protected BlockEntitySynthesizer(BlockEntityType type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	@Override
@@ -250,8 +254,8 @@ public class BlockEntitySynthesizer extends BlockEntity implements ImplementedIn
 	}
 
 	@Override
-	public void fromTag(BlockState state, NbtCompound tag) {
-		super.fromTag(state, tag);
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
 		Inventories.readNbt(tag, items);
 		progress = tag.getInt("progress");
 		maxProgress = tag.getInt("max_progress");
@@ -267,12 +271,7 @@ public class BlockEntitySynthesizer extends BlockEntity implements ImplementedIn
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
 		if (slot == 1) {
-			Tag<Item> tag = world.getTagManager().getItems().getTag(ArtOfAlchemy.id("containers"));
-			if (tag == null) {
-				return false;
-			} else {
-				return tag.contains(stack.getItem());
-			}
+			return AoATags.CONTAINERS.contains(stack.getItem());
 		} else {
 			return true;
 		}
@@ -280,7 +279,7 @@ public class BlockEntitySynthesizer extends BlockEntity implements ImplementedIn
 
 
 	@Override
-	public void tick() {
+	public void tick(World world, BlockPos pos, BlockState state, BlockEntitySynthesizer blockEntity) {
 		boolean dirty = false;
 
 		if (!world.isClient()) {
@@ -345,7 +344,7 @@ public class BlockEntitySynthesizer extends BlockEntity implements ImplementedIn
 
 	@Override
 	public void fromClientTag(NbtCompound tag) {
-		fromTag(world.getBlockState(pos), tag);
+		readNbt(tag);
 	}
 
 	@Override

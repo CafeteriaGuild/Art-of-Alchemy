@@ -16,14 +16,14 @@ public class AoADispenserBehavior {
 
 	protected static final DispenserBehavior VESSEL_BEHAVIOR = (pointer, stack) -> {
 		Direction facing = pointer.getBlockState().get(DispenserBlock.FACING);
-		BlockEntity be = pointer.getWorld().getBlockEntity(pointer.getBlockPos().offset(facing));
+		BlockEntity be = pointer.getWorld().getBlockEntity(pointer.getPos().offset(facing));
 		ItemEssentiaVessel.useStackOnBE(stack, be);
 		return stack;
 	};
 
 	protected static final DispenserBehavior ALKAHEST_BEHAVIOR = (pointer, stack) -> {
 		Direction facing = pointer.getBlockState().get(DispenserBlock.FACING);
-		BlockEntity be = pointer.getWorld().getBlockEntity(pointer.getBlockPos().offset(facing));
+		BlockEntity be = pointer.getWorld().getBlockEntity(pointer.getPos().offset(facing));
 		if (be instanceof HasAlkahest) {
 			boolean successful = ((HasAlkahest) be).addAlkahest(1000);
 			if (successful) {

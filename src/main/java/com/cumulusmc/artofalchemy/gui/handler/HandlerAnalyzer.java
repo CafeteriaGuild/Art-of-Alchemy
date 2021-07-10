@@ -85,25 +85,30 @@ public class HandlerAnalyzer extends SyncedGuiDescription {
 	@Override
 	public void close(PlayerEntity player) {
 		inventory.removeStack(3);
-		dropInventory(player, world, inventory);
+		dropInventory(player, inventory);
 		super.close(player);
 	}
 
 	@Override
-	public ItemStack onSlotClick(int slotNumber, int button, SlotActionType action, PlayerEntity player) {
-		System.out.println(slotNumber);
-		int outputBefore = inventory.getStack(3).getCount();
-		ItemStack stack = super.onSlotClick(slotNumber, button, action, player);
-		if (stack == null) {
-			stack = ItemStack.EMPTY;
+	public void onSlotClick(int slotNumber, int button, SlotActionType action, PlayerEntity player) {
+		// If the output slot is the one that has been clicked
+		if (slotNumber == 3) {
+			// Take count of the number of items in the slot before updating
+			int outputBefore = inventory.getStack(3).getCount();
+			// Delegate to super
+			super.onSlotClick(slotNumber, button, action, player);
+			// Take count of the number of items in the slot after updating
+			int outputAfter = inventory.getStack(3).getCount();
+			// If the delta is negative (items were removed/crafted)
+			int delta = outputAfter - outputBefore;
+			if (delta < 0) {
+				// Decrement the inputs accordingly
+				inventory.getStack(0).decrement(-delta);
+				inventory.getStack(1).decrement(-delta);
+			}
+			// Update the recipe
+			updateRecipe();
 		}
-		int outputAfter = inventory.getStack(3).getCount();
-		if (!stack.isEmpty() && slotNumber == 3 && outputAfter < outputBefore) {
-			inventory.getStack(0).decrement(outputBefore - outputAfter);
-			inventory.getStack(1).decrement(outputBefore - outputAfter);
-		}
-		updateRecipe();
-		return stack;
 	}
 
 	public void updateRecipe() {
@@ -118,7 +123,7 @@ public class HandlerAnalyzer extends SyncedGuiDescription {
 			}
 			inventory.markDirty();
 			((ServerPlayerEntity) playerInventory.player).networkHandler.sendPacket(
-					new ScreenHandlerSlotUpdateS2CPacket(syncId, 3, inventory.getStack(3)));
+					new ScreenHandlerSlotUpdateS2CPacket(syncId, 0, 3, inventory.getStack(3)));
 		}
 	}
 

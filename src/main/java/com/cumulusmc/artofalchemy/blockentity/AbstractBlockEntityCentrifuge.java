@@ -4,18 +4,21 @@ import com.cumulusmc.artofalchemy.AoAConfig;
 import com.cumulusmc.artofalchemy.essentia.Essentia;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
 import com.cumulusmc.artofalchemy.transport.HasEssentia;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-abstract public class AbstractBlockEntityCentrifuge extends BlockEntity implements HasEssentia, Tickable {
+abstract public class AbstractBlockEntityCentrifuge extends BlockEntity implements HasEssentia, BlockEntityTicker<AbstractBlockEntityCentrifuge> {
 
 	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 	protected EssentiaContainer input = new EssentiaContainer()
@@ -24,8 +27,8 @@ abstract public class AbstractBlockEntityCentrifuge extends BlockEntity implemen
 			.setOutput(false);
 	protected EssentiaContainer[] outputs;
 
-	public AbstractBlockEntityCentrifuge(BlockEntityType<?> type) {
-		super(type);
+	public AbstractBlockEntityCentrifuge(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	@Override
@@ -56,7 +59,7 @@ abstract public class AbstractBlockEntityCentrifuge extends BlockEntity implemen
 	}
 
 	@Override
-	public void tick() {
+	public void tick(World world, BlockPos pos, BlockState state, AbstractBlockEntityCentrifuge blockEntity) {
 		if (!input.isEmpty()) {
 			for (EssentiaContainer output : outputs) {
 				input.pushContents(output, true);

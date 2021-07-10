@@ -7,13 +7,12 @@ import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
 import com.cumulusmc.artofalchemy.ArtOfAlchemy;
 import com.cumulusmc.artofalchemy.essentia.Essentia;
 import com.cumulusmc.artofalchemy.essentia.RegistryEssentia;
+import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-
-import java.util.List;
 
 public class WEssentiaSubPanel extends WPlainPanel {
 
@@ -94,8 +93,9 @@ public class WEssentiaSubPanel extends WPlainPanel {
 
 		@Environment(EnvType.CLIENT)
 		@Override
-		public void onMouseScroll(int x, int y, double amount) {
+		public InputResult onMouseScroll(int x, int y, double amount) {
 			parent.onMouseScroll(-1, -1, amount);
+			return InputResult.PROCESSED;
 		}
 
 	}
@@ -108,16 +108,18 @@ public class WEssentiaSubPanel extends WPlainPanel {
 
 		@Environment(EnvType.CLIENT)
 		@Override
-		public void onMouseScroll(int x, int y, double amount) {
+		public InputResult onMouseScroll(int x, int y, double amount) {
 			parent.onMouseScroll(-1, -1, amount);
+			return InputResult.PROCESSED;
 		}
 
 	}
 
 	@Environment(EnvType.CLIENT)
 	@Override
-	public void onMouseScroll(int x, int y, double amount) {
+	public InputResult onMouseScroll(int x, int y, double amount) {
 		parent.onMouseScroll(-1, -1, amount);
+		return InputResult.PROCESSED;
 	}
 
 }

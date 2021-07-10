@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -32,11 +33,12 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
-public class BlockEntityDissolver extends BlockEntity implements ImplementedInventory,  Tickable, PropertyDelegateHolder,
+public class BlockEntityDissolver extends BlockEntity implements ImplementedInventory, BlockEntityTicker<BlockEntityDissolver>, PropertyDelegateHolder,
 		BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
 
 	private static final int[] TOP_SLOTS = new int[]{0};
@@ -106,12 +108,12 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 
 	};
 
-	public BlockEntityDissolver() {
-		this(AoABlockEntities.DISSOLVER);
+	public BlockEntityDissolver(BlockPos pos, BlockState state) {
+		this(AoABlockEntities.DISSOLVER, pos, state);
 		AoAConfig.DissolverSettings settings = AoAConfig.get().dissolverSettings;
 		tankSize = settings.tankBasic;
 		speedMod = settings.speedBasic;
-		yield = settings.yieldBasic;
+		this.yield = settings.yieldBasic;
 		maxAlkahest = getTankSize();
 		essentia = new EssentiaContainer()
 				.setCapacity(getTankSize())
@@ -119,8 +121,8 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 				.setOutput(true);
 	}
 
-	protected BlockEntityDissolver(BlockEntityType type) {
-		super(type);
+	protected BlockEntityDissolver(BlockEntityType type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	@Override
@@ -253,8 +255,8 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 	}
 
 	@Override
-	public void fromTag(BlockState state, NbtCompound tag) {
-		super.fromTag(state, tag);
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
 		Inventories.readNbt(tag, items);
 		alkahest = tag.getInt("alkahest");
 		progress = tag.getInt("progress");
@@ -276,7 +278,7 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 
 
 	@Override
-	public void tick() {
+	public void tick(World world, BlockPos pos, BlockState state, BlockEntityDissolver blockEntity) {
 		boolean dirty = false;
 
 		if (!world.isClient()) {
@@ -348,7 +350,7 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 
 	@Override
 	public void fromClientTag(NbtCompound tag) {
-		fromTag(world.getBlockState(pos), tag);
+		readNbt(tag);
 	}
 
 	@Override

@@ -15,11 +15,11 @@ public class SerializerCalcination implements RecipeSerializer<RecipeCalcination
 	public RecipeCalcination read(Identifier id, JsonObject json) {
 		String group = JsonHelper.getString(json, "group", "");
 		Ingredient input = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
-		ItemStack output = ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"));
+		ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
 		float factor = JsonHelper.getFloat(json, "factor", 1.0f);
 		ItemStack container = ItemStack.EMPTY;
 		if (json.has("container")) {
-			container = ShapedRecipe.getItemStack(JsonHelper.getObject(json, "container"));
+			container = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "container"));
 		}
 		return new RecipeCalcination(id, group, input, output, factor, container);
 	}

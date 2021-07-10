@@ -11,6 +11,7 @@ import com.cumulusmc.artofalchemy.network.AoANetworking;
 import com.cumulusmc.artofalchemy.recipe.AoARecipes;
 import com.cumulusmc.artofalchemy.transport.EssentiaNetworker;
 import com.cumulusmc.artofalchemy.util.AoALoot;
+import com.cumulusmc.artofalchemy.util.AoATags;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -39,6 +40,7 @@ public class ArtOfAlchemy implements ModInitializer {
 		log(Level.INFO, "Humankind cannot gain anything without first giving something in return. "
 				+ "To obtain, something of equal value must be lost.");
 
+		AoATags.init();
 		AutoConfig.register(AoAConfig.class, GsonConfigSerializer::new);
 		AoAEssentia.registerEssentia();
 		AoAFluids.registerFluids();

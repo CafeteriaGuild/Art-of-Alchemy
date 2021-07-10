@@ -20,7 +20,7 @@ public class SerializerDissolution implements RecipeSerializer<RecipeDissolution
 		float factor = JsonHelper.getFloat(json, "factor", 1.0f);
 		ItemStack container = ItemStack.EMPTY;
 		if (json.has("container")) {
-			container = ShapedRecipe.getItemStack(JsonHelper.getObject(json, "container"));
+			container = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "container"));
 		}
 		return new RecipeDissolution(id, group, input, essentia, factor, container);
 	}

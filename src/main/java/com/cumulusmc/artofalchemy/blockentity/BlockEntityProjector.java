@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -26,11 +27,12 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
-public class BlockEntityProjector extends BlockEntity implements ImplementedInventory,  Tickable,
+public class BlockEntityProjector extends BlockEntity implements ImplementedInventory, BlockEntityTicker<BlockEntityProjector>,
 		PropertyDelegateHolder, BlockEntityClientSerializable, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
 
 	private static final int[] TOP_SLOTS = new int[]{0};
@@ -88,8 +90,8 @@ public class BlockEntityProjector extends BlockEntity implements ImplementedInve
 
 	};
 
-	public BlockEntityProjector() {
-		this(AoABlockEntities.PROJECTOR);
+	public BlockEntityProjector(BlockPos pos, BlockState state) {
+		this(AoABlockEntities.PROJECTOR, pos, state);
 		AoAConfig.ProjectorSettings settings = AoAConfig.get().projectorSettings;
 		operationTime = settings.opTime;
 		tankSize = settings.tankSize;
@@ -97,8 +99,8 @@ public class BlockEntityProjector extends BlockEntity implements ImplementedInve
 		maxAlkahest = getTankSize();
 	}
 
-	protected BlockEntityProjector(BlockEntityType type) {
-		super(type);
+	protected BlockEntityProjector(BlockEntityType type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	@Override
@@ -183,8 +185,8 @@ public class BlockEntityProjector extends BlockEntity implements ImplementedInve
 	}
 
 	@Override
-	public void fromTag(BlockState state, NbtCompound tag) {
-		super.fromTag(state, tag);
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
 		Inventories.readNbt(tag, items);
 		alkahest = tag.getInt("alkahest");
 		progress = tag.getInt("progress");
@@ -203,7 +205,7 @@ public class BlockEntityProjector extends BlockEntity implements ImplementedInve
 	}
 
 	@Override
-	public void tick() {
+	public void tick(World world, BlockPos pos, BlockState state, BlockEntityProjector blockEntity) {
 		boolean dirty = false;
 
 		if (!world.isClient()) {
@@ -269,7 +271,7 @@ public class BlockEntityProjector extends BlockEntity implements ImplementedInve
 
 	@Override
 	public void fromClientTag(NbtCompound tag) {
-		fromTag(world.getBlockState(pos), tag);
+		readNbt(tag);
 	}
 
 	@Override

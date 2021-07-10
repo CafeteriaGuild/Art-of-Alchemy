@@ -2,6 +2,8 @@ package com.cumulusmc.artofalchemy.blockentity;
 
 import com.cumulusmc.artofalchemy.AoAConfig;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
 
 public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 
@@ -9,14 +11,14 @@ public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 	private int tankSize;
 	private float yield;
 
-	public BlockEntityDissolverPlus() {
-		super(AoABlockEntities.DISSOLVER_PLUS);
+	public BlockEntityDissolverPlus(BlockPos pos, BlockState state) {
+		super(AoABlockEntities.DISSOLVER_PLUS, pos, state);
 		AoAConfig.DissolverSettings settings = AoAConfig.get().dissolverSettings;
-		tankSize = settings.tankPlus;
-		speedMod = settings.speedPlus;
-		yield = settings.yieldPlus;
-		maxAlkahest = getTankSize();
-		essentia = new EssentiaContainer()
+		this.tankSize = settings.tankPlus;
+		this.speedMod = settings.speedPlus;
+		this.yield = settings.yieldPlus;
+		this.maxAlkahest = getTankSize();
+		this.essentia = new EssentiaContainer()
 				.setCapacity(getTankSize())
 				.setInput(false)
 				.setOutput(true);

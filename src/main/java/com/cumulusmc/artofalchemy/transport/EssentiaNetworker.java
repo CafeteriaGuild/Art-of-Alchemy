@@ -26,13 +26,18 @@ public class EssentiaNetworker extends PersistentState {
 	protected final Map<BlockPos, EssentiaNetwork> cache = new HashMap<>();
 
 	public EssentiaNetworker(ServerWorld world) {
-		super(getName(world.getDimension()));
+		super();
 		this.world = world;
 		processingLimit = AoAConfig.get().networkProcessingLimit;
 	}
 
-	@Override
-	public void fromTag(NbtCompound tag) {
+	public static EssentiaNetworker fromNbt(ServerWorld world, NbtCompound tag) {
+		EssentiaNetworker networker = new EssentiaNetworker(world);
+		networker.readNbt(tag);
+		return networker;
+	}
+
+	public void readNbt(NbtCompound tag) {
 		NbtList networkList = tag.getList("networks", NbtType.LIST);
 		for (NbtElement networkTag : networkList) {
 			if (networkTag instanceof NbtList && ((NbtList) networkTag).size() > 0) {
@@ -89,7 +94,7 @@ public class EssentiaNetworker extends PersistentState {
 	}
 
 	public static EssentiaNetworker get(ServerWorld world) {
-		return world.getPersistentStateManager().getOrCreate(() -> new EssentiaNetworker(world), getName(world.getDimension()));
+		return world.getPersistentStateManager().getOrCreate((tag) -> EssentiaNetworker.fromNbt(world, tag), () -> new EssentiaNetworker(world), getName(world.getDimension()));
 	}
 
 	@SuppressWarnings("deprecation")

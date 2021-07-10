@@ -1,10 +1,14 @@
 package com.cumulusmc.artofalchemy.block;
 
+import com.cumulusmc.artofalchemy.blockentity.AoABlockEntities;
+import com.cumulusmc.artofalchemy.blockentity.BlockEntityDissolver;
 import com.cumulusmc.artofalchemy.blockentity.BlockEntitySynthesizer;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
 import com.cumulusmc.artofalchemy.item.AoAItems;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
@@ -81,8 +85,8 @@ public class BlockSynthesizer extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView world) {
-		return new BlockEntitySynthesizer();
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new BlockEntitySynthesizer(pos, state);
 	}
 
 	@Override
@@ -121,6 +125,11 @@ public class BlockSynthesizer extends BlockWithEntity {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return checkType(type, AoABlockEntities.SYNTHESIZER, (world2, pos, state2, entity) -> ((BlockEntitySynthesizer) entity).tick(world2, pos, state2, (BlockEntitySynthesizer) entity));
 	}
 
 }

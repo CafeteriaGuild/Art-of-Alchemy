@@ -2,6 +2,8 @@ package com.cumulusmc.artofalchemy.blockentity;
 
 import com.cumulusmc.artofalchemy.AoAConfig;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.math.BlockPos;
 
 public class BlockEntitySynthesizerPlus extends BlockEntitySynthesizer {
 
@@ -9,8 +11,8 @@ public class BlockEntitySynthesizerPlus extends BlockEntitySynthesizer {
 	private float speedMod;
 	private int tankSize;
 
-	public BlockEntitySynthesizerPlus() {
-		super(AoABlockEntities.SYNTHESIZER_PLUS);
+	public BlockEntitySynthesizerPlus(BlockPos pos, BlockState state) {
+		super(AoABlockEntities.SYNTHESIZER_PLUS, pos, state);
 		AoAConfig.SynthesizerSettings settings = AoAConfig.get().synthesizerSettings;
 		tankSize = settings.tankPlus;
 		speedMod = settings.speedPlus;

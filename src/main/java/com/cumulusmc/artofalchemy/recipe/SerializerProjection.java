@@ -16,7 +16,7 @@ public class SerializerProjection implements RecipeSerializer<RecipeProjection> 
 		String group = JsonHelper.getString(json, "group", "");
 		Ingredient input = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
 		int cost = JsonHelper.getInt(json, "cost", 1);
-		ItemStack output = ShapedRecipe.getItemStack(JsonHelper.getObject(json, "result"));
+		ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
 		int alkahest = JsonHelper.getInt(json, "alkahest", 0);
 		return new RecipeProjection(id, group, input, cost, output, alkahest);
 	}

@@ -41,7 +41,7 @@ public class ItemJournal extends AbstractItemFormula {
 	}
 
 	public static Item getFormula(ItemStack stack) {
-		NbtCompound tag = stack.getTag();
+		NbtCompound tag = stack.getNbt();
 		if (tag != null && tag.contains("selected")) {
 			Identifier id = new Identifier(tag.getString("selected"));
 			return Registry.ITEM.get(id);
@@ -56,9 +56,9 @@ public class ItemJournal extends AbstractItemFormula {
 
 	public static boolean setFormula(ItemStack stack, Identifier formula) {
 		if (hasFormula(stack, formula) || formula == Registry.ITEM.getId(Items.AIR)) {
-			NbtCompound tag = stack.getOrCreateTag();
+			NbtCompound tag = stack.getOrCreateNbt();
 			tag.put("selected", NbtString.of(formula.toString()));
-			stack.setTag(tag);
+			stack.setNbt(tag);
 			return true;
 		} else {
 			return false;
@@ -66,7 +66,7 @@ public class ItemJournal extends AbstractItemFormula {
 	}
 
 	public static NbtList getOrCreateEntriesTag(ItemStack stack) {
-		NbtCompound tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 		if (tag.contains("entries", 9)) {
 			return tag.getList("entries", 8);
 		} else {
@@ -77,7 +77,7 @@ public class ItemJournal extends AbstractItemFormula {
 	}
 
 	public static NbtList getEntriesTag(ItemStack stack) {
-		NbtCompound tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 		if (tag.contains("entries", 9)) {
 			return tag.getList("entries", 8);
 		} else {

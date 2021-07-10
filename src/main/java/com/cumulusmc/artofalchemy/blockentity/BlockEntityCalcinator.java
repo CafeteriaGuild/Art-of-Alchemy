@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -29,12 +30,13 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
-public class BlockEntityCalcinator extends BlockEntity implements ImplementedInventory, Tickable,
+public class BlockEntityCalcinator extends BlockEntity implements ImplementedInventory, BlockEntityTicker<BlockEntityCalcinator>,
 		PropertyDelegateHolder, BlockEntityClientSerializable, SidedInventory, ExtendedScreenHandlerFactory {
 
 	protected static final int[] TOP_SLOTS = new int[]{0};
@@ -91,16 +93,16 @@ public class BlockEntityCalcinator extends BlockEntity implements ImplementedInv
 
 	};
 
-	public BlockEntityCalcinator() {
-		this(AoABlockEntities.CALCINATOR);
+	public BlockEntityCalcinator(BlockPos pos, BlockState state) {
+		this(AoABlockEntities.CALCINATOR, pos, state);
 		AoAConfig.CalcinatorSettings settings = AoAConfig.get().calcinatorSettings;
 		operationTime = settings.opTimeBasic;
-		yield = settings.yieldBasic;
+		this.yield = settings.yieldBasic;
 		maxProgress = getOperationTime();
 	}
 
-	protected BlockEntityCalcinator(BlockEntityType type) {
-		super(type);
+	protected BlockEntityCalcinator(BlockEntityType type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	@Override
@@ -190,8 +192,8 @@ public class BlockEntityCalcinator extends BlockEntity implements ImplementedInv
 	}
 
 	@Override
-	public void fromTag(BlockState state, NbtCompound tag) {
-		super.fromTag(state, tag);
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
 		Inventories.readNbt(tag, items);
 		fuel = tag.getInt("fuel");
 		progress = tag.getInt("progress");
@@ -217,7 +219,7 @@ public class BlockEntityCalcinator extends BlockEntity implements ImplementedInv
 
 
 	@Override
-	public void tick() {
+	public void tick(World world, BlockPos pos, BlockState state, BlockEntityCalcinator blockEntity) {
 		boolean wasBurning = isBurning();
 		boolean dirty = false;
 
@@ -290,7 +292,7 @@ public class BlockEntityCalcinator extends BlockEntity implements ImplementedInv
 
 	@Override
 	public void fromClientTag(NbtCompound tag) {
-		fromTag(world.getBlockState(pos), tag);
+		readNbt(tag);
 	}
 
 	@Override

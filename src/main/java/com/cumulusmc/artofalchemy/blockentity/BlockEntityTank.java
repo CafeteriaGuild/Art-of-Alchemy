@@ -8,19 +8,21 @@ import com.cumulusmc.artofalchemy.transport.HasEssentia;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
-public class BlockEntityTank extends BlockEntity implements Tickable, HasEssentia, BlockEntityClientSerializable {
+public class BlockEntityTank extends BlockEntity implements BlockEntityTicker<BlockEntityTank>, HasEssentia, BlockEntityClientSerializable {
 
 	protected EssentiaContainer essentia = new EssentiaContainer()
 			.setCapacity(AoAConfig.get().tankCapacity)
 			.setInput(true)
 			.setOutput(true);
 
-	public BlockEntityTank() {
-		super(AoABlockEntities.TANK);
+	public BlockEntityTank(BlockPos pos, BlockState state) {
+		super(AoABlockEntities.TANK, pos, state);
 	}
 
 	@Override
@@ -49,14 +51,14 @@ public class BlockEntityTank extends BlockEntity implements Tickable, HasEssenti
 	}
 
 	@Override
-	public void fromTag(BlockState state, NbtCompound tag) {
-		super.fromTag(state, tag);
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
 		essentia = new EssentiaContainer(tag.getCompound("essentia"));
 	}
 
 	@Override
 	public void fromClientTag(NbtCompound tag) {
-		fromTag(world.getBlockState(pos), tag);
+		readNbt(tag);
 	}
 
 	@Override
@@ -79,7 +81,7 @@ public class BlockEntityTank extends BlockEntity implements Tickable, HasEssenti
 	}
 
 	@Override
-	public void tick() {
+	public void tick(World world, BlockPos pos, BlockState state, BlockEntityTank blockEntity) {
 		if (!essentia.isEmpty() && world.getBlockState(pos).getBlock() == AoABlocks.TANK && world.getBlockState(pos.down()).getBlock() == AoABlocks.TANK) {
 			BlockEntity other = world.getBlockEntity(pos.down());
 			if (other instanceof BlockEntityTank) {

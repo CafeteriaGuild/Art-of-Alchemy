@@ -102,7 +102,7 @@ public class ItemEssentiaVessel extends Item {
 	}
 
 	public static int getColor(ItemStack stack) {
-		NbtCompound tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 		if (tag.contains("color", NbtType.INT)) {
 			return tag.getInt("color");
 		} else {
@@ -111,12 +111,12 @@ public class ItemEssentiaVessel extends Item {
 	}
 
 	public static void setColor(ItemStack stack, int color) {
-		NbtCompound tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 		tag.putInt("color", color);
 	}
 
 	public static void setColor(ItemStack stack) {
-		NbtCompound tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateNbt();
 		tag.putInt("color", getContainer(stack).getColor());
 	}
 

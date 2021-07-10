@@ -20,6 +20,7 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.mixin.object.builder.ModelPredicateProviderRegistrySpecificAccessor;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Identifier;
@@ -58,7 +59,7 @@ public class AoARenderers {
 		}, ESSENTIA_VESSEL);
 
 		ModelPredicateProviderRegistrySpecificAccessor.callRegister(AoAItems.ESSENTIA_VESSEL,
-				new Identifier("level"), (stack, world, entity) -> {
+				new Identifier("level"), (stack, world, entity, seed) -> {
 					EssentiaContainer contents = ItemEssentiaVessel.getContainer(stack);
 					double level = contents.getCount();
 					if (!contents.hasUnlimitedCapacity()) {

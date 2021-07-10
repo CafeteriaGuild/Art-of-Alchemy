@@ -17,7 +17,7 @@ As with all Cumulus mods, Art of Alchemy is a mod for Fabric and there are no pl
 ## Mod Requirements & Acknowledgments
 To use this mod, you will need:
 
-* Minecraft 1.16
+* Minecraft 1.17
 * The [Fabric](https://fabricmc.net/) mod loader
 * The [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 

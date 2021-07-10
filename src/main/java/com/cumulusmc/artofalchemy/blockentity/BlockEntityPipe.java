@@ -19,8 +19,8 @@ public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSer
 
 	private Map<Direction, IOFace> faces = new HashMap<>();
 
-	public BlockEntityPipe() {
-		super(AoABlockEntities.PIPE);
+	public BlockEntityPipe(BlockPos pos, BlockState state) {
+		super(AoABlockEntities.PIPE, pos, state);
 		for (Direction dir : Direction.values()) {
 			faces.put(dir, IOFace.NONE);
 		}
@@ -35,8 +35,8 @@ public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSer
 	}
 
 	@Override
-	public void fromTag(BlockState state, NbtCompound tag) {
-		super.fromTag(state, tag);
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
 		for (Direction dir : Direction.values()) {
 			faces.put(dir, IOFace.valueOf(tag.getString(dir.toString())));
 		}
@@ -59,7 +59,7 @@ public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSer
 	}
 
 	public void fromClientTag(NbtCompound tag) {
-		fromTag(world.getBlockState(pos), tag);
+		readNbt(tag);
 	}
 
 	@Override

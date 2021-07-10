@@ -62,8 +62,8 @@ public class EssentiaContainer {
 
 	public static EssentiaContainer of(ItemStack item) {
 		EssentiaContainer container;
-		if (item.hasTag() && item.getTag().contains("contents")) {
-			container = new EssentiaContainer(item.getTag().getCompound("contents"));
+		if (item.hasNbt() && item.getNbt().contains("contents")) {
+			container = new EssentiaContainer(item.getNbt().getCompound("contents"));
 		} else {
 			container = null;
 		}
@@ -72,13 +72,13 @@ public class EssentiaContainer {
 
 	public ItemStack in(ItemStack item) {
 		NbtCompound tag;
-		if (item.hasTag()) {
-			tag = item.getTag();
+		if (item.hasNbt()) {
+			tag = item.getNbt();
 		} else {
 			tag = new NbtCompound();
 		}
 		tag.put("contents", writeNbt());
-		item.setTag(tag);
+		item.setNbt(tag);
 		return item;
 	}
 

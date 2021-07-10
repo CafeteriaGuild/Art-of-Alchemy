@@ -52,8 +52,7 @@ abstract class FluidEssentia extends FlowableFluid {
 
 	@Override
 	protected void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state) {
-		BlockEntity blockEntity = state.getBlock().hasBlockEntity() ? world.getBlockEntity(pos) : null;
-		Block.dropStacks(state, world, pos, blockEntity);
+		Block.dropStacks(state, world, pos, world.getBlockEntity(pos));
 	}
 
 	@Override

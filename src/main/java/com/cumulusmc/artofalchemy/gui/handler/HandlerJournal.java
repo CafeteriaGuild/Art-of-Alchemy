@@ -66,7 +66,7 @@ public class HandlerJournal extends SyncedGuiDescription {
 			@Override
 			public void onKeyPressed(int ch, int key, int modifiers) {
 				super.onKeyPressed(ch, key, modifiers);
-				formulaList.refresh(journal, this.text);
+				formulaList.refresh(journal, this.getText());
 			}
 		};
 		root.add(searchBar, 22, 14, 6 * 18 + 6, 12);
@@ -98,24 +98,23 @@ public class HandlerJournal extends SyncedGuiDescription {
 
 	@Override
 	public void close(PlayerEntity player) {
-		dropInventory(player, world, inventory);
+		dropInventory(player, inventory);
 		super.close(player);
 	}
 
 	@Override
-	public ItemStack onSlotClick(int slotNumber, int button, SlotActionType action, PlayerEntity player) {
+	public void onSlotClick(int slotNumber, int button, SlotActionType action, PlayerEntity player) {
 		if (slotNumber >= 0 && slotNumber < slots.size()) {
 			Slot slot = getSlot(slotNumber);
 			if (slot != null) {
 				if (slot.getStack().getItem() instanceof ItemJournal) {
-					return ItemStack.EMPTY;
+					return;
 				}
 			}
 		}
-		ItemStack stack = super.onSlotClick(slotNumber, button, action, player);
+		super.onSlotClick(slotNumber, button, action, player);
 		tryAddPage();
 		refresh(journal);
-		return stack;
 	}
 
 	public void tryAddPage() {
