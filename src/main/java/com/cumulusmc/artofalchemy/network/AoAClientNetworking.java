@@ -14,7 +14,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class AoAClientNetworking {
 
@@ -30,7 +31,7 @@ public class AoAClientNetworking {
 		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.ESSENTIA_PACKET,
 			(ctx, data) -> {
 				int essentiaId = data.readInt();
-				CompoundTag tag = data.readCompoundTag();
+				NbtCompound tag = data.readNbt();
 				BlockPos pos = data.readBlockPos();
 				ctx.getTaskQueue().execute(() -> {
 					EssentiaContainer container = new EssentiaContainer(tag);
@@ -44,8 +45,8 @@ public class AoAClientNetworking {
 		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.ESSENTIA_PACKET_REQ,
 				(ctx, data) -> {
 					int essentiaId = data.readInt();
-					CompoundTag essentiaTag = data.readCompoundTag();
-					CompoundTag requiredTag = data.readCompoundTag();
+					NbtCompound essentiaTag = data.readNbt();
+					NbtCompound requiredTag = data.readNbt();
 					BlockPos pos = data.readBlockPos();
 					ctx.getTaskQueue().execute(() -> {
 						EssentiaContainer container = new EssentiaContainer(essentiaTag);

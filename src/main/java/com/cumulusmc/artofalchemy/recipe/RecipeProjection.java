@@ -87,7 +87,7 @@ public class RecipeProjection implements Recipe<Inventory> {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public ItemStack getRecipeKindIcon() {
+	public ItemStack createIcon() {
 		return new ItemStack(AoABlocks.PROJECTOR);
 	}
 

@@ -6,8 +6,8 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -24,7 +24,7 @@ public class ItemAlchemyFormula extends AbstractItemFormula {
 	}
 
 	public static Item getFormula(ItemStack stack) {
-		CompoundTag tag = stack.hasTag() ? stack.getTag() : new CompoundTag();
+		NbtCompound tag = stack.hasTag() ? stack.getTag() : new NbtCompound();
 		if (tag.contains("formula")) {
 			Identifier id = new Identifier(tag.getString("formula"));
 			return Registry.ITEM.get(id);
@@ -34,8 +34,8 @@ public class ItemAlchemyFormula extends AbstractItemFormula {
 	}
 
 	public static void setFormula(ItemStack stack, Item formula) {
-		CompoundTag tag = stack.getOrCreateTag();
-		tag.put("formula", StringTag.of(Registry.ITEM.getId(formula).toString()));
+		NbtCompound tag = stack.getOrCreateTag();
+		tag.put("formula", NbtString.of(Registry.ITEM.getId(formula).toString()));
 	}
 
 	@Environment(EnvType.CLIENT)

@@ -3,7 +3,7 @@ package com.cumulusmc.artofalchemy.essentia;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.cumulusmc.artofalchemy.util.AoAHelper;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
@@ -27,7 +27,7 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 		});
 	}
 
-	public EssentiaStack(CompoundTag tag) {
+	public EssentiaStack(NbtCompound tag) {
 		if (tag != null) {
 			tag.getKeys().forEach((key) -> {
 				Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(key));
@@ -46,8 +46,8 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 		return sum;
 	}
 
-	public CompoundTag toTag() {
-		CompoundTag tag = new CompoundTag();
+	public NbtCompound toTag() {
+		NbtCompound tag = new NbtCompound();
 		for (Essentia essentia : keySet()) {
 			tag.putInt(RegistryEssentia.INSTANCE.getId(essentia).toString(), get(essentia));
 		}

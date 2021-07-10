@@ -6,8 +6,7 @@ import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -28,15 +27,15 @@ public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSer
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
+	public NbtCompound writeNbt(NbtCompound tag) {
 		for (Direction dir : Direction.values()) {
 			tag.putString(dir.toString(), faces.get(dir).toString());
 		}
-		return super.toTag(tag);
+		return super.writeNbt(tag);
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
+	public void fromTag(BlockState state, NbtCompound tag) {
 		super.fromTag(state, tag);
 		for (Direction dir : Direction.values()) {
 			faces.put(dir, IOFace.valueOf(tag.getString(dir.toString())));
@@ -59,13 +58,13 @@ public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSer
 		faces.put(dir, face);
 	}
 
-	public void fromClientTag(CompoundTag tag) {
+	public void fromClientTag(NbtCompound tag) {
 		fromTag(world.getBlockState(pos), tag);
 	}
 
 	@Override
-	public CompoundTag toClientTag(CompoundTag tag) {
-		return toTag(tag);
+	public NbtCompound toClientTag(NbtCompound tag) {
+		return writeNbt(tag);
 	}
 
 	@Override

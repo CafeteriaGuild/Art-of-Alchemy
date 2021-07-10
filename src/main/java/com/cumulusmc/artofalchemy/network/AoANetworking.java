@@ -48,7 +48,7 @@ public class AoANetworking {
 
 		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
 		data.writeInt(essentiaId);
-		data.writeCompoundTag(container.toTag());
+		data.writeNbt(container.writeNbt());
 		data.writeBlockPos(pos);
 
 		players.forEach(player -> ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, ESSENTIA_PACKET, data));
@@ -60,8 +60,8 @@ public class AoANetworking {
 
 		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
 		data.writeInt(essentiaId);
-		data.writeCompoundTag(container.toTag());
-		data.writeCompoundTag(required.toTag());
+		data.writeNbt(container.writeNbt());
+		data.writeNbt(required.toTag());
 		data.writeBlockPos(pos);
 
 		players.forEach(player -> ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, ESSENTIA_PACKET_REQ, data));

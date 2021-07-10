@@ -10,9 +10,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -41,7 +41,7 @@ public class ItemJournal extends AbstractItemFormula {
 	}
 
 	public static Item getFormula(ItemStack stack) {
-		CompoundTag tag = stack.getTag();
+		NbtCompound tag = stack.getTag();
 		if (tag != null && tag.contains("selected")) {
 			Identifier id = new Identifier(tag.getString("selected"));
 			return Registry.ITEM.get(id);
@@ -56,8 +56,8 @@ public class ItemJournal extends AbstractItemFormula {
 
 	public static boolean setFormula(ItemStack stack, Identifier formula) {
 		if (hasFormula(stack, formula) || formula == Registry.ITEM.getId(Items.AIR)) {
-			CompoundTag tag = stack.getOrCreateTag();
-			tag.put("selected", StringTag.of(formula.toString()));
+			NbtCompound tag = stack.getOrCreateTag();
+			tag.put("selected", NbtString.of(formula.toString()));
 			stack.setTag(tag);
 			return true;
 		} else {
@@ -65,19 +65,19 @@ public class ItemJournal extends AbstractItemFormula {
 		}
 	}
 
-	public static ListTag getOrCreateEntriesTag(ItemStack stack) {
-		CompoundTag tag = stack.getOrCreateTag();
+	public static NbtList getOrCreateEntriesTag(ItemStack stack) {
+		NbtCompound tag = stack.getOrCreateTag();
 		if (tag.contains("entries", 9)) {
 			return tag.getList("entries", 8);
 		} else {
-			ListTag entries = new ListTag();
+			NbtList entries = new NbtList();
 			tag.put("entries", entries);
 			return entries;
 		}
 	}
 
-	public static ListTag getEntriesTag(ItemStack stack) {
-		CompoundTag tag = stack.getOrCreateTag();
+	public static NbtList getEntriesTag(ItemStack stack) {
+		NbtCompound tag = stack.getOrCreateTag();
 		if (tag.contains("entries", 9)) {
 			return tag.getList("entries", 8);
 		} else {
@@ -87,7 +87,7 @@ public class ItemJournal extends AbstractItemFormula {
 
 	public static List<Item> getEntries(ItemStack stack) {
 		List<Item> list = new ArrayList<>();
-		ListTag entries = getOrCreateEntriesTag(stack);
+		NbtList entries = getOrCreateEntriesTag(stack);
 		for (int i = 0; i < entries.size(); i++) {
 			Item item = Registry.ITEM.get(Identifier.tryParse(entries.getString(i)));
 			if (item != Items.AIR) {
@@ -101,7 +101,7 @@ public class ItemJournal extends AbstractItemFormula {
 		if (formula.equals(Registry.ITEM.getId(Items.AIR))) {
 			return true;
 		} else {
-			return getOrCreateEntriesTag(stack).contains(StringTag.of(formula.toString()));
+			return getOrCreateEntriesTag(stack).contains(NbtString.of(formula.toString()));
 		}
 	}
 
@@ -110,8 +110,8 @@ public class ItemJournal extends AbstractItemFormula {
 	}
 
 	public static boolean addFormula(ItemStack stack, Identifier formula) {
-		ListTag entries = getOrCreateEntriesTag(stack);
-		StringTag newEntry = StringTag.of(formula.toString());
+		NbtList entries = getOrCreateEntriesTag(stack);
+		NbtString newEntry = NbtString.of(formula.toString());
 		if (!hasFormula(stack, new Identifier(newEntry.asString()))) {
 			entries.add(newEntry);
 			return true;

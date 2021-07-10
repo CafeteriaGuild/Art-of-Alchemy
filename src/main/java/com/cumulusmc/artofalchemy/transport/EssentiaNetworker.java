@@ -4,13 +4,10 @@ import com.cumulusmc.artofalchemy.AoAConfig;
 import com.cumulusmc.artofalchemy.ArtOfAlchemy;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.Block;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.dimension.DimensionType;
 import org.apache.logging.log4j.Level;
@@ -35,25 +32,25 @@ public class EssentiaNetworker extends PersistentState {
 	}
 
 	@Override
-	public void fromTag(CompoundTag tag) {
-		ListTag networkList = tag.getList("networks", NbtType.LIST);
-		for (Tag networkTag : networkList) {
-			if (networkTag instanceof ListTag && ((ListTag) networkTag).size() > 0) {
-				networks.add(new EssentiaNetwork(world, (ListTag) networkTag));
+	public void fromTag(NbtCompound tag) {
+		NbtList networkList = tag.getList("networks", NbtType.LIST);
+		for (NbtElement networkTag : networkList) {
+			if (networkTag instanceof NbtList && ((NbtList) networkTag).size() > 0) {
+				networks.add(new EssentiaNetwork(world, (NbtList) networkTag));
 			}
 		}
-		ListTag orphanList = tag.getList("orphans", NbtType.LIST);
-		for (Tag orphanTag : orphanList) {
-			if (orphanTag instanceof ListTag) {
-				ListTag posTag = (ListTag) orphanTag;
+		NbtList orphanList = tag.getList("orphans", NbtType.LIST);
+		for (NbtElement orphanTag : orphanList) {
+			if (orphanTag instanceof NbtList) {
+				NbtList posTag = (NbtList) orphanTag;
 				BlockPos pos = new BlockPos(posTag.getInt(0), posTag.getInt(1), posTag.getInt(2));
 				orphans.add(pos.toImmutable());
 			}
 		}
-		ListTag legacyList = tag.getList("network_positions", NbtType.LIST);
-		for (Tag orphanTag : legacyList) {
-			if (orphanTag instanceof ListTag) {
-				ListTag posTag = (ListTag) orphanTag;
+		NbtList legacyList = tag.getList("network_positions", NbtType.LIST);
+		for (NbtElement orphanTag : legacyList) {
+			if (orphanTag instanceof NbtList) {
+				NbtList posTag = (NbtList) orphanTag;
 				BlockPos pos = new BlockPos(posTag.getInt(0), posTag.getInt(1), posTag.getInt(2));
 				legacyOrphans.add(pos.toImmutable());
 			}
@@ -62,20 +59,20 @@ public class EssentiaNetworker extends PersistentState {
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
-		ListTag networkList = new ListTag();
+	public NbtCompound writeNbt(NbtCompound tag) {
+		NbtList networkList = new NbtList();
 		for (EssentiaNetwork network : networks) {
 			if (network.getSize() > 0) {
 				networkList.add(network.toTag());
 			}
 		}
 		tag.put("networks", networkList);
-		ListTag orphanList = new ListTag();
+		NbtList orphanList = new NbtList();
 		for (BlockPos pos : orphans) {
-			ListTag posTag = new ListTag();
-			posTag.add(IntTag.of(pos.getX()));
-			posTag.add(IntTag.of(pos.getY()));
-			posTag.add(IntTag.of(pos.getZ()));
+			NbtList posTag = new NbtList();
+			posTag.add(NbtInt.of(pos.getX()));
+			posTag.add(NbtInt.of(pos.getY()));
+			posTag.add(NbtInt.of(pos.getZ()));
 			orphanList.add(posTag);
 		}
 		tag.put("orphans", orphanList);
@@ -95,6 +92,7 @@ public class EssentiaNetworker extends PersistentState {
 		return world.getPersistentStateManager().getOrCreate(() -> new EssentiaNetworker(world), getName(world.getDimension()));
 	}
 
+	@SuppressWarnings("deprecation")
 	public static String getName(DimensionType dimension) {
 		return "essentia" + dimension.getSuffix();
 	}

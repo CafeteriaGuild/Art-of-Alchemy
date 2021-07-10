@@ -29,7 +29,7 @@ public class SerializerDissolution implements RecipeSerializer<RecipeDissolution
 	public RecipeDissolution read(Identifier id, PacketByteBuf buf) {
 		String group = buf.readString(32767);
 		Ingredient input = Ingredient.fromPacket(buf);
-		EssentiaStack essentia = new EssentiaStack(buf.readCompoundTag());
+		EssentiaStack essentia = new EssentiaStack(buf.readNbt());
 		float factor = buf.readFloat();
 		ItemStack container = buf.readItemStack();
 		return new RecipeDissolution(id, group, input, essentia, factor, container);
@@ -39,7 +39,7 @@ public class SerializerDissolution implements RecipeSerializer<RecipeDissolution
 	public void write(PacketByteBuf buf, RecipeDissolution recipe) {
 		buf.writeString(recipe.group);
 		recipe.input.write(buf);
-		buf.writeCompoundTag(recipe.essentia.toTag());
+		buf.writeNbt(recipe.essentia.toTag());
 		buf.writeFloat(recipe.factor);
 		buf.writeItemStack(recipe.container);
 	}

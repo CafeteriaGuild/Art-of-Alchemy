@@ -24,7 +24,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -242,20 +242,20 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
+	public NbtCompound writeNbt(NbtCompound tag) {
 		tag.putInt("alkahest", alkahest);
 		tag.putInt("progress", progress);
 		tag.putInt("max_progress", maxProgress);
 		tag.putInt("status", status);
-		tag.put("essentia", essentia.toTag());
-		Inventories.toTag(tag, items);
-		return super.toTag(tag);
+		tag.put("essentia", essentia.writeNbt());
+		Inventories.writeNbt(tag, items);
+		return super.writeNbt(tag);
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
+	public void fromTag(BlockState state, NbtCompound tag) {
 		super.fromTag(state, tag);
-		Inventories.fromTag(tag, items);
+		Inventories.readNbt(tag, items);
 		alkahest = tag.getInt("alkahest");
 		progress = tag.getInt("progress");
 		maxProgress = tag.getInt("max_progress");
@@ -347,13 +347,13 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 	}
 
 	@Override
-	public void fromClientTag(CompoundTag tag) {
+	public void fromClientTag(NbtCompound tag) {
 		fromTag(world.getBlockState(pos), tag);
 	}
 
 	@Override
-	public CompoundTag toClientTag(CompoundTag tag) {
-		return toTag(tag);
+	public NbtCompound toClientTag(NbtCompound tag) {
+		return writeNbt(tag);
 	}
 
 	@Override

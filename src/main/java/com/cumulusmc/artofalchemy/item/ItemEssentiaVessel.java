@@ -13,7 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -102,7 +102,7 @@ public class ItemEssentiaVessel extends Item {
 	}
 
 	public static int getColor(ItemStack stack) {
-		CompoundTag tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateTag();
 		if (tag.contains("color", NbtType.INT)) {
 			return tag.getInt("color");
 		} else {
@@ -111,12 +111,12 @@ public class ItemEssentiaVessel extends Item {
 	}
 
 	public static void setColor(ItemStack stack, int color) {
-		CompoundTag tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateTag();
 		tag.putInt("color", color);
 	}
 
 	public static void setColor(ItemStack stack) {
-		CompoundTag tag = stack.getOrCreateTag();
+		NbtCompound tag = stack.getOrCreateTag();
 		tag.putInt("color", getContainer(stack).getColor());
 	}
 

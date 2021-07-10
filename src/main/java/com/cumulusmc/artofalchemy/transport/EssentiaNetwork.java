@@ -2,9 +2,9 @@ package com.cumulusmc.artofalchemy.transport;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.IntTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtInt;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -28,7 +28,7 @@ public class EssentiaNetwork {
 		lastTicked = world.getTime();
 	}
 
-	EssentiaNetwork(World world, ListTag tag) {
+	EssentiaNetwork(World world, NbtList tag) {
 		this(world);
 		fromTag(tag);
 	}
@@ -59,10 +59,10 @@ public class EssentiaNetwork {
 		dirty = true;
 	}
 
-	public void fromTag(ListTag tag) {
-		for (Tag listElement : tag) {
-			if (listElement instanceof ListTag) {
-				ListTag posTag = (ListTag) listElement;
+	public void fromTag(NbtList tag) {
+		for (NbtElement listElement : tag) {
+			if (listElement instanceof NbtList) {
+				NbtList posTag = (NbtList) listElement;
 				BlockPos pos = new BlockPos(posTag.getInt(0), posTag.getInt(1), posTag.getInt(2));
 				if (world.getBlockState(pos).getBlock() instanceof NetworkElement) {
 					add(pos);
@@ -71,13 +71,13 @@ public class EssentiaNetwork {
 		}
 	}
 
-	public ListTag toTag() {
-		ListTag tag = new ListTag();
+	public NbtList toTag() {
+		NbtList tag = new NbtList();
 		for (BlockPos pos : positions) {
-			ListTag posTag = new ListTag();
-			posTag.add(IntTag.of(pos.getX()));
-			posTag.add(IntTag.of(pos.getY()));
-			posTag.add(IntTag.of(pos.getZ()));
+			NbtList posTag = new NbtList();
+			posTag.add(NbtInt.of(pos.getX()));
+			posTag.add(NbtInt.of(pos.getY()));
+			posTag.add(NbtInt.of(pos.getZ()));
 			tag.add(posTag);
 		}
 		return tag;

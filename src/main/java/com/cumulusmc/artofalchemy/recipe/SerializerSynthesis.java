@@ -26,7 +26,7 @@ public class SerializerSynthesis implements RecipeSerializer<RecipeSynthesis> {
 		int cost = JsonHelper.getInt(json, "cost", 1);
 		int tier = JsonHelper.getInt(json, "tier", -1);
 		if (tier == -1 && !materia.isEmpty()) {
-			Item item = Registry.ITEM.get(materia.getIds().getInt(0));
+			Item item = Registry.ITEM.get(materia.getMatchingItemIds().getInt(0));
 			if (item instanceof ItemMateria) {
 				tier = ((ItemMateria) item).getTier();
 			}
@@ -39,7 +39,7 @@ public class SerializerSynthesis implements RecipeSerializer<RecipeSynthesis> {
 		String group = buf.readString(32767);
 		Ingredient target = Ingredient.fromPacket(buf);
 		Ingredient materia = Ingredient.fromPacket(buf);
-		EssentiaStack essentia = new EssentiaStack(buf.readCompoundTag());
+		EssentiaStack essentia = new EssentiaStack(buf.readNbt());
 		Ingredient container = Ingredient.fromPacket(buf);
 		int cost = buf.readVarInt();
 		int tier = buf.readVarInt();
@@ -51,7 +51,7 @@ public class SerializerSynthesis implements RecipeSerializer<RecipeSynthesis> {
 		buf.writeString(recipe.group);
 		recipe.target.write(buf);
 		recipe.materia.write(buf);
-		buf.writeCompoundTag(recipe.essentia.toTag());
+		buf.writeNbt(recipe.essentia.toTag());
 		recipe.container.write(buf);
 		buf.writeVarInt(recipe.cost);
 		buf.writeVarInt(recipe.tier);

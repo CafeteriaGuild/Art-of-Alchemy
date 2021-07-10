@@ -21,7 +21,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -181,18 +181,18 @@ public class BlockEntityCalcinator extends BlockEntity implements ImplementedInv
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
+	public NbtCompound writeNbt(NbtCompound tag) {
 		tag.putInt("fuel", fuel);
 		tag.putInt("progress", progress);
 		tag.putInt("maxFuel", maxFuel);
-		Inventories.toTag(tag, items);
-		return super.toTag(tag);
+		Inventories.writeNbt(tag, items);
+		return super.writeNbt(tag);
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
+	public void fromTag(BlockState state, NbtCompound tag) {
 		super.fromTag(state, tag);
-		Inventories.fromTag(tag, items);
+		Inventories.readNbt(tag, items);
 		fuel = tag.getInt("fuel");
 		progress = tag.getInt("progress");
 		maxFuel = tag.getInt("maxFuel");
@@ -289,13 +289,13 @@ public class BlockEntityCalcinator extends BlockEntity implements ImplementedInv
 	}
 
 	@Override
-	public void fromClientTag(CompoundTag tag) {
+	public void fromClientTag(NbtCompound tag) {
 		fromTag(world.getBlockState(pos), tag);
 	}
 
 	@Override
-	public CompoundTag toClientTag(CompoundTag tag) {
-		return toTag(tag);
+	public NbtCompound toClientTag(NbtCompound tag) {
+		return writeNbt(tag);
 	}
 
 	@Override

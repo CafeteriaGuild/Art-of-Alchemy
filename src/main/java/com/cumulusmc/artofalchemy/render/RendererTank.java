@@ -7,7 +7,7 @@ import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.GraphicsMode;
+import net.minecraft.client.option.GraphicsMode;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;

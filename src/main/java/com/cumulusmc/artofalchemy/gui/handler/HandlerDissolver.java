@@ -25,7 +25,7 @@ public class HandlerDissolver extends SyncedGuiDescription {
 	public HandlerDissolver(int syncId, PlayerInventory playerInventory, ScreenHandlerContext ctx) {
 		super(AoAHandlers.DISSOLVER, syncId, playerInventory, getBlockInventory(ctx), getBlockPropertyDelegate(ctx));
 
-		pos = ctx.run((world, pos) -> pos, null);
+		pos = ctx.get((world, pos) -> pos, null);
 
 		WGridPanel root = new WGridPanel(1);
 		setRootPanel(root);
@@ -81,7 +81,7 @@ public class HandlerDissolver extends SyncedGuiDescription {
 	}
 
 	private static EssentiaContainer getEssentia(ScreenHandlerContext ctx) {
-		return ctx.run((world, pos) -> {
+		return ctx.get((world, pos) -> {
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof HasEssentia) {
 				return ((HasEssentia) be).getContainer(0);

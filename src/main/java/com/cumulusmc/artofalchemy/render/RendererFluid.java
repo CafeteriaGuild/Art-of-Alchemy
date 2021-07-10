@@ -43,7 +43,7 @@ public class RendererFluid {
 			.registerReloadListener(new SimpleSynchronousResourceReloadListener() {
 
 			@Override
-			public void apply(ResourceManager manager) {
+			public void reload(ResourceManager manager) {
 				Function<Identifier, Sprite> atlas = MinecraftClient.getInstance()
 						.getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
 				sprites[0] = atlas.apply(stillTexture);

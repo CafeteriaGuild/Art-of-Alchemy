@@ -27,7 +27,7 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 	public HandlerSynthesizer(int syncId, PlayerInventory playerInventory, ScreenHandlerContext ctx) {
 		super(AoAHandlers.SYNTHESIZER, syncId, playerInventory, getBlockInventory(ctx), getBlockPropertyDelegate(ctx));
 
-		pos = ctx.run((world, pos) -> pos, null);
+		pos = ctx.get((world, pos) -> pos, null);
 
 		WGridPanel root = new WGridPanel(1);
 		setRootPanel(root);
@@ -98,7 +98,7 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 	}
 
 	private static EssentiaContainer getEssentia(ScreenHandlerContext ctx) {
-		return ctx.run((world, pos) -> {
+		return ctx.get((world, pos) -> {
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof HasEssentia) {
 				return ((HasEssentia) be).getContainer(0);
@@ -109,7 +109,7 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 	}
 
 	private static EssentiaStack getRequirements(ScreenHandlerContext ctx) {
-		return ctx.run((world, pos) -> {
+		return ctx.get((world, pos) -> {
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof BlockEntitySynthesizer) {
 				return ((BlockEntitySynthesizer) be).getRequirements();

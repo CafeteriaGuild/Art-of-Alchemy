@@ -14,7 +14,6 @@ import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
-import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
@@ -29,14 +28,10 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.Vector3f;
-import net.minecraft.client.util.math.Vector4f;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Quaternion;
+import net.minecraft.util.math.*;
 import net.minecraft.world.BlockRenderView;
 
 public class ModelPipe implements UnbakedModel, BakedModel, FabricBakedModel {
@@ -295,27 +290,27 @@ public class ModelPipe implements UnbakedModel, BakedModel, FabricBakedModel {
 		transform.multiply(Matrix4f.translate(0.5f, 0.5f, 0.5f));
 
 		Matrix4f subTransform = new Matrix4f(transform);
-		subTransform.multiply(new Quaternion(new Vector3f(0, 0, 1), 90, true));
+		subTransform.multiply(new Quaternion(new Vec3f(0, 0, 1), 90, true));
 		subTransform.multiply(Matrix4f.translate(-0.5f, -0.5f, -0.5f));
 		matrices[Direction.EAST.ordinal()] = subTransform;
 
 		subTransform = new Matrix4f(transform);
-		subTransform.multiply(new Quaternion(new Vector3f(0, 0, 1), 180, true));
+		subTransform.multiply(new Quaternion(new Vec3f(0, 0, 1), 180, true));
 		subTransform.multiply(Matrix4f.translate(-0.5f, -0.5f, -0.5f));
 		matrices[Direction.UP.ordinal()] = subTransform;
 
 		subTransform = new Matrix4f(transform);
-		subTransform.multiply(new Quaternion(new Vector3f(0, 0, 1), 270, true));
+		subTransform.multiply(new Quaternion(new Vec3f(0, 0, 1), 270, true));
 		subTransform.multiply(Matrix4f.translate(-0.5f, -0.5f, -0.5f));
 		matrices[Direction.WEST.ordinal()] = subTransform;
 
 		subTransform = new Matrix4f(transform);
-		subTransform.multiply(new Quaternion(new Vector3f(1, 0, 0), 90, true));
+		subTransform.multiply(new Quaternion(new Vec3f(1, 0, 0), 90, true));
 		subTransform.multiply(Matrix4f.translate(-0.5f, -0.5f, -0.5f));
 		matrices[Direction.NORTH.ordinal()] = subTransform;
 
 		subTransform = new Matrix4f(transform);
-		subTransform.multiply(new Quaternion(new Vector3f(1, 0, 0), 270, true));
+		subTransform.multiply(new Quaternion(new Vec3f(1, 0, 0), 270, true));
 		subTransform.multiply(Matrix4f.translate(-0.5f, -0.5f, -0.5f));
 		matrices[Direction.SOUTH.ordinal()] = subTransform;
 

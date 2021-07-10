@@ -1,9 +1,9 @@
 package com.cumulusmc.artofalchemy.essentia;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.util.Identifier;
 
 import java.util.HashSet;
@@ -23,15 +23,15 @@ public class EssentiaContainer {
 	public EssentiaContainer() {
 	}
 
-	public EssentiaContainer(CompoundTag tag) {
+	public EssentiaContainer(NbtCompound tag) {
 		if (tag != null) {
 			if (tag.contains("essentia")) {
-				CompoundTag essentiaTag = tag.getCompound("essentia");
+				NbtCompound essentiaTag = tag.getCompound("essentia");
 				this.setContents(new EssentiaStack(essentiaTag));
 			}
 			if (tag.contains("whitelist")) {
 				whitelistEnabled = true;
-				ListTag list = tag.getList("whitelist", 8);
+				NbtList list = tag.getList("whitelist", 8);
 				for (int i = 0; i < list.size(); i++) {
 					Identifier id = new Identifier(list.getString(i));
 					this.whitelist(RegistryEssentia.INSTANCE.get(id));
@@ -71,13 +71,13 @@ public class EssentiaContainer {
 	}
 
 	public ItemStack in(ItemStack item) {
-		CompoundTag tag;
+		NbtCompound tag;
 		if (item.hasTag()) {
 			tag = item.getTag();
 		} else {
-			tag = new CompoundTag();
+			tag = new NbtCompound();
 		}
-		tag.put("contents", toTag());
+		tag.put("contents", writeNbt());
 		item.setTag(tag);
 		return item;
 	}
@@ -412,12 +412,12 @@ public class EssentiaContainer {
 		return getContents().getColor();
 	}
 
-	public CompoundTag toTag() {
-		CompoundTag tag = new CompoundTag();
+	public NbtCompound writeNbt() {
+		NbtCompound tag = new NbtCompound();
 		tag.put("essentia", getContents().toTag());
-		ListTag list = new ListTag();
+		NbtList list = new NbtList();
 		for (Essentia essentia : getWhitelist()) {
-			list.add(StringTag.of(RegistryEssentia.INSTANCE.getId(essentia).toString()));
+			list.add(NbtString.of(RegistryEssentia.INSTANCE.getId(essentia).toString()));
 		}
 		tag.put("whitelist", list);
 		tag.putBoolean("whitelist_enabled", isWhitelistEnabled());

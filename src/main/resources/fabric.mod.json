@@ -32,10 +32,9 @@
     "artofalchemy.mixins.json"
   ],
   "depends": {
-    "minecraft": "~1.16.2",
-    "autoconfig1u": ">=2.0.0",
-    "libgui": ">=1.8.0",
-    "fabricloader": ">=0.10.3",
+    "minecraft": "~1.16.5",
+    "libgui": ">=3.4.0",
+    "fabricloader": ">=0.11.6",
     "fabric": "*"
   }
 }

@@ -8,7 +8,7 @@ import com.cumulusmc.artofalchemy.transport.HasEssentia;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 
@@ -43,25 +43,25 @@ public class BlockEntityTank extends BlockEntity implements Tickable, HasEssenti
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
-		tag.put("essentia", essentia.toTag());
-		return super.toTag(tag);
+	public NbtCompound writeNbt(NbtCompound tag) {
+		tag.put("essentia", essentia.writeNbt());
+		return super.writeNbt(tag);
 	}
 
 	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
+	public void fromTag(BlockState state, NbtCompound tag) {
 		super.fromTag(state, tag);
 		essentia = new EssentiaContainer(tag.getCompound("essentia"));
 	}
 
 	@Override
-	public void fromClientTag(CompoundTag tag) {
+	public void fromClientTag(NbtCompound tag) {
 		fromTag(world.getBlockState(pos), tag);
 	}
 
 	@Override
-	public CompoundTag toClientTag(CompoundTag tag) {
-		return toTag(tag);
+	public NbtCompound toClientTag(NbtCompound tag) {
+		return writeNbt(tag);
 	}
 
 	@Override

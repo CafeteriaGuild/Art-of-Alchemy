@@ -79,7 +79,7 @@ abstract class FluidAlkahest extends FlowableFluid {
 
 	@Override
 	protected BlockState toBlockState(FluidState state) {
-		return AoABlocks.ALKAHEST.getDefaultState().with(Properties.LEVEL_15, method_15741(state));
+		return AoABlocks.ALKAHEST.getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
 	}
 
 	public static class Flowing extends FluidAlkahest {

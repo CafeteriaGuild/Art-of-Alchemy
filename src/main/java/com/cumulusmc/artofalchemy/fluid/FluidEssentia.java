@@ -90,7 +90,7 @@ abstract class FluidEssentia extends FlowableFluid {
 
 	@Override
 	protected BlockState toBlockState(FluidState state) {
-		return AoABlocks.ESSENTIA.get(essentia).getDefaultState().with(Properties.LEVEL_15, method_15741(state));
+		return AoABlocks.ESSENTIA.get(essentia).getDefaultState().with(Properties.LEVEL_15, getBlockStateLevel(state));
 	}
 
 	public static class Flowing extends FluidEssentia {
