@@ -126,6 +126,7 @@
 	"item.artofalchemy.essentia_vessel.tooltip_deprecated": "Deprecated!",
 	
 	"gui.artofalchemy.alkahest_tooltip": "Alkahest §7(%d/%d)",
+	"gui.artofalchemy.mixed_essentia_tooltip": "Mixed Essentia §7(%d/%d)",
 	"gui.artofalchemy.alkahest_warning": "Needs alkahest!",
 	"gui.artofalchemy.buffer_warning": "Buffer is full!",
 	"gui.artofalchemy.target_warning": "Unknown or missing target!",
