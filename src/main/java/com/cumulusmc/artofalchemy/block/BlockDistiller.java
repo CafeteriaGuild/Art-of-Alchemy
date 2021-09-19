@@ -32,12 +32,11 @@ import net.minecraft.world.World;
 
 public class BlockDistiller extends BlockWithEntity {
 
-	//public static final BooleanProperty FILLED = BooleanProperty.of("filled");
-	//public static final BooleanProperty LIT = Properties.LIT;
+	public static final BooleanProperty LIT = Properties.LIT;
 	public static final Settings SETTINGS = Settings
 		.of(Material.STONE)
 		.strength(5.0f, 6.0f)
-		//.luminance((state) -> state.get(LIT) ? 15 : 0)
+		.luminance((state) -> state.get(LIT) ? 15 : 0)
 		.nonOpaque();
 
 	public static Identifier getId() {
@@ -50,12 +49,12 @@ public class BlockDistiller extends BlockWithEntity {
 
 	protected BlockDistiller(Settings settings) {
 		super(settings);
-		//setDefaultState(getDefaultState().with(FILLED, false).with(LIT, false));
+		setDefaultState(getDefaultState().with(LIT, false));
 	}
 
 	@Override
 	protected void appendProperties(Builder<Block, BlockState> builder) {
-		//builder.add(FILLED).add(LIT);
+		builder.add(LIT);
 	}
 
 	@Override

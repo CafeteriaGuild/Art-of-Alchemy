@@ -50,16 +50,20 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	private float yield;
 	private int alkahest = 0;
 	protected int maxAlkahest = getTankSize();
-	private int progress = 0;
-	private int maxProgress = 100;
+
+	protected int fuel = 0;
+	protected int maxFuel = 20;
+	protected int progress = 0;
+	protected int maxProgress = 100;
+	
 	private int status = 0;
-	// Status 0: Can craft
+	// Status 0: Can convert
 	// Status 1: Generic error (no message)
-	// Status 2: Insufficient alkahest
+	// Status 2: Need azoth or essentia
 	// Status 3: Full output buffer
 	private boolean lit = false;
 
-	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
+	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
 	protected EssentiaContainer essentia;
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 
@@ -118,8 +122,8 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 		maxAlkahest = getTankSize();
 		essentia = new EssentiaContainer()
 				.setCapacity(getTankSize())
-				.setInput(false)
-				.setOutput(true);
+				.setInput(true)
+				.setOutput(false);
 	}
 
 	protected BlockEntityDistiller(BlockEntityType type, BlockPos pos, BlockState state) {

@@ -42,11 +42,11 @@ public class HandlerDistiller extends SyncedGuiDescription {
 		WSprite background = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/rune_bg.png"));
 		root.add(background, 0, 0, WIDTH, 5 * SIZE_FACTOR);
 
-		WItemSlot fuelSlot = WItemSlot.of(blockInventory, 0);
-		root.add(fuelSlot, PAD, SIZE_FACTOR * 1);
-		
 		WItemSlot azothSlot = WItemSlot.of(blockInventory, 1);
-		root.add(azothSlot, PAD, SIZE_FACTOR * 3);
+		root.add(azothSlot, PAD, SIZE_FACTOR * 1);
+		
+		WItemSlot fuelSlot = WItemSlot.of(blockInventory, 0);
+		root.add(fuelSlot, PAD, SIZE_FACTOR * 3);
 		
 		WBar fuelBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_off.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_on.png"),
