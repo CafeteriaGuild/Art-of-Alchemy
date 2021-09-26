@@ -19,13 +19,13 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 		AoAHandlers.addInventory(panel, this);
 
 		WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
-		panel.add(itemSlot, 2 * 18, 18);
+		panel.add(itemSlot, 2 * AoAHandlers.BASIS, AoAHandlers.BASIS);
 
 		WItemSlot fuelSlot = WItemSlot.of(blockInventory, 1);
-		panel.add(fuelSlot, 2 * 18, 3 * 18);
+		panel.add(fuelSlot, 2 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS);
 
 		WItemSlot outSlot = WItemSlot.outputOf(blockInventory, 2);
-		panel.add(outSlot, 6 * 18 + 4, 2 * 18);
+		panel.add(outSlot, 6 * AoAHandlers.BASIS + 4, 2 * AoAHandlers.BASIS);
 
 		WBar fuelBar = new WBar(
 			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_off.png"),
@@ -34,7 +34,7 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 			1,
 			Direction.UP
 		);
-		panel.add(fuelBar, 2 * 18 + 1, 2 * 18 + 1, 18, 18);
+		panel.add(fuelBar, 2 * AoAHandlers.BASIS + 1, 2 * AoAHandlers.BASIS + 1, AoAHandlers.BASIS, AoAHandlers.BASIS);
 
 		WBar progressBar = new WBar(
 			ArtOfAlchemy.id("textures/gui/progress_off.png"),
@@ -43,7 +43,7 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 			3,
 			Direction.RIGHT
 		);
-		panel.add(progressBar, 3 * 18, 2 * 18 + 1, 3 * 18, 18);
+		panel.add(progressBar, 3 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS, AoAHandlers.BASIS);
 
 		panel.validate(this);
 	}

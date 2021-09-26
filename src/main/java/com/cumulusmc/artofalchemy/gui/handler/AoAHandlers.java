@@ -45,8 +45,6 @@ public class AoAHandlers {
 						buf.readEnumConstant(Hand.class)));
 	}
 
-	// I'm going to forget what this does in 2 weeks and then my eyes will glaze over when I try to fix some really dumb bug
-	// I am a pile of garbage pretending to be a programmer and I should not be allowed near computers
 	private static <T extends ScreenHandler> ScreenHandlerRegistry.ExtendedClientHandlerFactory<T> defaultFactory(Class<T> klass) {
 		return (syncId, inventory, buf) -> {
 			try {

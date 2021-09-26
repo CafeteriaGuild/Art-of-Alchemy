@@ -20,21 +20,21 @@ public class HandlerProjector extends SyncedGuiDescription {
 		AoAHandlers.addInventory(panel, this);
 
 		WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
-		panel.add(itemSlot, 2 * 18, 2 * 18);
+		panel.add(itemSlot, 2 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS);
 
 		WBar tankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
 				0, 1, Direction.UP);
 		tankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
-		panel.add(tankBar, 0, 18, 2 * 18, 3 * 18);
+		panel.add(tankBar, 0, AoAHandlers.BASIS, 2 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS);
 
 		WItemSlot outSlot = WItemSlot.outputOf(blockInventory, 1);
-		panel.add(outSlot, 6 * 18 + 4, 2 * 18);
+		panel.add(outSlot, 6 * AoAHandlers.BASIS + 4, 2 * AoAHandlers.BASIS);
 
 		WBar progressBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_green.png"),
 				2, 3, Direction.RIGHT);
-		panel.add(progressBar, 3 * 18, 2 * 18 + 1, 3 * 18, 18);
+		panel.add(progressBar, 3 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS, AoAHandlers.BASIS);
 
 		panel.validate(this);
 	}
