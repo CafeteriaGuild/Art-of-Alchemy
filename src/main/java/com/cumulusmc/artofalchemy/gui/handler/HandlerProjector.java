@@ -19,24 +19,51 @@ public class HandlerProjector extends SyncedGuiDescription {
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.projection_altar"));
 		AoAHandlers.addInventory(panel, this);
 
-		WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
-		panel.add(itemSlot, 2 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS);
+		// Input Slot
+		panel.add(
+			WItemSlot.of(blockInventory, 0),
+			2 * AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS + 4
+		);
 
-		WBar tankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
-				0, 1, Direction.UP);
+		WBar tankBar = new WBar(
+			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
+			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
+			0,
+			1,
+			Direction.UP
+		);
 		tankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
-		panel.add(tankBar, 0, AoAHandlers.BASIS, 2 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS);
+		panel.add(
+			tankBar,
+			0,
+			AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS,
+			3 * AoAHandlers.BASIS + 6
+		);
 
-		WItemSlot outSlot = WItemSlot.outputOf(blockInventory, 1);
-		panel.add(outSlot, 6 * AoAHandlers.BASIS + 4, 2 * AoAHandlers.BASIS);
+		// Output Slot
+		panel.add(
+			WItemSlot.outputOf(blockInventory, 1),
+			6 * AoAHandlers.BASIS + 4,
+			2 * AoAHandlers.BASIS + 4
+		);
 
-		WBar progressBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
+		// Progress Bar
+		panel.add(
+			new WBar(
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_green.png"),
-				2, 3, Direction.RIGHT);
-		panel.add(progressBar, 3 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS, AoAHandlers.BASIS);
+				2,
+				3,
+				Direction.RIGHT
+			),
+			3 * AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS + 4,
+			3 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 
 		panel.validate(this);
 	}
-
 }
