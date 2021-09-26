@@ -539,3 +539,6 @@ Tuff,tuff,,,E,2,12,,,,,,,,,,4,,,1.00,1.00,16,16
 Glow Ink Sac,glow_ink_sac,,,D,2,,,,,,,,12,12,,,12,,1.00,1.00,36,36
 Glow Lichen,glow_lichen,,,E,2,,,6,,,,,,6,,,6,,1.00,1.00,18,18
 Glow Berries,glow_berries,,,D,2,,,8,,,,,,12,4,,,,1.00,1.00,24,24
+Enchanted Golden Apple,enchanted_golden_apple,,,S,32,1200,,1200,,,,,,1200,,,,,1.00,1.00,3600,3600
+Dragon Egg,dragon_egg,,,S,64,,,,,,,,,,,,1000,4000,1.00,1.00,5000,5000
+Elytra,elytra,,,S,24,,800,,,,,800,,,,,800,800,1.00,1.00,3200,3200
