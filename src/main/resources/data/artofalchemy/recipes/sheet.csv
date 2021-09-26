@@ -302,7 +302,7 @@ Nether Bricks,nether_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Nether Gold Ore,nether_gold_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Nether Quartz Ore,nether_quartz_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Nether Sprouts,nether_sprouts,,,D,2,,,12,,,,24,,,,,12,,1.00,1.00,48,48
-Nether Star,nether_star,,,S,32,,,,,,,,,1280,1280,,,1280,1.00,1.00,"3,840","3,840"
+Nether Star,nether_star,,,S,32,,,,,,,,,1280,1280,,,1280,1.00,1.00,3840,3840
 Nether Wart,nether_wart,,,D,2,,,12,24,,,,,,,,12,,1.00,1.00,48,48
 Nether Wart Block,nether_wart_block,,,E,4,,,12,24,,,,,,,,12,,1.00,1.00,48,48
 Netherite Axe,netherite_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
@@ -311,7 +311,7 @@ Netherite Boots,netherite_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Netherite Chestplate,netherite_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Netherite Helmet,netherite_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Netherite Hoe,netherite_hoe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Ingot,netherite_ingot,,,S,16,960,,,,,,,,480,,,480,480,1.00,0.80,"2,400","1,920"
+Netherite Ingot,netherite_ingot,,,S,16,960,,,,,,,,480,,,480,480,1.00,0.80,2400,1920
 Netherite Leggings,netherite_leggings,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Netherite Pickaxe,netherite_pickaxe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Netherite Scrap,netherite_scrap,,,S,4,240,,,,,,,,,,,120,120,1.00,1.00,480,480
@@ -534,3 +534,8 @@ Tungsten Ingot,c:tungsten_ingots,X,,B,4,120,,,,60,,,,,,60,,,1.00,1.00,240,240
 Uranium Ingot,c:uranium_ingots,X,,A,4,180,,,,,,90,,,,,90,,1.00,1.00,360,360
 Zinc Ingot,c:zinc_ingots,X,,C,4,80,,80,,,,,,,,,,,1.00,1.00,160,160
 Nickel Ingot,c:nickel_ingots,X,,B,4,120,,,60,,,60,,,,,,,1.00,1.00,240,240
+Moss,moss,,,F,1,,,2,,,,,,,,,,,1.00,1.00,2,2
+Tuff,tuff,,,E,2,12,,,,,,,,,,4,,,1.00,1.00,16,16
+Glow Ink Sac,glow_ink_sac,,,D,2,,,,,,,,12,12,,,12,,1.00,1.00,36,36
+Glow Lichen,glow_lichen,,,E,2,,,6,,,,,,6,,,6,,1.00,1.00,18,18
+Glow Berries,glow_berries,,,D,2,,,8,,,,,,12,4,,,,1.00,1.00,24,24
