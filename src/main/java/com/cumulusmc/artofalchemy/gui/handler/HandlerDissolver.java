@@ -31,15 +31,42 @@ public class HandlerDissolver extends SyncedGuiDescription {
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.dissolution_chamber"));
 		AoAHandlers.addInventory(panel, this);
 
-		WItemSlot inSlot = WItemSlot.of(blockInventory, 0);
-		panel.add(inSlot, 2 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS);
+		// Item Input
+		panel.add(
+			WItemSlot.of(blockInventory, 0),
+			2 * AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS
+		);
 
-		WBar tankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"), new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"), 0, 1, Direction.UP);
+		WBar tankBar = new WBar(
+			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
+			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
+			0,
+			1,
+			Direction.UP
+		);
 		tankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
-		panel.add(tankBar, 0, AoAHandlers.BASIS, 2 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS);
+		panel.add(
+			tankBar,
+			0,
+			AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS,
+			3 * AoAHandlers.BASIS
+		);
 
-		WBar progressBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"), new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"), 2, 3, Direction.RIGHT);
-		panel.add(progressBar, 3 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS, AoAHandlers.BASIS);
+		panel.add(
+			new WBar(
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"),
+				2,
+				3,
+				Direction.RIGHT
+			),
+			3 * AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS + 1,
+			3 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 
 		WDynamicLabel alert = new WDynamicLabel(() -> {
 			switch (propertyDelegate.get(4)) {
@@ -52,14 +79,24 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			}
 		}, 0xFF5555);
 		alert.setAlignment(HorizontalAlignment.CENTER);
-		panel.add(alert, 0, 0 * AoAHandlers.BASIS, 9 * AoAHandlers.BASIS, AoAHandlers.BASIS);
+		panel.add(
+			alert,
+			0,
+			0 * AoAHandlers.BASIS,
+			9 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 
-		EssentiaContainer essentia = getEssentia(ctx);
-		essentiaPanel = new WEssentiaPanel(essentia);
-		panel.add(essentiaPanel, 6 * AoAHandlers.BASIS - 1, AoAHandlers.BASIS - AoAHandlers.OFFSET, 3 * AoAHandlers.BASIS, 4 * AoAHandlers.BASIS);
+		this.essentiaPanel = new WEssentiaPanel(getEssentia(ctx));
+		panel.add(
+				this.essentiaPanel,
+			6 * AoAHandlers.BASIS - 1,
+			AoAHandlers.BASIS - AoAHandlers.OFFSET,
+			3 * AoAHandlers.BASIS,
+			4 * AoAHandlers.BASIS
+		);
 
 		panel.validate(this);
-
 	}
 
 	public void updateEssentia(int essentiaId, EssentiaContainer essentia, BlockPos pos) {
