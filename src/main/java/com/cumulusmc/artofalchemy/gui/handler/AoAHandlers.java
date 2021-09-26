@@ -79,7 +79,9 @@ public class AoAHandlers {
 		);
 	}
 	public static void makeTitle(WGridPanel panel, TranslatableText text) {
-		WLabel title = new WLabel(text, WLabel.DEFAULT_TEXT_COLOR);
+		makeTitle(panel, new WLabel(text, WLabel.DEFAULT_TEXT_COLOR));
+	}
+	public static void makeTitle(WGridPanel panel, WLabel title) {
 		title.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		panel.add(
 			title,
