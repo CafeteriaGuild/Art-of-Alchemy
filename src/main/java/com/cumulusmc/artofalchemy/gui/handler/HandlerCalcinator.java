@@ -18,32 +18,56 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.calcination_furnace"));
 		AoAHandlers.addInventory(panel, this);
 
-		WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
-		panel.add(itemSlot, 2 * AoAHandlers.BASIS, AoAHandlers.BASIS);
-
-		WItemSlot fuelSlot = WItemSlot.of(blockInventory, 1);
-		panel.add(fuelSlot, 2 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS);
-
-		WItemSlot outSlot = WItemSlot.outputOf(blockInventory, 2);
-		panel.add(outSlot, 6 * AoAHandlers.BASIS + 4, 2 * AoAHandlers.BASIS);
-
-		WBar fuelBar = new WBar(
-			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_off.png"),
-			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_on.png"),
-			0,
-			1,
-			Direction.UP
+		// Input
+		panel.add(
+			WItemSlot.of(blockInventory, 0),
+			2 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS + 4
 		);
-		panel.add(fuelBar, 2 * AoAHandlers.BASIS + 1, 2 * AoAHandlers.BASIS + 1, AoAHandlers.BASIS, AoAHandlers.BASIS);
 
-		WBar progressBar = new WBar(
-			ArtOfAlchemy.id("textures/gui/progress_off.png"),
-			ArtOfAlchemy.id("textures/gui/progress_yellow.png"),
-			2,
-			3,
-			Direction.RIGHT
+		// Fuel
+		panel.add(
+			WItemSlot.of(blockInventory, 1),
+			2 * AoAHandlers.BASIS,
+			3 * AoAHandlers.BASIS + 4
 		);
-		panel.add(progressBar, 3 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS, AoAHandlers.BASIS);
+
+		// Output
+		panel.add(
+			WItemSlot.outputOf(blockInventory, 2),
+			6 * AoAHandlers.BASIS + 4,
+			2 * AoAHandlers.BASIS + 4
+		);
+		
+		// Fuel Bar
+		panel.add(
+			new WBar(
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_off.png"),
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_on.png"),
+				0,
+				1,
+				Direction.UP
+			),
+			2 * AoAHandlers.BASIS + 1 + 2,
+			2 * AoAHandlers.BASIS + 4 + 2,
+			AoAHandlers.BASIS - 4,
+			AoAHandlers.BASIS - 4
+		);
+
+		// Progress Bar
+		panel.add(
+			new WBar(
+				ArtOfAlchemy.id("textures/gui/progress_off.png"),
+				ArtOfAlchemy.id("textures/gui/progress_yellow.png"),
+				2,
+				3,
+				Direction.RIGHT
+			),
+			3 * AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS + 4,
+			3 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 
 		panel.validate(this);
 	}

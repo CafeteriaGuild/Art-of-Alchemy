@@ -67,14 +67,30 @@ public class AoAHandlers {
 	
 	public static void makeBackground(WGridPanel panel) {
 		WSprite background = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/rune_bg.png"));
-		panel.add(background, AoAHandlers.OFFSET, AoAHandlers.OFFSET, 9 * AoAHandlers.BASIS, (5 * AoAHandlers.BASIS) - AoAHandlers.OFFSET);
+		panel.add(
+			background,
+			AoAHandlers.OFFSET,
+			AoAHandlers.OFFSET,
+			9 * AoAHandlers.BASIS,
+			(5 * AoAHandlers.BASIS) - AoAHandlers.OFFSET
+		);
 	}
 	public static void makeTitle(WGridPanel panel, TranslatableText text) {
 		WLabel title = new WLabel(text, WLabel.DEFAULT_TEXT_COLOR);
 		title.setHorizontalAlignment(HorizontalAlignment.CENTER);
-		panel.add(title, 0, 3, 9 * AoAHandlers.BASIS, AoAHandlers.BASIS);
+		panel.add(
+			title,
+			0,
+			3,
+			9 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 	}
 	public static void addInventory(WGridPanel panel, SyncedGuiDescription gui) {
-		panel.add(gui.createPlayerInventoryPanel(), AoAHandlers.OFFSET, (5 * AoAHandlers.BASIS) - AoAHandlers.OFFSET);
+		panel.add(
+			gui.createPlayerInventoryPanel(),
+			AoAHandlers.OFFSET,
+			(5 * AoAHandlers.BASIS) - AoAHandlers.OFFSET
+		);
 	}
 }

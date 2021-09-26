@@ -69,7 +69,7 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 		panel.add(alert, 0, -1 * AoAHandlers.BASIS, 9 * AoAHandlers.BASIS, AoAHandlers.BASIS);
 
 		essentiaPanel = new WEssentiaPanel(getEssentia(ctx), getRequirements(ctx));
-		panel.add(essentiaPanel, 2, AoAHandlers.BASIS - 7, 3 * AoAHandlers.BASIS, 4 * AoAHandlers.BASIS);
+		panel.add(essentiaPanel, 2, AoAHandlers.BASIS - AoAHandlers.OFFSET, 3 * AoAHandlers.BASIS, 4 * AoAHandlers.BASIS);
 
 		panel.validate(this);
 
