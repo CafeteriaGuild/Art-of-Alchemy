@@ -29,32 +29,25 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 
 		pos = ctx.get((world, pos) -> pos, null);
 
-		WGridPanel root = new WGridPanel(1);
-		setRootPanel(root);
-		root.setSize(162, 128 + 36);
-
-		WSprite background = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/rune_bg.png"));
-		root.add(background, 0, 0, 9 * 18, 5 * 18);
+		WGridPanel panel = AoAHandlers.makePanel(this);
+		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.synthesis_table"));
+		AoAHandlers.addInventory(panel, this);
 
 		WItemSlot inSlot = WItemSlot.of(blockInventory, 0);
-		root.add(inSlot, 4 * 18, 18 - 4);
+		panel.add(inSlot, 4 * 18, 18 - 4);
 
 		WItemSlot outSlot = WItemSlot.outputOf(blockInventory, 1);
-		root.add(outSlot, 6 * 18 + 4, 2 * 18);
+		panel.add(outSlot, 6 * 18 + 4, 2 * 18);
 
 		WSprite targetIcon = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png"));
-		root.add(targetIcon, 4 * 18 + 1, 3 * 18 + 5, 18, 18);
+		panel.add(targetIcon, 4 * 18 + 1, 3 * 18 + 5, 18, 18);
 
 		WItemSlot targetSlot = WItemSlot.of(blockInventory, 2);
-		root.add(targetSlot, 4 * 18, 3 * 18 + 4);
+		panel.add(targetSlot, 4 * 18, 3 * 18 + 4);
 
 		WBar progressBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_cyan.png"), 0, 1, Direction.RIGHT);
-		root.add(progressBar, 3 * 18, 2 * 18 + 1, 3 * 18, 18);
-
-		WLabel title = new WLabel(new TranslatableText("block.artofalchemy.synthesis_table"), WLabel.DEFAULT_TEXT_COLOR);
-		title.setHorizontalAlignment(HorizontalAlignment.CENTER);
-		root.add(title, 0, -1, 9 * 18, 18);
+		panel.add(progressBar, 3 * 18, 2 * 18 + 1, 3 * 18, 18);
 
 		WDynamicLabel alert = new WDynamicLabel(() -> {
 			switch (propertyDelegate.get(2)) {
@@ -73,14 +66,12 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 			}
 		}, 0xFF5555);
 		alert.setAlignment(HorizontalAlignment.CENTER);
-		root.add(alert, 0, -1 * 18, 9 * 18, 18);
+		panel.add(alert, 0, -1 * 18, 9 * 18, 18);
 
 		essentiaPanel = new WEssentiaPanel(getEssentia(ctx), getRequirements(ctx));
-		root.add(essentiaPanel, 2, 18 - 7, 3 * 18, 4 * 18);
+		panel.add(essentiaPanel, 2, 18 - 7, 3 * 18, 4 * 18);
 
-		root.add(this.createPlayerInventoryPanel(), 0, 5 * 18);
-
-		root.validate(this);
+		panel.validate(this);
 
 	}
 
