@@ -52,7 +52,7 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			0,
 			AoAHandlers.BASIS,
 			2 * AoAHandlers.BASIS,
-			3 * AoAHandlers.BASIS
+			3 * AoAHandlers.BASIS + 6
 		);
 
 		WDynamicLabel alert = new WDynamicLabel(() -> {
