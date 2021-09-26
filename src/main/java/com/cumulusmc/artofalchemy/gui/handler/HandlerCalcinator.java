@@ -17,26 +17,21 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 		WGridPanel panel = AoAHandlers.makePanel(this);
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.calcination_furnace"));
 		AoAHandlers.addInventory(panel, this);
+		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_yellow.png"));
+		AoAHandlers.addBigOutput(panel, WItemSlot.outputOf(blockInventory, 2));
 
 		// Input
 		panel.add(
 			WItemSlot.of(blockInventory, 0),
-			2 * AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS + 4,
 			AoAHandlers.BASIS + 4
 		);
 
 		// Fuel
 		panel.add(
 			WItemSlot.of(blockInventory, 1),
-			2 * AoAHandlers.BASIS,
+			2 * AoAHandlers.BASIS + 4,
 			3 * AoAHandlers.BASIS + 4
-		);
-
-		// Output
-		panel.add(
-			WItemSlot.outputOf(blockInventory, 2),
-			6 * AoAHandlers.BASIS + 4,
-			2 * AoAHandlers.BASIS + 4
 		);
 		
 		// Fuel Bar
@@ -48,25 +43,10 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 				1,
 				Direction.UP
 			),
-			2 * AoAHandlers.BASIS + 1 + 2,
+			2 * AoAHandlers.BASIS + 4 + 1 + 2,
 			2 * AoAHandlers.BASIS + 4 + 2,
 			AoAHandlers.BASIS - 4,
 			AoAHandlers.BASIS - 4
-		);
-
-		// Progress Bar
-		panel.add(
-			new WBar(
-				ArtOfAlchemy.id("textures/gui/progress_off.png"),
-				ArtOfAlchemy.id("textures/gui/progress_yellow.png"),
-				2,
-				3,
-				Direction.RIGHT
-			),
-			3 * AoAHandlers.BASIS,
-			2 * AoAHandlers.BASIS + 4,
-			3 * AoAHandlers.BASIS,
-			AoAHandlers.BASIS
 		);
 
 		panel.validate(this);

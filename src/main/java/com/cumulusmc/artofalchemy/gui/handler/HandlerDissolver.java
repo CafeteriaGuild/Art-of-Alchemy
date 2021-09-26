@@ -30,12 +30,13 @@ public class HandlerDissolver extends SyncedGuiDescription {
 		WGridPanel panel = AoAHandlers.makePanel(this);
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.dissolution_chamber"));
 		AoAHandlers.addInventory(panel, this);
+		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"));
 
 		// Item Input
 		panel.add(
 			WItemSlot.of(blockInventory, 0),
-			2 * AoAHandlers.BASIS,
-			2 * AoAHandlers.BASIS
+			2 * AoAHandlers.BASIS + 7,
+			2 * AoAHandlers.BASIS + 4
 		);
 
 		WBar tankBar = new WBar(
@@ -52,20 +53,6 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			AoAHandlers.BASIS,
 			2 * AoAHandlers.BASIS,
 			3 * AoAHandlers.BASIS
-		);
-
-		panel.add(
-			new WBar(
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"),
-				2,
-				3,
-				Direction.RIGHT
-			),
-			3 * AoAHandlers.BASIS,
-			2 * AoAHandlers.BASIS + 1,
-			3 * AoAHandlers.BASIS,
-			AoAHandlers.BASIS
 		);
 
 		WDynamicLabel alert = new WDynamicLabel(() -> {

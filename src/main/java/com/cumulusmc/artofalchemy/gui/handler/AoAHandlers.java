@@ -4,9 +4,12 @@ import com.cumulusmc.artofalchemy.ArtOfAlchemy;
 import com.cumulusmc.artofalchemy.block.*;
 import com.cumulusmc.artofalchemy.item.ItemJournal;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
+import io.github.cottonmc.cotton.gui.widget.WBar;
+import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
+import io.github.cottonmc.cotton.gui.widget.WBar.Direction;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.player.PlayerInventory;
@@ -84,6 +87,28 @@ public class AoAHandlers {
 			3,
 			9 * AoAHandlers.BASIS,
 			AoAHandlers.BASIS
+		);
+	}
+	public static void addCentralProgressBar(WGridPanel panel, Identifier type) {
+		panel.add(
+			new WBar(
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
+				type,
+				0,
+				1,
+				Direction.RIGHT
+			),
+			3 * AoAHandlers.BASIS + 7,
+			2 * AoAHandlers.BASIS + 4,
+			3 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
+	}
+	public static void addBigOutput(WGridPanel panel, WItemSlot slot) {
+		panel.add(
+			slot,
+			6 * AoAHandlers.BASIS + 7 + 4,
+			2 * AoAHandlers.BASIS + 4
 		);
 	}
 	public static void addInventory(WGridPanel panel, SyncedGuiDescription gui) {

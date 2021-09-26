@@ -32,19 +32,14 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 		WGridPanel panel = AoAHandlers.makePanel(this);
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.synthesis_table"));
 		AoAHandlers.addInventory(panel, this);
+		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_cyan.png"));
+		AoAHandlers.addBigOutput(panel, WItemSlot.outputOf(blockInventory, 1));
 
 		// Input Slot
 		panel.add(
 			WItemSlot.of(blockInventory, 0),
 			(4 * AoAHandlers.BASIS) + 7,
 			AoAHandlers.BASIS
-		);
-
-		// Output Slot
-		panel.add(
-			WItemSlot.outputOf(blockInventory, 1),
-			6 * AoAHandlers.BASIS + 7 + 4,
-			2 * AoAHandlers.BASIS + 4
 		);
 
 		// Target Icon
@@ -61,21 +56,6 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 			WItemSlot.of(blockInventory, 2),
 			4 * AoAHandlers.BASIS + 7,
 			3 * AoAHandlers.BASIS + 8
-		);
-
-		// Progress Bar
-		panel.add(
-			new WBar(
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_cyan.png"),
-				0,
-				1,
-				Direction.RIGHT
-			),
-			3 * AoAHandlers.BASIS + 7,
-			2 * AoAHandlers.BASIS + 4,
-			3 * AoAHandlers.BASIS,
-			AoAHandlers.BASIS
 		);
 
 		WDynamicLabel alert = new WDynamicLabel(() -> {
