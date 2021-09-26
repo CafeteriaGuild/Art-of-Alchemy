@@ -2,7 +2,8 @@ Name,ID,Tag?,Restrict?,Rank,Amount,Mercury,Venus,Tellus,Mars,Jupiter,Saturn,Uran
 Activator Rail,activator_rail,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Allium,allium,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Aluminum Ingot,c:aluminum_ingots,X,,C,4,80,,,,,,80,,,,,,,1.00,1.00,160,160
-Amethyst,c:amethysts,X,,B,4,,120,,,,,,,,120,,,,1.00,1.00,240,240
+Amethyst,c:amethysts,X,,B,4,,12,,,,,,,,12,,,,1.00,1.00,24,24
+Amethyst Block,amethyst_block,,,B,16,,48,,,,,,,,48,,,,1.00,1.00,96,96
 Ancient Debris,ancient_debris,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Andesite,andesite,,,F,1,2,,,,,,,,,,2,,,1.00,0.50,4,4
 Andesite Slab,andesite_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
