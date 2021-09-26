@@ -123,7 +123,7 @@ Dead Corals,c:dead_corals,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Detector Rail,detector_rail,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Diamond,diamond,,,A,4,,,,,,,,,,240,120,,,1.00,1.00,360,360
 Diamond Axe,diamond_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Block,diamond_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
+Diamond Block,diamond_block,,,A,36,,,,,,,,,,2160,1080,,,1.00,1.00,3240,3240
 Diamond Boots,diamond_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Diamond Chestplate,diamond_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Diamond Helmet,diamond_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
@@ -189,7 +189,7 @@ Glass Panes,c:glass_panes,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Glistering Melon Slice,glistering_melon_slice,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Glowstone,glowstone,,,C,8,,,,,80,,,,160,80,,,,1.00,1.00,320,320
 Glowstone Dust,glowstone_dust,,,C,2,,,,,20,,,,40,20,,,,1.00,1.00,80,80
-Gold Block,gold_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
+Gold Block,gold_block,,,B,36,1080,,,,,,,,1080,,,,,1.00,1.00,2160,2160
 Gold Ingot,gold_ingot,,,B,4,120,,,,,,,,120,,,,,1.00,1.00,240,240
 Gold Nugget,gold_nugget,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Gold Ore,gold_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
@@ -231,7 +231,7 @@ Ice,ice,,,F,1,,,,,,,,2,,2,,,,1.00,1.00,4,4
 Ink Sac,ink_sac,,,E,2,,,,,,,,12,,,12,,,1.00,1.00,24,24
 Iron Axe,iron_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Iron Bars,iron_bars,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Block,iron_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
+Iron Block,iron_block,,,C,36,720,,,720,,,,,,,,,,1.00,1.00,1440,1440
 Iron Boots,iron_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Iron Chestplate,iron_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
 Iron Door,iron_door,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
