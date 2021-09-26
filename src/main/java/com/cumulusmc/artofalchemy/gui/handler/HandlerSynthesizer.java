@@ -33,21 +33,50 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.synthesis_table"));
 		AoAHandlers.addInventory(panel, this);
 
-		WItemSlot inSlot = WItemSlot.of(blockInventory, 0);
-		panel.add(inSlot, 4 * AoAHandlers.BASIS, AoAHandlers.BASIS - 4);
+		// Input Slot
+		panel.add(
+			WItemSlot.of(blockInventory, 0),
+			(4 * AoAHandlers.BASIS) + 7,
+			AoAHandlers.BASIS
+		);
 
-		WItemSlot outSlot = WItemSlot.outputOf(blockInventory, 1);
-		panel.add(outSlot, 6 * AoAHandlers.BASIS + 4, 2 * AoAHandlers.BASIS);
+		// Output Slot
+		panel.add(
+			WItemSlot.outputOf(blockInventory, 1),
+			6 * AoAHandlers.BASIS + 7 + 4,
+			2 * AoAHandlers.BASIS + 4
+		);
 
-		WSprite targetIcon = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png"));
-		panel.add(targetIcon, 4 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS + 5, AoAHandlers.BASIS, AoAHandlers.BASIS);
+		// Target Icon
+		panel.add(
+			new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png")),
+			4 * AoAHandlers.BASIS + 7 + 1,
+			3 * AoAHandlers.BASIS + 8 + 1,
+			AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 
-		WItemSlot targetSlot = WItemSlot.of(blockInventory, 2);
-		panel.add(targetSlot, 4 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS + 4);
+		// Target Slot
+		panel.add(
+			WItemSlot.of(blockInventory, 2),
+			4 * AoAHandlers.BASIS + 7,
+			3 * AoAHandlers.BASIS + 8
+		);
 
-		WBar progressBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_cyan.png"), 0, 1, Direction.RIGHT);
-		panel.add(progressBar, 3 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS, AoAHandlers.BASIS);
+		// Progress Bar
+		panel.add(
+			new WBar(
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_cyan.png"),
+				0,
+				1,
+				Direction.RIGHT
+			),
+			3 * AoAHandlers.BASIS + 7,
+			2 * AoAHandlers.BASIS + 4,
+			3 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 
 		WDynamicLabel alert = new WDynamicLabel(() -> {
 			switch (propertyDelegate.get(2)) {
@@ -66,10 +95,22 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 			}
 		}, 0xFF5555);
 		alert.setAlignment(HorizontalAlignment.CENTER);
-		panel.add(alert, 0, -1 * AoAHandlers.BASIS, 9 * AoAHandlers.BASIS, AoAHandlers.BASIS);
+		panel.add(
+			alert,
+			0,
+			-1 * AoAHandlers.BASIS,
+			9 * AoAHandlers.BASIS,
+			AoAHandlers.BASIS
+		);
 
 		essentiaPanel = new WEssentiaPanel(getEssentia(ctx), getRequirements(ctx));
-		panel.add(essentiaPanel, 2, AoAHandlers.BASIS - AoAHandlers.OFFSET, 3 * AoAHandlers.BASIS, 4 * AoAHandlers.BASIS);
+		panel.add(
+			essentiaPanel,
+			2,
+			AoAHandlers.BASIS - AoAHandlers.OFFSET,
+			3 * AoAHandlers.BASIS,
+			4 * AoAHandlers.BASIS
+		);
 
 		panel.validate(this);
 
