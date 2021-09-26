@@ -40,45 +40,35 @@ public class HandlerAnalyzer extends SyncedGuiDescription {
 		super(AoAHandlers.ANALYZER, syncId, playerInventory);
 		blockInventory = inventory;
 
-		WGridPanel root = new WGridPanel(1);
-		setRootPanel(root);
-		root.setSize(160, 128 + 36);
-
-		WSprite background = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/rune_bg.png"));
-		root.add(background, 0, 0, 9 * 18, 5 * 18);
+		WGridPanel panel = AoAHandlers.makePanel(this);
+		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.analysis_desk"));
+		AoAHandlers.addInventory(panel, this);
 
 		WSprite paperIcon = new WSprite(new Identifier("minecraft", "textures/item/paper.png"));
-		root.add(paperIcon, 2 * 18 + 5, 2 * 18 + 1, 16, 16);
+		panel.add(paperIcon, 2 * 18 + 5, 2 * 18 + 1, 16, 16);
 
 		WItemSlot paperSlot = WItemSlot.of(inventory, 0);
-		root.add(paperSlot, 2 * 18 + 4, 2 * 18);
+		panel.add(paperSlot, 2 * 18 + 4, 2 * 18);
 
 		WSprite inkIcon = new WSprite(new Identifier("minecraft", "textures/item/ink_sac.png"));
-		root.add(inkIcon, 4 * 18 + 1, 18 - 3, 16, 16);
+		panel.add(inkIcon, 4 * 18 + 1, 18 - 3, 16, 16);
 
 		WItemSlot inkSlot = WItemSlot.of(inventory, 1);
-		root.add(inkSlot, 4 * 18, 18 - 4);
+		panel.add(inkSlot, 4 * 18, 18 - 4);
 
 		WSprite targetIcon = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png"));
-		root.add(targetIcon, 4 * 18 + 1, 3 * 18 + 5, 18, 18);
+		panel.add(targetIcon, 4 * 18 + 1, 3 * 18 + 5, 18, 18);
 
 		WItemSlot targetSlot = WItemSlot.of(inventory, 2);
-		root.add(targetSlot, 4 * 18, 3 * 18 + 4);
+		panel.add(targetSlot, 4 * 18, 3 * 18 + 4);
 
 		WItemSlot outSlot = WItemSlot.outputOf(inventory, 3);
-		root.add(outSlot, 6 * 18, 2 * 18);
+		panel.add(outSlot, 6 * 18, 2 * 18);
 
 		WSprite arrow = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"));
-		root.add(arrow, 3 * 18, 2 * 18, 3 * 18, 18);
+		panel.add(arrow, 3 * 18, 2 * 18, 3 * 18, 18);
 
-		WLabel title = new WLabel(new TranslatableText("block.artofalchemy.analysis_desk"),
-				WLabel.DEFAULT_TEXT_COLOR);
-		title.setHorizontalAlignment(HorizontalAlignment.CENTER);
-		root.add(title, 0, -1, 9 * 18, 18);
-
-		root.add(this.createPlayerInventoryPanel(), 0, 5 * 18);
-
-		root.validate(this);
+		panel.validate(this);
 
 	}
 

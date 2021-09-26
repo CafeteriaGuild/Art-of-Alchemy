@@ -21,36 +21,25 @@ public class HandlerDissolver extends SyncedGuiDescription {
 	final BlockPos pos;
 	final WEssentiaPanel essentiaPanel;
 
-	private static final int OFFSET = 7;
-	private static final int BASIS = 18;
-
 	@SuppressWarnings("MethodCallSideOnly")
 	public HandlerDissolver(int syncId, PlayerInventory playerInventory, ScreenHandlerContext ctx) {
 		super(AoAHandlers.DISSOLVER, syncId, playerInventory, getBlockInventory(ctx), getBlockPropertyDelegate(ctx));
 
 		pos = ctx.get((world, pos) -> pos, null);
 
-		WGridPanel root = new WGridPanel(1);
-		setRootPanel(root);
-		root.setSize(176, 180);
-
-		WSprite background = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/rune_bg.png"));
-		root.add(background, OFFSET, OFFSET, 9 * BASIS, (5 * BASIS) - OFFSET);
+		WGridPanel panel = AoAHandlers.makePanel(this);
+		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.dissolution_chamber"));
+		AoAHandlers.addInventory(panel, this);
 
 		WItemSlot inSlot = WItemSlot.of(blockInventory, 0);
-		root.add(inSlot, 2 * BASIS, 2 * BASIS);
+		panel.add(inSlot, 2 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS);
 
 		WBar tankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"), new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"), 0, 1, Direction.UP);
 		tankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
-		root.add(tankBar, 0, BASIS, 2 * BASIS, 3 * BASIS);
+		panel.add(tankBar, 0, AoAHandlers.BASIS, 2 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS);
 
 		WBar progressBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"), new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"), 2, 3, Direction.RIGHT);
-		root.add(progressBar, 3 * BASIS, 2 * BASIS + 1, 3 * BASIS, BASIS);
-
-		WLabel title = new WLabel(new TranslatableText("block.artofalchemy.dissolution_chamber"),
-				WLabel.DEFAULT_TEXT_COLOR);
-		title.setHorizontalAlignment(HorizontalAlignment.CENTER);
-		root.add(title, 0, OFFSET, 9 * BASIS, BASIS);
+		panel.add(progressBar, 3 * AoAHandlers.BASIS, 2 * AoAHandlers.BASIS + 1, 3 * AoAHandlers.BASIS, AoAHandlers.BASIS);
 
 		WDynamicLabel alert = new WDynamicLabel(() -> {
 			switch (propertyDelegate.get(4)) {
@@ -63,15 +52,13 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			}
 		}, 0xFF5555);
 		alert.setAlignment(HorizontalAlignment.CENTER);
-		root.add(alert, 0, 0 * BASIS, 9 * BASIS, BASIS);
+		panel.add(alert, 0, 0 * AoAHandlers.BASIS, 9 * AoAHandlers.BASIS, AoAHandlers.BASIS);
 
 		EssentiaContainer essentia = getEssentia(ctx);
 		essentiaPanel = new WEssentiaPanel(essentia);
-		root.add(essentiaPanel, 6 * BASIS - 1, BASIS - OFFSET, 3 * BASIS, 4 * BASIS);
+		panel.add(essentiaPanel, 6 * AoAHandlers.BASIS - 1, AoAHandlers.BASIS - AoAHandlers.OFFSET, 3 * AoAHandlers.BASIS, 4 * AoAHandlers.BASIS);
 
-		root.add(this.createPlayerInventoryPanel(), OFFSET, (5 * BASIS) - OFFSET);
-
-		root.validate(this);
+		panel.validate(this);
 
 	}
 
