@@ -1,545 +1,545 @@
 Name,ID,Tag?,Restrict?,Rank,Amount,Mercury,Venus,Tellus,Mars,Jupiter,Saturn,Uranus,Neptune,Apollo,Diana,Ceres,Pluto,Void,M. Recov.,E. Recov.,Total E.,Expected E.
-Activator Rail,activator_rail,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Allium,allium,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Aluminum Ingot,c:aluminum_ingots,X,,C,4,80,,,,,,80,,,,,,,1.00,1.00,160,160
-Amethyst,c:amethysts,X,,B,4,,12,,,,,,,,12,,,,1.00,1.00,24,24
-Amethyst Block,amethyst_block,,,B,16,,48,,,,,,,,48,,,,1.00,1.00,96,96
-Ancient Debris,ancient_debris,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Andesite,andesite,,,F,1,2,,,,,,,,,,2,,,1.00,0.50,4,4
-Andesite Slab,andesite_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Andesite Slab, Polished",polished_andesite_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Andesite Stairs,andesite_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Andesite Stairs, Polished",polished_andesite_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Andesite Wall,andesite_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Andesite, Polished",polished_andesite,,,F,1,2,,,,,,,,,,2,,,1.00,1.00,4,4
-Anvil,anvil,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Apple,apple,,,E,2,,12,12,,,,,,,,,,,1.00,1.00,24,24
-Armor Stand,armor_stand,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Arrow,arrow,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Azure Bluet,azure_bluet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Baked Potato,baked_potato,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bamboo,bamboo,,,E,1,,,12,,,,,,,,,,,1.00,1.00,12,12
-Banner Patterns,c:banner_patterns,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Banners,banners,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Barrel,barrel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Basalt,basalt,,,E,1,4,,,,,,,,,,4,4,,1.00,1.00,12,12
-"Basalt, Polished",polished_basalt,,,E,1,4,,,,,,,,,,4,4,,1.00,1.00,12,12
-Beacon,beacon,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Beds,beds,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bee Nest,bee_nest,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Beef, Cooked (Steak)",cooked_beef,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Beef, Raw",beef,,,E,2,,,,24,,,,,,,,,,1.00,1.00,24,24
-Beehive,beehive,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Beetroot,beetroot,,,E,2,,,16,8,,,,,,,,,,1.00,1.00,24,24
-Beetroot Seeds,beetroot_seeds,,,E,1,,,4,2,,,,,,,,,,0.50,1.00,6,12
-Beetroot Soup,beetroot_soup,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bell,bell,,,B,12,360,,,,,,,,360,,,,,1.00,1.00,720,720
-Blackstone,blackstone,,,F,1,2,,,,,,,,,,2,2,,1.00,1.00,6,4
-Blast Furnace,blast_furnace,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Blaze Powder,blaze_powder,,,C,1,,,,,20,,,,,,,20,,1.00,1.00,40,40
-Blaze Rod,blaze_rod,,,C,4,,,,,80,,,,,,,80,,1.00,1.00,160,160
-Blue Ice,blue_ice,,,D,1,,,,,,,,12,,12,,,,1.00,1.00,24,24
-Blue Orchid,blue_orchid,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Boats,boats,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bone,bone,,,E,4,,16,,,,24,,,,,,,,1.00,1.00,40,48
-Bone Block,bone_block,,,E,9,,36,,,,72,,,,,,,,1.00,1.00,108,108
-Bone Meal,bone_meal,,,E,1,,4,,,,8,,,,,,,,1.00,1.00,12,12
-Book,book,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Book and Quill,writable_book,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bookshelf,bookshelf,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bow,bow,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bowl,bowl,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Brain Coral Block,brain_coral_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Brain Corals,c:brain_corals,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bread,bread,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Brewing Stand,brewing_stand,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Brick,brick,,,D,1,,,,,,16,,,,,8,,,1.00,1.00,24,24
-Brick Slab,brick_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Brick Stairs,brick_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Brick Wall,brick_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bricks,bricks,,,D,4,,,,,,64,,,,,32,,,1.00,1.00,96,96
-Brown Mushroom,brown_mushroom,,,,,,4,,,,,,,,,4,4,,1.00,1.00,12,0
-Brown Mushroom Block,brown_mushroom_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bubble Coral Block,bubble_coral_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bubble Corals,c:bubble_corals,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Bucket,bucket,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Cactus,cactus,,,E,4,,8,32,,,,,8,,,,,,1.00,1.00,48,48
-Cake,cake,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Campfire,campfire,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Carpets,carpets,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Carrot,carrot,,,E,2,,,16,,8,,,,,,,,,1.00,1.00,24,24
-Carrot on a Stick,carrot_on_a_stick,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Cartography Table,cartography_table,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Cauldron,cauldron,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Chainmail Boots,chainmail_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Chainmail Chestplate,chainmail_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Chainmail Helmet,chainmail_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Chainmail Leggings,chainmail_leggings,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Charcoal,charcoal,,,E,2,,,,,,,,,,,24,,,1.00,1.00,24,24
-Chest,chest,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Chicken, Cooked",cooked_chicken,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Chicken, Raw",chicken,,,E,2,,,,24,,,,,,,,,,1.00,1.00,24,24
-Chorus Flower,chorus_flower,,,C,4,80,,,,,,40,,,,,,40,1.00,1.00,160,160
-Chorus Fruit,chorus_fruit,,,C,2,40,,,,,,20,,,,,,20,1.00,1.00,80,80
-Clay,clay,,,D,4,,,,,,64,,32,,,,,,1.00,1.00,96,96
-Clay Ball,clay_ball,,,D,1,,,,,,16,,8,,,,,,1.00,1.00,24,24
-Clock,clock,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Coal,coal,,,D,2,,,,,16,,,,,,32,,,1.00,1.00,48,48
-Coal Block,coal_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Coal Ore,coal_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Coarse Dirt,coarse_dirt,,,F,1,,,1,,,2,,,,,1,,,1.00,1.00,4,4
-Cobalt Ingot,c:cobalt_ingots,X,,B,4,120,,,60,,,,60,,,,,,1.00,1.00,240,240
-Cobblestone,cobblestone,,,F,1,2,,,,,2,,,,,,,,0.50,0.50,4,4
-Cobblestone Slab,cobblestone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Cobblestone Slab, Mossy",mossy_cobblestone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Cobblestone Stairs,cobblestone_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Cobblestone Stairs, Mossy",mossy_cobblestone_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Cobblestone Wall,cobblestone_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Cobblestone Wall, Mossy",mossy_cobblestone_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Cobblestone, Mossy",mossy_cobblestone,,,F,1,2,,2,,,2,,,,,,,,1.00,1.00,6,4
-Cobweb,cobweb,,,E,9,54,,,,27,,27,,,,,,,1.00,1.00,108,108
-Cocoa Beans,cocoa_beans,,,E,2,,6,12,,,,,,,,6,,,1.00,1.00,24,24
-Cod Bucket,cod_bucket,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Cod, Cooked",cooked_cod,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Cod, Raw",cod,,,E,2,,,,12,,,,12,,,,,,1.00,1.00,24,24
-Compass,compass,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Composter,composter,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Concrete,c:concrete,X,,F,1,,,,,,2,,,,1,1,,,1.00,1.00,4,4
-Concrete Powder,c:concrete_powders,X,,F,1,,,,,,2,,,,1,1,,,1.00,1.00,4,4
-Conduit,conduit,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Cookie,cookie,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Copper Ingot,c:copper_ingots,X,,C,4,80,80,,,,,,,,,,,,1.00,1.00,160,160
-Cornflower,cornflower,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Crafting Table,crafting_table,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Creeper Head,creeper_head,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Crimson Fungus,crimson_fungus,,,E,1,4,,,4,,,,,4,,,,,1.00,1.00,12,12
-Crimson Nylium,crimson_nylium,,,F,1,2,,,2,2,,,,,,,2,,1.00,1.00,8,4
-Crimson Roots,crimson_roots,,,E,1,,,4,4,,,,,,,,4,,1.00,1.00,12,12
-Crossbow,crossbow,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Crying Obsidian,crying_obsidian,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dandelion,dandelion,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dark Prismarine,dark_prismarine,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dark Prismarine Slab,dark_prismarine_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dark Prismarine Stairs,dark_prismarine_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Daylight Detector,daylight_detector,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dead Bush,dead_bush,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dead Coral Blocks,c:dead_coral_blocks,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dead Corals,c:dead_corals,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Detector Rail,detector_rail,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond,diamond,,,A,4,,,,,,,,,,240,120,,,1.00,1.00,360,360
-Diamond Axe,diamond_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Block,diamond_block,,,A,36,,,,,,,,,,2160,1080,,,1.00,1.00,3240,3240
-Diamond Boots,diamond_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Chestplate,diamond_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Helmet,diamond_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Hoe,diamond_hoe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Horse Armor,diamond_horse_armor,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Leggings,diamond_leggings,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Ore,diamond_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Pickaxe,diamond_pickaxe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Shovel,diamond_shovel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diamond Sword,diamond_sword,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diorite,diorite,,,F,1,2,,,,,,,,,2,,,,1.00,0.50,4,4
-Diorite Slab,diorite_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Diorite Slab, Polished",polished_diorite_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Diorite Stairs, Polished",polished_diorite_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Diorite Wall,diorite_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Diorite, Polished",polished_diorite,,,F,1,2,,,,,,,,,2,,,,1.00,1.00,4,4
-Dirt,dirt,,,F,1,,,2,,,2,,,,,,,,1.00,1.00,4,4
-Dispenser,dispenser,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dragon Egg,dragon_egg,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dragon Egg,dragon_egg,,,S,64,,,,,,,,,,,,1000,4000,1.00,1.00,5000,5000
-Dragon Head,dragon_head,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dragon's Breath,dragon_breath,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dried Kelp,dried_kelp,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dried Kelp Block,dried_kelp_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dropper,dropper,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Dyes,c:dyes,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Egg,egg,,,E,2,,12,,,,12,,,,,,,,1.00,1.00,24,24
-Elytra,elytra,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Elytra,elytra,,,S,24,,800,,,,,800,,,,,800,800,1.00,1.00,3200,3200
-Emerald,emerald,,,A,4,,,120,,,,,,,240,,,,1.00,1.00,360,360
-Emerald Block,emerald_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Emerald Ore,emerald_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Enchanted Book,enchanted_book,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Enchanted Golden Apple,enchanted_golden_apple,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Enchanted Golden Apple,enchanted_golden_apple,,,S,32,1200,,1200,,,,,,1200,,,,,1.00,1.00,3600,3600
-Enchanting Table,enchanting_table,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-End Crystal,end_crystal,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-End Portal Frame,end_portal_frame,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-End Rod,end_rod,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-End Stone,end_stone,,,E,1,4,,,,,4,4,,,,,,,1.00,1.00,12,12
-End Stone Brick Slab,end_stone_brick_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-End Stone Brick Stairs,end_stone_brick_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-End Stone Brick Wall,end_stone_brick_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-End Stone Bricks,end_stone_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Ender Chest,ender_chest,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Ender Pearl,ender_pearl,,,B,2,,,,,,40,60,,,,,,20,1.00,1.00,120,120
-Eye of Ender,ender_eye,,,B,2,,,,,30,30,45,,,,,,15,1.00,1.00,120,120
-Feather,feather,,,E,2,12,,,,,6,6,,,,,,,1.00,1.00,24,24
-Fermented Spider Eye,fermented_spider_eye,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Fern,fern,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Fire Charge,fire_charge,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Fire Coral Block,fire_coral_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Fire Corals,c:fire_corals,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Firework,firework_rocket,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Firework Star,firework_star,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Fishing Rod,fishing_rod,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Fletching Table,fletching_table,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Flint,flint,,,E,1,,,,,,6,,,,,6,,,1.00,1.00,12,12
-Flint and Steel,flint_and_steel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Flower Pot,flower_pot,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Furnace,furnace,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Ghast Tear,ghast_tear,,,B,2,,60,,,,,,,,,,,60,1.00,1.00,120,120
-Glass,c:glass,X,,F,1,,,,,,2,,,,2,,,,1.00,1.00,4,4
-Glass Bottle,glass_bottle,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Glass Panes,c:glass_panes,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Glistering Melon Slice,glistering_melon_slice,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Glow Berries,glow_berries,,,D,2,,,8,,,,,,12,4,,,,1.00,1.00,24,24
-Glow Ink Sac,glow_ink_sac,,,D,2,,,,,,,,12,12,,,12,,1.00,1.00,36,36
-Glow Lichen,glow_lichen,,,E,2,,,6,,,,,,6,,,6,,1.00,1.00,18,18
-Glowstone,glowstone,,,C,8,,,,,80,,,,160,80,,,,1.00,1.00,320,320
-Glowstone Dust,glowstone_dust,,,C,2,,,,,20,,,,40,20,,,,1.00,1.00,80,80
-Gold Block,gold_block,,,B,36,1080,,,,,,,,1080,,,,,1.00,1.00,2160,2160
-Gold Ingot,gold_ingot,,,B,4,120,,,,,,,,120,,,,,1.00,1.00,240,240
-Gold Nugget,gold_nugget,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Gold Ore,gold_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Apple,golden_apple,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Axe,golden_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Boots,golden_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Carrot,golden_carrot,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Chestplate,golden_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Helmet,golden_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Hoe,golden_hoe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Horse Armor,golden_horse_armor,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Leggings,golden_leggings,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Pickaxe,golden_pickaxe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Shovel,golden_shovel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Golden Sword,golden_sword,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Granite,granite,,,F,1,,,,2,,,,,,2,,,,1.00,0.50,4,4
-Granite Slab,granite_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Granite Slab, Polished",polished_granite_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Granite Stairs,grainite_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Granite Stairs, Polished",polished_granite_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Granite Wall,granite_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Granite, Polished",polished_granite,,,F,1,,,,2,,,,,,2,,,,1.00,1.00,4,4
-Grass,grass,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Grass Block,grass_block,,,F,1,,,4,,,2,,,,,,,,1.00,1.00,6,4
-Gravel,gravel,,,F,1,,,,,,2,,,,,2,,,1.00,1.00,4,4
-Grindstone,grindstone,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Gunpowder,gunpowder,,,D,2,,,,,16,16,,,,,16,,,1.00,1.00,48,48
-Hay Bale,hay_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Heart of the Sea,heart_of_the_sea,,,A,8,,,,,,,,360,,180,,,180,1.00,1.00,720,720
-Heavy Pressure Plate,heavy_weighted_pressure_plate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Honey Block,honey_block,,,E,4,,24,,,,,,,24,,,,,1.00,1.00,48,48
-Honey Bottle,honey_bottle,,,E,1,,6,,,,,,,6,,,,,1.00,1.00,12,12
-Honeycomb,honeycomb,,,E,1,,,,,,,,,6,,6,,,1.00,1.00,12,12
-Honeycomb Block,honeycomb_block,,,E,4,,,,,,,,,24,,24,,,1.00,1.00,48,48
-Hopper,hopper,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Horn Coral Block,horn_coral_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Horn Corals,c:horn_corals,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Ice,ice,,,F,1,,,,,,,,2,,2,,,,1.00,1.00,4,4
-Ink Sac,ink_sac,,,E,2,,,,,,,,12,,,12,,,1.00,1.00,24,24
-Iridium Ingot,c:iridium_ingots,X,,A,4,180,,,,,,,,,90,,,90,1.00,1.00,360,360
-Iron Axe,iron_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Bars,iron_bars,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Block,iron_block,,,C,36,720,,,720,,,,,,,,,,1.00,1.00,1440,1440
-Iron Boots,iron_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Chestplate,iron_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Door,iron_door,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Helmet,iron_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Hoe,iron_hoe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Horse Armor,iron_horse_armor,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Ingot,iron_ingot,,,C,4,80,,,80,,,,,,,,,,1.00,1.00,160,160
-Iron Leggings,iron_leggings,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Nugget,iron_nugget,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Ore,iron_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Pickaxe,iron_pickaxe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Shovel,iron_shovel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Sword,iron_sword,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Trapdoor,iron_trapdoor,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Iron Trapdoor,iron_trapdoor,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Item Frame,item_frame,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Jack o'Lantern,jack_o_lantern,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Jukebox,jukebox,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Kelp,kelp,,,E,1,,,6,,,,,6,,,,,,1.00,1.00,12,12
-Ladder,ladder,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lantern,lantern,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lapis Lazuli,lapis_lazuli,,,B,2,30,,,,,,,60,,,,,30,1.00,1.00,120,120
-Lapis Lazuli Block,lapis_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lapis Lazuli Ore,lapis_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Large Fern,large_fern,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lava Bucket,lava_bucket,,,D,1,,,,,24,,,,,,,,,1.00,1.00,24,24
-Lead,lead,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lead Ingot,c:lead_ingots,X,,C,4,80,,,,,80,,,,,,,,1.00,1.00,160,160
-Leather,leather,,,D,2,,,,24,,,,,,,24,,,1.00,1.00,48,48
-Leather Boots,leather_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Leather Cap,leather_cap,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Leather Horse Armor,leather_horse_armor,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Leather Pants,leather_pants,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Leather Tunic,leather_tunic,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Leaves,leaves,X,,E,1,,,12,,,,,,,,,,,1.00,1.00,12,12
-Lectern,lectern,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lever,lever,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Light Pressure Plate,light_weighted_pressure_plate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lilac,lilac,,,E,1,,,6,,6,,,,,,,,,1.00,1.00,12,12
-Lily of the Valley,lily_of_the_valley,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Lily Pad,lily_pad,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Logs,logs,X,,E,4,,,32,,,,,,,,16,,,1.00,1.00,48,48
-Loom,loom,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Magma Block,magma_block,,,D,4,,,,,32,32,,32,,,,,,1.00,1.00,96,96
-Magma Cream,magma_cream,,,D,1,,,,,8,8,,8,,,,,,1.00,1.00,24,24
-Map,map,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Melon,melon,,,E,4,,16,32,,,,,,,,,,,1.00,1.00,48,48
-Melon Seeds,melon_seeds,,,E,1,,2,4,,,,,,,,,,,0.50,1.00,6,12
-Melon Slice,melon_slice,,,E,1,,2,4,,,,,,,,,,,0.50,1.00,6,12
-Milk Bucket,milk_bucket,,,E,1,,4,4,,,,,4,,,,,,1.00,1.00,12,12
-Minecart,minecart,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Minecart with Chest,chest_minecart,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Minecart with Furnace,furnace_minecart,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Minecart with Hopper,hopper_minecart,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Minecart with TNT,tnt_minecart,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Moss,moss,,,F,1,,,2,,,,,,,,,,,1.00,1.00,2,2
-Mushroom Stem,mushroom_stem,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Music Discs,music_discs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Mutton, Cooked",cooked_mutton,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Mutton, Raw",mutton,,,E,2,,,,24,,,,,,,,,,1.00,1.00,24,24
-Mycelium,mycelium,,,,,,1,2,,,2,,,,,,1,,1.00,1.00,6,0
-Name Tag,name_tag,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nautilus Shell,nautilus_shell,,,A,2,,,,,,90,30,60,,,,,,1.00,1.00,180,180
-Nether Brick,nether brick,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Brick Fence,nether_brick_fence,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Brick Slab,nether_brick_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Brick Stairs,nether_brick_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Brick Wall,nether_brick_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Bricks,nether_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Gold Ore,nether_gold_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Quartz Ore,nether_quartz_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Nether Sprouts,nether_sprouts,,,D,2,,,12,,,,24,,,,,12,,1.00,1.00,48,48
-Nether Star,nether_star,,,S,32,,,,,,,,,1280,1280,,,1280,1.00,1.00,3840,3840
-Nether Wart,nether_wart,,,D,2,,,12,24,,,,,,,,12,,1.00,1.00,48,48
-Nether Wart Block,nether_wart_block,,,E,4,,,12,24,,,,,,,,12,,1.00,1.00,48,48
-Netherite Axe,netherite_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Block,netherite_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Boots,netherite_boots,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Chestplate,netherite_chestplate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Helmet,netherite_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Hoe,netherite_hoe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Ingot,netherite_ingot,,,S,16,960,,,,,,,,480,,,480,480,1.00,0.80,2400,1920
-Netherite Leggings,netherite_leggings,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Pickaxe,netherite_pickaxe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Scrap,netherite_scrap,,,S,4,240,,,,,,,,,,,120,120,1.00,1.00,480,480
-Netherite Shovel,netherite_shovel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherite Sword,netherite_sword,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Netherrack,netherrack,,,F,1,2,,,,2,,,,,,,2,,1.00,1.00,6,4
-Nickel Ingot,c:nickel_ingots,X,,B,4,120,,,60,,,60,,,,,,,1.00,1.00,240,240
-Note Block,note_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Observer,observer,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Obsidian,obsidian,,,D,4,,,,,32,,,32,,,32,,,1.00,1.00,96,96
-Orange Tulip,orange_tulip,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Osmium Ingot,c:osmium_ingots,X,,B,4,120,,,,,,,,,,60,,60,1.00,1.00,240,240
-Oxeye Daisy,oxeye_daisy,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Packed Ice,packed_ice,,,E,1,,,,,,,,6,,6,,,,1.00,1.00,12,12
-Painting,painting,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Palladium Ingot,c:palladium_ingots,X,,A,4,180,90,,,,,,,,,,,90,1.00,1.00,360,360
-Paper,paper,,,E,1,,,8,,,,,4,,,,,,1.00,0.67,12,12
-Peony,peony,,,E,1,6,,6,,,,,,,,,,,1.00,1.00,12,12
-Peridot,c:peridots,X,,B,4,,,,,,120,,,,120,,,,1.00,1.00,240,240
-Phantom Membrane,phantom_membrane,,,B,2,,,,,,,40,,40,40,,,,1.00,1.00,120,120
-Pink Tulip,pink_tulip,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Piston,piston,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Piston, Sticky",sticky_piston,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Planks,planks,X,,E,1,,,8,,,,,,,,4,,,1.00,1.00,12,12
-Platinum Ingot,c:platinum_ingots,X,,A,4,180,,,,,,,,,,,,180,1.00,1.00,360,360
-Plutonium Ingot,c:plutonium_ingots,X,,A,4,180,,,,,,,90,,,,90,,1.00,1.00,360,360
-Podzol,podzol,,,F,1,,,2,,,2,,,,,2,,,1.00,1.00,6,4
-Poisonous Potato,poisonous_potato,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Popped Chorus Fruit,popped_chorus_fruit,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Poppy,poppy,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Porkchop, Cooked",cooked_porkchop,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Porkchop, Raw",porkchop,,,E,2,,,,24,,,,,,,,,,1.00,1.00,24,24
-Potato,potato,,,E,2,,,16,,,,,,,,8,,,1.00,1.00,24,24
-Potions / Water Bottle,potion,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Powered Rail,powered_rail,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Prismarine,prismarine,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Prismarine Brick Slab,prismarine_brick_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Prismarine Brick Stairs,prismarine_brick_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Prismarine Bricks,prismarine_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Prismarine Crystals,prismarine_crystals,,,C,2,,,,,,,20,40,,20,,,,1.00,1.00,80,80
-Prismarine Shard,prismarine_shard,,,C,2,,,,,,20,20,40,,,,,,1.00,1.00,80,80
-Prismarine Slab,prismarine_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Prismarine Stairs,prismarine_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Prismarine Wall,prismarine_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Pufferfish,pufferfish,,,E,2,,,,6,,,,12,6,,,,,1.00,1.00,24,24
-Pufferfish Bucket,pufferfish_bucket,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Pumpkin,pumpkin,,,E,4,,,32,,,,,,16,,,,,1.00,1.00,48,48
-Pumpkin Pie,pumpkin_pie,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Pumpkin Seeds,pumpkin_seeds,,,E,1,,,4,,,,,,2,,,,,0.50,1.00,6,12
-"Pumpkin, Carved",carved_pumpkin,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Quartz,quartz,,,C,2,,,,,,20,,,,40,,20,,1.00,1.00,80,80
-Quartz Block,quartz_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Quartz Block, Chiseled ",chiseled_quartz_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Quartz Block, Smooth",smooth_quartz,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Quartz Pillar,quartz_pillar,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Quartz Slab,quartz_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Quartz Slab, Smooth",smooth_quartz_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Quartz Stairs,quartz_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Quartz Stairs, Smooth",smooth_quartz_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Rabbit Foot,rabbit_foot,,,B,1,,,,20,,,,,20,,,,20,1.00,1.00,60,60
-Rabbit Hide,rabbit_hide,,,D,1,,,,12,,,,,,,12,,,1.00,1.00,24,24
-Rabbit Stew,rabbit_stew,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Rabbit, Cooked",cooked_rabbit,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Rabbit, Raw",rabbit,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Rail,rail,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Mushroom,red_mushroom,,,E,1,,4,,,4,,,,,,,4,,1.00,1.00,12,12
-Red Mushroom Block,red_mushroom_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Nether Brick Slab,red_nether_brick_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Nether Brick Stairs,red_nether_brick_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Nether Brick Wall,red_nether_brick_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Nether Bricks,red_nether_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Sand,red_sand,,,F,1,,,,2,,2,,,,,,,,1.00,0.50,4,4
-Red Sandstone,red_sandstone,,,F,4,,,,8,,8,,,,,,,,1.00,0.50,16,16
-Red Sandstone Slab,red_sandstone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Red Sandstone Slab, Cut",cut_red_sandstone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Red Sandstone Slab, Smooth",smooth_red_sandstone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Sandstone Stairs,red_sandstone_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Red Sandstone Stairs, Smooth",smooth_red_sandstone_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Sandstone Wall,red_sandstone_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Red Sandstone, Chiseled ",chiseled_red_sandstone,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Red Sandstone, Cut",cut_red_sandstone,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Red Sandstone, Smooth",smooth_red_sandstone,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Red Tulip,red_tulip,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Redstone,redstone,,,C,2,20,40,,,,20,,,,,,,,1.00,1.00,80,80
-Redstone Block,redstone_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Redstone Comparator,comparator,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Redstone Lamp,redstone_lamp,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Redstone Ore,redstone_ore,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Redstone Torch,redstone_torch,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Respawn Anchor,respawn_anchor,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Rose Bush,rose_bush,,,E,1,,6,6,,,,,,,,,,,1.00,1.00,12,12
-Rotten Flesh,rotten_flesh,,,F,2,,,,4,,,,,,,,4,,1.00,1.00,8,8
-Ruby,c:rubies,X,,B,4,,,,120,,,,,,120,,,,1.00,1.00,240,240
-Saddle,saddle,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Salmon Bucket,salmon_bucket,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Salmon, Cooked",cooked_salmon,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Salmon, Raw",salmon,,,E,2,,,,12,,,,12,,,,,,1.00,1.00,24,24
-Sand,sand,,,F,1,,,,,,2,,,2,,,,,1.00,0.50,4,4
-Sandstone,sandstone,,,F,4,,,,,,8,,,8,,,,,1.00,0.50,16,16
-Sandstone Slab,sandstone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Sandstone Slab, Cut",cut_sandstone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Sandstone Slab, Smooth",smooth_sandstone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Sandstone Stairs,sandstone_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Sandstone Stairs, Smooth",smooth_sandstone_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Sandstone Wall,sandstone_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Sandstone, Chiseled ",chiseled_sandstone,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Sandstone, Cut",cut_sandstone,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Sandstone, Smooth",smooth_sandstone,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Saplings,saplings,X,,E,1,,,12,,,,,,,,,,,1.00,1.00,12,12
-Sapphire,c:sapphires,X,,B,4,,,,,,,,120,,120,,,,1.00,1.00,240,240
-Scaffolding,scaffolding,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Scute,scute,,,C,2,,,,,,20,,40,,,20,,,1.00,1.00,80,80
-Sea Lantern,sea_lantern,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Sea Pickle,sea_pickle,,,E,1,,4,4,,,,,4,,,,,,1.00,1.00,12,12
-Seagrass,seagrass,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Shears,shears,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Shield,shield,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Shroomlight,shroomlight,,,D,2,12,,,,12,,,,12,,,,,1.00,1.00,36,48
-Shulker Box,shulker_box,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Shulker Shell,shulker_shell,,,B,2,40,,,,,40,40,,,,,,,1.00,1.00,120,120
-Signs,signs,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Silver Ingot,c:silver_ingots,X,,B,4,120,,,,,,,,,120,,,,1.00,1.00,240,240
-Skeleton Skull,skeleton_skull,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Slime Block,slime_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Slimeball,slime_ball,,,C,1,,,,,,20,,20,,,,,,1.00,1.00,40,40
-Smithing Table,smithing_table,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Smoker,smoker,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Snow,snow,,,F,1,,,,,,,,3,,1,,,,1.00,1.00,4,4
-Snow Block,snow_block,,,F,4,,,,,,,,6,,2,,,,1.00,1.00,8,16
-Snowball,snowball,,,F,1,,,,,,,,3,,1,,,,0.50,0.50,4,4
-Soul Fire Lantern,soul_fire_lantern,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Soul Fire Torch,soul_fire_torch,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Soul Sand,soul_sand,,,E,1,,,,,,3,,,,,3,6,,1.00,1.00,12,12
-Soul Soil,soul_soil,,,E,1,,,,,,3,,3,,,,6,,1.00,1.00,12,12
-Spectral Arrow,spectral_arrow,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Spider Eye,spider_eye,,,F,2,4,,,,,,,,,,,4,,1.00,1.00,8,8
-Sponge,sponge,,,C,4,,,80,,,,,40,40,,,,,1.00,1.00,160,160
-Stick,stick,,,E,1,,4,,,,,,,,,2,,,0.50,1.00,6,12
-Stone,stone,,,F,1,2,,,,,2,,,,,,,,1.00,0.50,4,4
-Stone Axe,stone_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Brick Slab,stone_brick_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone Brick Slab, Mossy",mossy_stone_brick_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Brick Stairs,stone_brick_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone Brick Stairs, Mossy",mossy_stone_brick_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Brick Wall,stone_brick_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone Brick Wall, Mossy",mossy_stone_brick_wall,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Bricks,stone_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone Bricks, Chiseled ",chiseled_stone_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone Bricks, Cracked",cracked_stone_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone Bricks, Mossy",mossy_stone_bricks,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Button,stone_button,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Hoe,stone_hoe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Pickaxe,stone_pickaxe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Pressure Plate,stone_pressure_plate,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Shovel,stone_shovel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Slab,stone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone Slab, Smooth",smooth_stone_slab,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Stairs,stone_stairs,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Stone Sword,stone_sword,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-"Stone, Smooth",smooth_stone,,,F,1,2,,,,,2,,,,,,,,1.00,1.00,4,4
-Stonecutter,stonecutter,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-String,string,,,E,1,6,,,,3,,3,,,,,,,1.00,1.00,12,12
-Sugar,sugar,,,E,1,,8,4,,,,,,,,,,,1.00,0.67,12,12
-Sugar Cane,sugar_cane,,,E,1,,4,4,,,,,4,,,,,,1.00,1.00,12,12
-Sunflower,sunflower,,,E,1,,,6,,,,,,6,,,,,1.00,1.00,12,12
-Suspicious Stew,suspicious_stew,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Sweet Berries,sweet_berries,,,E,1,,,8,,,,,,,4,,,,1.00,1.00,12,12
-Target,target,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Terracotta,terracotta,,,F,1,,,,,,2,,1,,,1,,,1.00,1.00,4,4
-Thorium Ingot,c:thorium_ingots,X,,A,4,180,90,,,,,,,,,,90,,1.00,1.00,360,360
-Tin Ingot,c:tin_ingots,X,,C,4,80,,,,80,,,,,,,,,1.00,1.00,160,160
-Tipped Arrow,tipped_arrow,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Titanium Ingot,c:titanium_ingots,X,,B,4,120,,,,,60,,,,,60,,,1.00,1.00,240,240
-TNT,tnt,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Topaz,c:topazes,X,,B,4,,120,,,120,,,,,,,,,1.00,1.00,240,240
-Torch,torch,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Totem of Undying,totem_of_undying,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Trapped Chest,trapped_chest,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Trident,trident,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Tripwire Hook,tripwire_hook,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Tropical Fish,tropical_fish,,,E,2,,,,12,,,,12,,,,,,1.00,1.00,24,24
-Tropical Fish Bucket,tropical_fish_bucket,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Tube Coral Block,tube_coral_block,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Tube Corals,c:tube_corals,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Tuff,tuff,,,E,2,12,,,,,,,,,,4,,,1.00,1.00,16,16
-Tungsten Ingot,c:tungsten_ingots,X,,B,4,120,,,,60,,,,,,60,,,1.00,1.00,240,240
-Turtle Egg,turtle_egg,,,D,2,,16,,,,16,,16,,,,,,1.00,1.00,48,48
-Turtle Shell,turtle_helmet,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Twisting Vines,twisting_vines,,,E,1,,,6,,,,6,,,,,,,1.00,1.00,12,12
-Uranium Ingot,c:uranium_ingots,X,,A,4,180,,,,,,90,,,,,90,,1.00,1.00,360,360
-Vines,vine,,,E,1,,,12,,,,,,,,,,,1.00,1.00,12,12
-Warped Fungus,warped_fungus,,,E,1,4,,,,,,4,,4,,,,,1.00,1.00,12,12
-Warped Nylium,warped_nylium,,,F,1,2,,,,2,,2,,,,,2,,1.00,1.00,8,4
-Warped Roots,warped_roots,,,E,1,,,4,,,,4,,,,,4,,1.00,1.00,12,12
-Warped Wart Block,warped_wart_block,,,E,4,,,12,,,,24,,,,,12,,1.00,1.00,48,48
-Water Bucket,water_bucket,,,F,1,,,,,,,,4,,,,,,1.00,0.50,4,4
-Weeping Vines,weeping_vines,,,E,1,,,6,6,,,,,,,,,,1.00,1.00,12,12
-Wheat,wheat,,,E,2,,,24,,,,,,,,,,,1.00,1.00,24,24
-Wheat Seeds,wheat_seeds,,,E,1,,,6,,,,,,,,,,,0.50,1.00,6,12
-White Tulip,white_tulip,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wither Rose,wither_rose,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wither Skeleton Skull,wither_skeleton_skull,,,A,4,,,,,90,90,,,,,90,90,,1.00,1.00,360,360
-Wooden Axe,wooden_axe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Buttons,wooden_buttons,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Doors,wooden_doors,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Fence Gates,c:wooden_fence_gates,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Fences,wooden_fences,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Hoe,wooden_hoe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Pickaxe,wooden_pickaxe,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Pressure Plates,wooden_pressure_plates,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Shovel,wooden_shovel,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Sword,wooden_sword,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wooden Trapdoors,wooden_trapdoors,X,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Wool,wool,X,,E,4,24,,12,,,,12,,,,,,,1.00,1.00,48,48
-Written Book,written_book,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
-Zinc Ingot,c:zinc_ingots,X,,C,4,80,,80,,,,,,,,,,,1.00,1.00,160,160
-Zombie Head,zombie_head,,,,,,,,,,,,,,,,,,1.00,1.00,0,0
+Activator Rail,activator_rail,,,,,,,,,,,,,,,,,,1,1,0,0
+Allium,allium,,,,,,,,,,,,,,,,,,1,1,0,0
+Aluminum Ingot,c:aluminum_ingots,X,,C,4,80,,,,,,80,,,,,,,1,1,160,160
+Amethyst,c:amethysts,X,,B,4,,12,,,,,,,,12,,,,1,1,24,24
+Amethyst Block,amethyst_block,,,B,16,,48,,,,,,,,48,,,,1,1,96,96
+Ancient Debris,ancient_debris,,,,,,,,,,,,,,,,,,1,1,0,0
+Andesite,andesite,,,F,1,2,,,,,,,,,,2,,,1,0.5,4,4
+Andesite Slab,andesite_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Andesite Slab, Polished",polished_andesite_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Andesite Stairs,andesite_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Andesite Stairs, Polished",polished_andesite_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Andesite Wall,andesite_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Andesite, Polished",polished_andesite,,,F,1,2,,,,,,,,,,2,,,1,1,4,4
+Anvil,anvil,,,,,,,,,,,,,,,,,,1,1,0,0
+Apple,apple,,,E,2,,12,12,,,,,,,,,,,1,1,24,24
+Armor Stand,armor_stand,,,,,,,,,,,,,,,,,,1,1,0,0
+Arrow,arrow,,,,,,,,,,,,,,,,,,1,1,0,0
+Azure Bluet,azure_bluet,,,,,,,,,,,,,,,,,,1,1,0,0
+Baked Potato,baked_potato,,,,,,,,,,,,,,,,,,1,1,0,0
+Bamboo,bamboo,,,E,1,,,12,,,,,,,,,,,1,1,12,12
+Banner Patterns,c:banner_patterns,X,,,,,,,,,,,,,,,,,1,1,0,0
+Banners,banners,,,,,,,,,,,,,,,,,,1,1,0,0
+Barrel,barrel,,,,,,,,,,,,,,,,,,1,1,0,0
+Basalt,basalt,,,E,1,4,,,,,,,,,,4,4,,1,1,12,12
+"Basalt, Polished",polished_basalt,,,E,1,4,,,,,,,,,,4,4,,1,1,12,12
+Beacon,beacon,,,,,,,,,,,,,,,,,,1,1,0,0
+Beds,beds,X,,,,,,,,,,,,,,,,,1,1,0,0
+Bee Nest,bee_nest,,,,,,,,,,,,,,,,,,1,1,0,0
+"Beef, Cooked (Steak)",cooked_beef,,,,,,,,,,,,,,,,,,1,1,0,0
+"Beef, Raw",beef,,,E,2,,,,24,,,,,,,,,,1,1,24,24
+Beehive,beehive,,,,,,,,,,,,,,,,,,1,1,0,0
+Beetroot,beetroot,,,E,2,,,16,8,,,,,,,,,,1,1,24,24
+Beetroot Seeds,beetroot_seeds,,,E,1,,,4,2,,,,,,,,,,0.5,1,6,12
+Beetroot Soup,beetroot_soup,,,,,,,,,,,,,,,,,,1,1,0,0
+Bell,bell,,,B,12,360,,,,,,,,360,,,,,1,1,720,720
+Blackstone,blackstone,,,F,1,2,,,,,,,,,,2,2,,1,1,6,4
+Blast Furnace,blast_furnace,,,,,,,,,,,,,,,,,,1,1,0,0
+Blaze Powder,blaze_powder,,,C,1,,,,,20,,,,,,,20,,1,1,40,40
+Blaze Rod,blaze_rod,,,C,4,,,,,80,,,,,,,80,,1,1,160,160
+Blue Ice,blue_ice,,,D,1,,,,,,,,12,,12,,,,1,1,24,24
+Blue Orchid,blue_orchid,,,,,,,,,,,,,,,,,,1,1,0,0
+Boats,boats,X,,,,,,,,,,,,,,,,,1,1,0,0
+Bone,bone,,,E,4,,16,,,,24,,,,,,,,1,1,40,48
+Bone Block,bone_block,,,E,9,,36,,,,72,,,,,,,,1,1,108,108
+Bone Meal,bone_meal,,,E,1,,4,,,,8,,,,,,,,1,1,12,12
+Book,book,,,,,,,,,,,,,,,,,,1,1,0,0
+Book and Quill,writable_book,,,,,,,,,,,,,,,,,,1,1,0,0
+Bookshelf,bookshelf,,,,,,,,,,,,,,,,,,1,1,0,0
+Bow,bow,,,,,,,,,,,,,,,,,,1,1,0,0
+Bowl,bowl,,,,,,,,,,,,,,,,,,1,1,0,0
+Brain Coral Block,brain_coral_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Brain Corals,c:brain_corals,X,,,,,,,,,,,,,,,,,1,1,0,0
+Bread,bread,,,,,,,,,,,,,,,,,,1,1,0,0
+Brewing Stand,brewing_stand,,,,,,,,,,,,,,,,,,1,1,0,0
+Brick,brick,,,D,1,,,,,,16,,,,,8,,,1,1,24,24
+Brick Slab,brick_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Brick Stairs,brick_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Brick Wall,brick_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+Bricks,bricks,,,D,4,,,,,,64,,,,,32,,,1,1,96,96
+Brown Mushroom,brown_mushroom,,,,,,4,,,,,,,,,4,4,,1,1,12,0
+Brown Mushroom Block,brown_mushroom_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Bubble Coral Block,bubble_coral_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Bubble Corals,c:bubble_corals,X,,,,,,,,,,,,,,,,,1,1,0,0
+Bucket,bucket,,,,,,,,,,,,,,,,,,1,1,0,0
+Cactus,cactus,,,E,4,,8,32,,,,,8,,,,,,1,1,48,48
+Cake,cake,,,,,,,,,,,,,,,,,,1,1,0,0
+Campfire,campfire,,,,,,,,,,,,,,,,,,1,1,0,0
+Carpets,carpets,X,,,,,,,,,,,,,,,,,1,1,0,0
+Carrot,carrot,,,E,2,,,16,,8,,,,,,,,,1,1,24,24
+Carrot on a Stick,carrot_on_a_stick,,,,,,,,,,,,,,,,,,1,1,0,0
+Cartography Table,cartography_table,,,,,,,,,,,,,,,,,,1,1,0,0
+Cauldron,cauldron,,,,,,,,,,,,,,,,,,1,1,0,0
+Chainmail Boots,chainmail_boots,,,,,,,,,,,,,,,,,,1,1,0,0
+Chainmail Chestplate,chainmail_chestplate,,,,,,,,,,,,,,,,,,1,1,0,0
+Chainmail Helmet,chainmail_helmet,,,,,,,,,,,,,,,,,,1,1,0,0
+Chainmail Leggings,chainmail_leggings,,,,,,,,,,,,,,,,,,1,1,0,0
+Charcoal,charcoal,,,E,2,,,,,,,,,,,24,,,1,1,24,24
+Chest,chest,,,,,,,,,,,,,,,,,,1,1,0,0
+"Chicken, Cooked",cooked_chicken,,,,,,,,,,,,,,,,,,1,1,0,0
+"Chicken, Raw",chicken,,,E,2,,,,24,,,,,,,,,,1,1,24,24
+Chorus Flower,chorus_flower,,,C,4,80,,,,,,40,,,,,,40,1,1,160,160
+Chorus Fruit,chorus_fruit,,,C,2,40,,,,,,20,,,,,,20,1,1,80,80
+Clay,clay,,,D,4,,,,,,64,,32,,,,,,1,1,96,96
+Clay Ball,clay_ball,,,D,1,,,,,,16,,8,,,,,,1,1,24,24
+Clock,clock,,,,,,,,,,,,,,,,,,1,1,0,0
+Coal,coal,,,D,2,,,,,16,,,,,,32,,,1,1,48,48
+Coal Block,coal_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Coal Ore,coal_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Coarse Dirt,coarse_dirt,,,F,1,,,1,,,2,,,,,1,,,1,1,4,4
+Cobalt Ingot,c:cobalt_ingots,X,,B,4,120,,,60,,,,60,,,,,,1,1,240,240
+Cobblestone,cobblestone,,,F,1,2,,,,,2,,,,,,,,0.5,0.5,4,4
+Cobblestone Slab,cobblestone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Cobblestone Slab, Mossy",mossy_cobblestone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Cobblestone Stairs,cobblestone_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Cobblestone Stairs, Mossy",mossy_cobblestone_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Cobblestone Wall,cobblestone_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Cobblestone Wall, Mossy",mossy_cobblestone_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Cobblestone, Mossy",mossy_cobblestone,,,F,1,2,,2,,,2,,,,,,,,1,1,6,4
+Cobweb,cobweb,,,E,9,54,,,,27,,27,,,,,,,1,1,108,108
+Cocoa Beans,cocoa_beans,,,E,2,,6,12,,,,,,,,6,,,1,1,24,24
+Cod Bucket,cod_bucket,,,,,,,,,,,,,,,,,,1,1,0,0
+"Cod, Cooked",cooked_cod,,,,,,,,,,,,,,,,,,1,1,0,0
+"Cod, Raw",cod,,,E,2,,,,12,,,,12,,,,,,1,1,24,24
+Compass,compass,,,,,,,,,,,,,,,,,,1,1,0,0
+Composter,composter,,,,,,,,,,,,,,,,,,1,1,0,0
+Concrete,c:concrete,X,,F,1,,,,,,2,,,,1,1,,,1,1,4,4
+Concrete Powder,c:concrete_powders,X,,F,1,,,,,,2,,,,1,1,,,1,1,4,4
+Conduit,conduit,,,,,,,,,,,,,,,,,,1,1,0,0
+Cookie,cookie,,,,,,,,,,,,,,,,,,1,1,0,0
+Copper Ingot,c:copper_ingots,X,,C,4,80,80,,,,,,,,,,,,1,1,160,160
+Cornflower,cornflower,,,,,,,,,,,,,,,,,,1,1,0,0
+Crafting Table,crafting_table,,,,,,,,,,,,,,,,,,1,1,0,0
+Creeper Head,creeper_head,,,,,,,,,,,,,,,,,,1,1,0,0
+Crimson Fungus,crimson_fungus,,,E,1,4,,,4,,,,,4,,,,,1,1,12,12
+Crimson Nylium,crimson_nylium,,,F,1,2,,,2,2,,,,,,,2,,1,1,8,4
+Crimson Roots,crimson_roots,,,E,1,,,4,4,,,,,,,,4,,1,1,12,12
+Crossbow,crossbow,,,,,,,,,,,,,,,,,,1,1,0,0
+Crying Obsidian,crying_obsidian,,,,,,,,,,,,,,,,,,1,1,0,0
+Dandelion,dandelion,,,,,,,,,,,,,,,,,,1,1,0,0
+Dark Prismarine,dark_prismarine,,,,,,,,,,,,,,,,,,1,1,0,0
+Dark Prismarine Slab,dark_prismarine_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Dark Prismarine Stairs,dark_prismarine_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Daylight Detector,daylight_detector,,,,,,,,,,,,,,,,,,1,1,0,0
+Dead Bush,dead_bush,,,,,,,,,,,,,,,,,,1,1,0,0
+Dead Coral Blocks,c:dead_coral_blocks,X,,,,,,,,,,,,,,,,,1,1,0,0
+Dead Corals,c:dead_corals,X,,,,,,,,,,,,,,,,,1,1,0,0
+Detector Rail,detector_rail,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond,diamond,,,A,4,,,,,,,,,,240,120,,,1,1,360,360
+Diamond Axe,diamond_axe,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Block,diamond_block,,,A,36,,,,,,,,,,2160,1080,,,1,1,3240,3240
+Diamond Boots,diamond_boots,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Chestplate,diamond_chestplate,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Helmet,diamond_helmet,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Hoe,diamond_hoe,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Horse Armor,diamond_horse_armor,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Leggings,diamond_leggings,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Ore,diamond_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Pickaxe,diamond_pickaxe,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Shovel,diamond_shovel,,,,,,,,,,,,,,,,,,1,1,0,0
+Diamond Sword,diamond_sword,,,,,,,,,,,,,,,,,,1,1,0,0
+Diorite,diorite,,,F,1,2,,,,,,,,,2,,,,1,0.5,4,4
+Diorite Slab,diorite_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Diorite Slab, Polished",polished_diorite_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Diorite Stairs, Polished",polished_diorite_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Diorite Wall,diorite_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Diorite, Polished",polished_diorite,,,F,1,2,,,,,,,,,2,,,,1,1,4,4
+Dirt,dirt,,,F,1,,,2,,,2,,,,,,,,1,1,4,4
+Dispenser,dispenser,,,,,,,,,,,,,,,,,,1,1,0,0
+Dragon Egg,dragon_egg,,,,,,,,,,,,,,,,,,1,1,0,0
+Dragon Egg,dragon_egg,,,S,64,,,,,,,,,,,,1000,4000,1,1,5000,5000
+Dragon Head,dragon_head,,,,,,,,,,,,,,,,,,1,1,0,0
+Dragon's Breath,dragon_breath,,,,,,,,,,,,,,,,,,1,1,0,0
+Dried Kelp,dried_kelp,,,,,,,,,,,,,,,,,,1,1,0,0
+Dried Kelp Block,dried_kelp_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Dropper,dropper,,,,,,,,,,,,,,,,,,1,1,0,0
+Dyes,c:dyes,X,,,,,,,,,,,,,,,,,1,1,0,0
+Egg,egg,,,E,2,,12,,,,12,,,,,,,,1,1,24,24
+Elytra,elytra,,,,,,,,,,,,,,,,,,1,1,0,0
+Elytra,elytra,,,S,24,,800,,,,,800,,,,,800,800,1,1,3200,3200
+Emerald,emerald,,,A,4,,,120,,,,,,,240,,,,1,1,360,360
+Emerald Block,emerald_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Emerald Ore,emerald_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Enchanted Book,enchanted_book,,,,,,,,,,,,,,,,,,1,1,0,0
+Enchanted Golden Apple,enchanted_golden_apple,,,,,,,,,,,,,,,,,,1,1,0,0
+Enchanted Golden Apple,enchanted_golden_apple,,,S,32,1200,,1200,,,,,,1200,,,,,1,1,3600,3600
+Enchanting Table,enchanting_table,,,,,,,,,,,,,,,,,,1,1,0,0
+End Crystal,end_crystal,,,,,,,,,,,,,,,,,,1,1,0,0
+End Portal Frame,end_portal_frame,,,,,,,,,,,,,,,,,,1,1,0,0
+End Rod,end_rod,,,,,,,,,,,,,,,,,,1,1,0,0
+End Stone,end_stone,,,E,1,4,,,,,4,4,,,,,,,1,1,12,12
+End Stone Brick Slab,end_stone_brick_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+End Stone Brick Stairs,end_stone_brick_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+End Stone Brick Wall,end_stone_brick_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+End Stone Bricks,end_stone_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+Ender Chest,ender_chest,,,,,,,,,,,,,,,,,,1,1,0,0
+Ender Pearl,ender_pearl,,,B,2,,,,,,40,60,,,,,,20,1,1,120,120
+Eye of Ender,ender_eye,,,B,2,,,,,30,30,45,,,,,,15,1,1,120,120
+Feather,feather,,,E,2,12,,,,,6,6,,,,,,,1,1,24,24
+Fermented Spider Eye,fermented_spider_eye,,,,,,,,,,,,,,,,,,1,1,0,0
+Fern,fern,,,,,,,,,,,,,,,,,,1,1,0,0
+Fire Charge,fire_charge,,,,,,,,,,,,,,,,,,1,1,0,0
+Fire Coral Block,fire_coral_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Fire Corals,c:fire_corals,X,,,,,,,,,,,,,,,,,1,1,0,0
+Firework,firework_rocket,,,,,,,,,,,,,,,,,,1,1,0,0
+Firework Star,firework_star,,,,,,,,,,,,,,,,,,1,1,0,0
+Fishing Rod,fishing_rod,,,,,,,,,,,,,,,,,,1,1,0,0
+Fletching Table,fletching_table,,,,,,,,,,,,,,,,,,1,1,0,0
+Flint,flint,,,E,1,,,,,,6,,,,,6,,,1,1,12,12
+Flint and Steel,flint_and_steel,,,,,,,,,,,,,,,,,,1,1,0,0
+Flower Pot,flower_pot,,,,,,,,,,,,,,,,,,1,1,0,0
+Furnace,furnace,,,,,,,,,,,,,,,,,,1,1,0,0
+Ghast Tear,ghast_tear,,,B,2,,60,,,,,,,,,,,60,1,1,120,120
+Glass,c:glass,X,,F,1,,,,,,2,,,,2,,,,1,1,4,4
+Glass Bottle,glass_bottle,,,,,,,,,,,,,,,,,,1,1,0,0
+Glass Panes,c:glass_panes,X,,,,,,,,,,,,,,,,,1,1,0,0
+Glistering Melon Slice,glistering_melon_slice,,,,,,,,,,,,,,,,,,1,1,0,0
+Glow Berries,glow_berries,,,D,2,,,8,,,,,,12,4,,,,1,1,24,24
+Glow Ink Sac,glow_ink_sac,,,D,2,,,,,,,,12,12,,,12,,1,1,36,36
+Glow Lichen,glow_lichen,,,E,2,,,6,,,,,,6,,,6,,1,1,18,18
+Glowstone,glowstone,,,C,8,,,,,80,,,,160,80,,,,1,1,320,320
+Glowstone Dust,glowstone_dust,,,C,2,,,,,20,,,,40,20,,,,1,1,80,80
+Gold Block,gold_block,,,B,36,1080,,,,,,,,1080,,,,,1,1,2160,2160
+Gold Ingot,gold_ingot,,,B,4,120,,,,,,,,120,,,,,1,1,240,240
+Gold Nugget,gold_nugget,,,,,,,,,,,,,,,,,,1,1,0,0
+Gold Ore,gold_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Apple,golden_apple,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Axe,golden_axe,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Boots,golden_boots,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Carrot,golden_carrot,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Chestplate,golden_chestplate,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Helmet,golden_helmet,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Hoe,golden_hoe,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Horse Armor,golden_horse_armor,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Leggings,golden_leggings,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Pickaxe,golden_pickaxe,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Shovel,golden_shovel,,,,,,,,,,,,,,,,,,1,1,0,0
+Golden Sword,golden_sword,,,,,,,,,,,,,,,,,,1,1,0,0
+Granite,granite,,,F,1,,,,2,,,,,,2,,,,1,0.5,4,4
+Granite Slab,granite_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Granite Slab, Polished",polished_granite_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Granite Stairs,grainite_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Granite Stairs, Polished",polished_granite_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Granite Wall,granite_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Granite, Polished",polished_granite,,,F,1,,,,2,,,,,,2,,,,1,1,4,4
+Grass,grass,,,,,,,,,,,,,,,,,,1,1,0,0
+Grass Block,grass_block,,,F,1,,,4,,,2,,,,,,,,1,1,6,4
+Gravel,gravel,,,F,1,,,,,,2,,,,,2,,,1,1,4,4
+Grindstone,grindstone,,,,,,,,,,,,,,,,,,1,1,0,0
+Gunpowder,gunpowder,,,D,2,,,,,16,16,,,,,16,,,1,1,48,48
+Hay Bale,hay_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Heart of the Sea,heart_of_the_sea,,,A,8,,,,,,,,360,,180,,,180,1,1,720,720
+Heavy Pressure Plate,heavy_weighted_pressure_plate,,,,,,,,,,,,,,,,,,1,1,0,0
+Honey Block,honey_block,,,E,4,,24,,,,,,,24,,,,,1,1,48,48
+Honey Bottle,honey_bottle,,,E,1,,6,,,,,,,6,,,,,1,1,12,12
+Honeycomb,honeycomb,,,E,1,,,,,,,,,6,,6,,,1,1,12,12
+Honeycomb Block,honeycomb_block,,,E,4,,,,,,,,,24,,24,,,1,1,48,48
+Hopper,hopper,,,,,,,,,,,,,,,,,,1,1,0,0
+Horn Coral Block,horn_coral_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Horn Corals,c:horn_corals,X,,,,,,,,,,,,,,,,,1,1,0,0
+Ice,ice,,,F,1,,,,,,,,2,,2,,,,1,1,4,4
+Ink Sac,ink_sac,,,E,2,,,,,,,,12,,,12,,,1,1,24,24
+Iridium Ingot,c:iridium_ingots,X,,A,4,180,,,,,,,,,90,,,90,1,1,360,360
+Iron Axe,iron_axe,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Bars,iron_bars,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Block,iron_block,,,C,36,720,,,720,,,,,,,,,,1,1,1440,1440
+Iron Boots,iron_boots,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Chestplate,iron_chestplate,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Door,iron_door,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Helmet,iron_helmet,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Hoe,iron_hoe,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Horse Armor,iron_horse_armor,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Ingot,iron_ingot,,,C,4,80,,,80,,,,,,,,,,1,1,160,160
+Iron Leggings,iron_leggings,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Nugget,iron_nugget,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Ore,iron_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Pickaxe,iron_pickaxe,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Shovel,iron_shovel,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Sword,iron_sword,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Trapdoor,iron_trapdoor,,,,,,,,,,,,,,,,,,1,1,0,0
+Iron Trapdoor,iron_trapdoor,,,,,,,,,,,,,,,,,,1,1,0,0
+Item Frame,item_frame,,,,,,,,,,,,,,,,,,1,1,0,0
+Jack o'Lantern,jack_o_lantern,,,,,,,,,,,,,,,,,,1,1,0,0
+Jukebox,jukebox,,,,,,,,,,,,,,,,,,1,1,0,0
+Kelp,kelp,,,E,1,,,6,,,,,6,,,,,,1,1,12,12
+Ladder,ladder,,,,,,,,,,,,,,,,,,1,1,0,0
+Lantern,lantern,,,,,,,,,,,,,,,,,,1,1,0,0
+Lapis Lazuli,lapis_lazuli,,,B,2,30,,,,,,,60,,,,,30,1,1,120,120
+Lapis Lazuli Block,lapis_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Lapis Lazuli Ore,lapis_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Large Fern,large_fern,,,,,,,,,,,,,,,,,,1,1,0,0
+Lava Bucket,lava_bucket,,,D,1,,,,,24,,,,,,,,,1,1,24,24
+Lead,lead,,,,,,,,,,,,,,,,,,1,1,0,0
+Lead Ingot,c:lead_ingots,X,,C,4,80,,,,,80,,,,,,,,1,1,160,160
+Leather,leather,,,D,2,,,,24,,,,,,,24,,,1,1,48,48
+Leather Boots,leather_boots,,,,,,,,,,,,,,,,,,1,1,0,0
+Leather Cap,leather_cap,,,,,,,,,,,,,,,,,,1,1,0,0
+Leather Horse Armor,leather_horse_armor,,,,,,,,,,,,,,,,,,1,1,0,0
+Leather Pants,leather_pants,,,,,,,,,,,,,,,,,,1,1,0,0
+Leather Tunic,leather_tunic,,,,,,,,,,,,,,,,,,1,1,0,0
+Leaves,leaves,X,,E,1,,,12,,,,,,,,,,,1,1,12,12
+Lectern,lectern,,,,,,,,,,,,,,,,,,1,1,0,0
+Lever,lever,,,,,,,,,,,,,,,,,,1,1,0,0
+Light Pressure Plate,light_weighted_pressure_plate,,,,,,,,,,,,,,,,,,1,1,0,0
+Lilac,lilac,,,E,1,,,6,,6,,,,,,,,,1,1,12,12
+Lily of the Valley,lily_of_the_valley,,,,,,,,,,,,,,,,,,1,1,0,0
+Lily Pad,lily_pad,,,,,,,,,,,,,,,,,,1,1,0,0
+Logs,logs,X,,E,4,,,32,,,,,,,,16,,,1,1,48,48
+Loom,loom,,,,,,,,,,,,,,,,,,1,1,0,0
+Magma Block,magma_block,,,D,4,,,,,32,32,,32,,,,,,1,1,96,96
+Magma Cream,magma_cream,,,D,1,,,,,8,8,,8,,,,,,1,1,24,24
+Map,map,,,,,,,,,,,,,,,,,,1,1,0,0
+Melon,melon,,,E,4,,16,32,,,,,,,,,,,1,1,48,48
+Melon Seeds,melon_seeds,,,E,1,,2,4,,,,,,,,,,,0.5,1,6,12
+Melon Slice,melon_slice,,,E,1,,2,4,,,,,,,,,,,0.5,1,6,12
+Milk Bucket,milk_bucket,,,E,1,,4,4,,,,,4,,,,,,1,1,12,12
+Minecart,minecart,,,,,,,,,,,,,,,,,,1,1,0,0
+Minecart with Chest,chest_minecart,,,,,,,,,,,,,,,,,,1,1,0,0
+Minecart with Furnace,furnace_minecart,,,,,,,,,,,,,,,,,,1,1,0,0
+Minecart with Hopper,hopper_minecart,,,,,,,,,,,,,,,,,,1,1,0,0
+Minecart with TNT,tnt_minecart,,,,,,,,,,,,,,,,,,1,1,0,0
+Moss,moss_block,,,F,1,,,2,,,,,,,,,,,1,1,2,2
+Mushroom Stem,mushroom_stem,,,,,,,,,,,,,,,,,,1,1,0,0
+Music Discs,music_discs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Mutton, Cooked",cooked_mutton,,,,,,,,,,,,,,,,,,1,1,0,0
+"Mutton, Raw",mutton,,,E,2,,,,24,,,,,,,,,,1,1,24,24
+Mycelium,mycelium,,,,,,1,2,,,2,,,,,,1,,1,1,6,0
+Name Tag,name_tag,,,,,,,,,,,,,,,,,,1,1,0,0
+Nautilus Shell,nautilus_shell,,,A,2,,,,,,90,30,60,,,,,,1,1,180,180
+Nether Brick,nether brick,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Brick Fence,nether_brick_fence,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Brick Slab,nether_brick_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Brick Stairs,nether_brick_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Brick Wall,nether_brick_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Bricks,nether_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Gold Ore,nether_gold_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Quartz Ore,nether_quartz_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Nether Sprouts,nether_sprouts,,,D,2,,,12,,,,24,,,,,12,,1,1,48,48
+Nether Star,nether_star,,,S,32,,,,,,,,,1280,1280,,,1280,1,1,3840,3840
+Nether Wart,nether_wart,,,D,2,,,12,24,,,,,,,,12,,1,1,48,48
+Nether Wart Block,nether_wart_block,,,E,4,,,12,24,,,,,,,,12,,1,1,48,48
+Netherite Axe,netherite_axe,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Block,netherite_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Boots,netherite_boots,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Chestplate,netherite_chestplate,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Helmet,netherite_helmet,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Hoe,netherite_hoe,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Ingot,netherite_ingot,,,S,16,960,,,,,,,,480,,,480,480,1,0.8,2400,1920
+Netherite Leggings,netherite_leggings,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Pickaxe,netherite_pickaxe,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Scrap,netherite_scrap,,,S,4,240,,,,,,,,,,,120,120,1,1,480,480
+Netherite Shovel,netherite_shovel,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherite Sword,netherite_sword,,,,,,,,,,,,,,,,,,1,1,0,0
+Netherrack,netherrack,,,F,1,2,,,,2,,,,,,,2,,1,1,6,4
+Nickel Ingot,c:nickel_ingots,X,,B,4,120,,,60,,,60,,,,,,,1,1,240,240
+Note Block,note_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Observer,observer,,,,,,,,,,,,,,,,,,1,1,0,0
+Obsidian,obsidian,,,D,4,,,,,32,,,32,,,32,,,1,1,96,96
+Orange Tulip,orange_tulip,,,,,,,,,,,,,,,,,,1,1,0,0
+Osmium Ingot,c:osmium_ingots,X,,B,4,120,,,,,,,,,,60,,60,1,1,240,240
+Oxeye Daisy,oxeye_daisy,,,,,,,,,,,,,,,,,,1,1,0,0
+Packed Ice,packed_ice,,,E,1,,,,,,,,6,,6,,,,1,1,12,12
+Painting,painting,,,,,,,,,,,,,,,,,,1,1,0,0
+Palladium Ingot,c:palladium_ingots,X,,A,4,180,90,,,,,,,,,,,90,1,1,360,360
+Paper,paper,,,E,1,,,8,,,,,4,,,,,,1,0.67,12,12
+Peony,peony,,,E,1,6,,6,,,,,,,,,,,1,1,12,12
+Peridot,c:peridots,X,,B,4,,,,,,120,,,,120,,,,1,1,240,240
+Phantom Membrane,phantom_membrane,,,B,2,,,,,,,40,,40,40,,,,1,1,120,120
+Pink Tulip,pink_tulip,,,,,,,,,,,,,,,,,,1,1,0,0
+Piston,piston,,,,,,,,,,,,,,,,,,1,1,0,0
+"Piston, Sticky",sticky_piston,,,,,,,,,,,,,,,,,,1,1,0,0
+Planks,planks,X,,E,1,,,8,,,,,,,,4,,,1,1,12,12
+Platinum Ingot,c:platinum_ingots,X,,A,4,180,,,,,,,,,,,,180,1,1,360,360
+Plutonium Ingot,c:plutonium_ingots,X,,A,4,180,,,,,,,90,,,,90,,1,1,360,360
+Podzol,podzol,,,F,1,,,2,,,2,,,,,2,,,1,1,6,4
+Poisonous Potato,poisonous_potato,,,,,,,,,,,,,,,,,,1,1,0,0
+Popped Chorus Fruit,popped_chorus_fruit,,,,,,,,,,,,,,,,,,1,1,0,0
+Poppy,poppy,,,,,,,,,,,,,,,,,,1,1,0,0
+"Porkchop, Cooked",cooked_porkchop,,,,,,,,,,,,,,,,,,1,1,0,0
+"Porkchop, Raw",porkchop,,,E,2,,,,24,,,,,,,,,,1,1,24,24
+Potato,potato,,,E,2,,,16,,,,,,,,8,,,1,1,24,24
+Potions / Water Bottle,potion,,,,,,,,,,,,,,,,,,1,1,0,0
+Powered Rail,powered_rail,,,,,,,,,,,,,,,,,,1,1,0,0
+Prismarine,prismarine,,,,,,,,,,,,,,,,,,1,1,0,0
+Prismarine Brick Slab,prismarine_brick_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Prismarine Brick Stairs,prismarine_brick_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Prismarine Bricks,prismarine_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+Prismarine Crystals,prismarine_crystals,,,C,2,,,,,,,20,40,,20,,,,1,1,80,80
+Prismarine Shard,prismarine_shard,,,C,2,,,,,,20,20,40,,,,,,1,1,80,80
+Prismarine Slab,prismarine_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Prismarine Stairs,prismarine_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Prismarine Wall,prismarine_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+Pufferfish,pufferfish,,,E,2,,,,6,,,,12,6,,,,,1,1,24,24
+Pufferfish Bucket,pufferfish_bucket,,,,,,,,,,,,,,,,,,1,1,0,0
+Pumpkin,pumpkin,,,E,4,,,32,,,,,,16,,,,,1,1,48,48
+Pumpkin Pie,pumpkin_pie,,,,,,,,,,,,,,,,,,1,1,0,0
+Pumpkin Seeds,pumpkin_seeds,,,E,1,,,4,,,,,,2,,,,,0.5,1,6,12
+"Pumpkin, Carved",carved_pumpkin,,,,,,,,,,,,,,,,,,1,1,0,0
+Quartz,quartz,,,C,2,,,,,,20,,,,40,,20,,1,1,80,80
+Quartz Block,quartz_block,,,,,,,,,,,,,,,,,,1,1,0,0
+"Quartz Block, Chiseled ",chiseled_quartz_block,,,,,,,,,,,,,,,,,,1,1,0,0
+"Quartz Block, Smooth",smooth_quartz,,,,,,,,,,,,,,,,,,1,1,0,0
+Quartz Pillar,quartz_pillar,,,,,,,,,,,,,,,,,,1,1,0,0
+Quartz Slab,quartz_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Quartz Slab, Smooth",smooth_quartz_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Quartz Stairs,quartz_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Quartz Stairs, Smooth",smooth_quartz_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Rabbit Foot,rabbit_foot,,,B,1,,,,20,,,,,20,,,,20,1,1,60,60
+Rabbit Hide,rabbit_hide,,,D,1,,,,12,,,,,,,12,,,1,1,24,24
+Rabbit Stew,rabbit_stew,,,,,,,,,,,,,,,,,,1,1,0,0
+"Rabbit, Cooked",cooked_rabbit,,,,,,,,,,,,,,,,,,1,1,0,0
+"Rabbit, Raw",rabbit,,,,,,,,,,,,,,,,,,1,1,0,0
+Rail,rail,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Mushroom,red_mushroom,,,E,1,,4,,,4,,,,,,,4,,1,1,12,12
+Red Mushroom Block,red_mushroom_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Nether Brick Slab,red_nether_brick_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Nether Brick Stairs,red_nether_brick_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Nether Brick Wall,red_nether_brick_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Nether Bricks,red_nether_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Sand,red_sand,,,F,1,,,,2,,2,,,,,,,,1,0.5,4,4
+Red Sandstone,red_sandstone,,,F,4,,,,8,,8,,,,,,,,1,0.5,16,16
+Red Sandstone Slab,red_sandstone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Red Sandstone Slab, Cut",cut_red_sandstone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Red Sandstone Slab, Smooth",smooth_red_sandstone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Sandstone Stairs,red_sandstone_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Red Sandstone Stairs, Smooth",smooth_red_sandstone_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Sandstone Wall,red_sandstone_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Red Sandstone, Chiseled ",chiseled_red_sandstone,,,,,,,,,,,,,,,,,,1,1,0,0
+"Red Sandstone, Cut",cut_red_sandstone,,,,,,,,,,,,,,,,,,1,1,0,0
+"Red Sandstone, Smooth",smooth_red_sandstone,,,,,,,,,,,,,,,,,,1,1,0,0
+Red Tulip,red_tulip,,,,,,,,,,,,,,,,,,1,1,0,0
+Redstone,redstone,,,C,2,20,40,,,,20,,,,,,,,1,1,80,80
+Redstone Block,redstone_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Redstone Comparator,comparator,,,,,,,,,,,,,,,,,,1,1,0,0
+Redstone Lamp,redstone_lamp,,,,,,,,,,,,,,,,,,1,1,0,0
+Redstone Ore,redstone_ore,,,,,,,,,,,,,,,,,,1,1,0,0
+Redstone Torch,redstone_torch,,,,,,,,,,,,,,,,,,1,1,0,0
+Respawn Anchor,respawn_anchor,,,,,,,,,,,,,,,,,,1,1,0,0
+Rose Bush,rose_bush,,,E,1,,6,6,,,,,,,,,,,1,1,12,12
+Rotten Flesh,rotten_flesh,,,F,2,,,,4,,,,,,,,4,,1,1,8,8
+Ruby,c:rubies,X,,B,4,,,,120,,,,,,120,,,,1,1,240,240
+Saddle,saddle,,,,,,,,,,,,,,,,,,1,1,0,0
+Salmon Bucket,salmon_bucket,,,,,,,,,,,,,,,,,,1,1,0,0
+"Salmon, Cooked",cooked_salmon,,,,,,,,,,,,,,,,,,1,1,0,0
+"Salmon, Raw",salmon,,,E,2,,,,12,,,,12,,,,,,1,1,24,24
+Sand,sand,,,F,1,,,,,,2,,,2,,,,,1,0.5,4,4
+Sandstone,sandstone,,,F,4,,,,,,8,,,8,,,,,1,0.5,16,16
+Sandstone Slab,sandstone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Sandstone Slab, Cut",cut_sandstone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Sandstone Slab, Smooth",smooth_sandstone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Sandstone Stairs,sandstone_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Sandstone Stairs, Smooth",smooth_sandstone_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Sandstone Wall,sandstone_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Sandstone, Chiseled ",chiseled_sandstone,,,,,,,,,,,,,,,,,,1,1,0,0
+"Sandstone, Cut",cut_sandstone,,,,,,,,,,,,,,,,,,1,1,0,0
+"Sandstone, Smooth",smooth_sandstone,,,,,,,,,,,,,,,,,,1,1,0,0
+Saplings,saplings,X,,E,1,,,12,,,,,,,,,,,1,1,12,12
+Sapphire,c:sapphires,X,,B,4,,,,,,,,120,,120,,,,1,1,240,240
+Scaffolding,scaffolding,,,,,,,,,,,,,,,,,,1,1,0,0
+Scute,scute,,,C,2,,,,,,20,,40,,,20,,,1,1,80,80
+Sea Lantern,sea_lantern,,,,,,,,,,,,,,,,,,1,1,0,0
+Sea Pickle,sea_pickle,,,E,1,,4,4,,,,,4,,,,,,1,1,12,12
+Seagrass,seagrass,,,,,,,,,,,,,,,,,,1,1,0,0
+Shears,shears,,,,,,,,,,,,,,,,,,1,1,0,0
+Shield,shield,,,,,,,,,,,,,,,,,,1,1,0,0
+Shroomlight,shroomlight,,,D,2,12,,,,12,,,,12,,,,,1,1,36,48
+Shulker Box,shulker_box,,,,,,,,,,,,,,,,,,1,1,0,0
+Shulker Shell,shulker_shell,,,B,2,40,,,,,40,40,,,,,,,1,1,120,120
+Signs,signs,X,,,,,,,,,,,,,,,,,1,1,0,0
+Silver Ingot,c:silver_ingots,X,,B,4,120,,,,,,,,,120,,,,1,1,240,240
+Skeleton Skull,skeleton_skull,,,,,,,,,,,,,,,,,,1,1,0,0
+Slime Block,slime_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Slimeball,slime_ball,,,C,1,,,,,,20,,20,,,,,,1,1,40,40
+Smithing Table,smithing_table,,,,,,,,,,,,,,,,,,1,1,0,0
+Smoker,smoker,,,,,,,,,,,,,,,,,,1,1,0,0
+Snow,snow,,,F,1,,,,,,,,3,,1,,,,1,1,4,4
+Snow Block,snow_block,,,F,4,,,,,,,,6,,2,,,,1,1,8,16
+Snowball,snowball,,,F,1,,,,,,,,3,,1,,,,0.5,0.5,4,4
+Soul Fire Lantern,soul_fire_lantern,,,,,,,,,,,,,,,,,,1,1,0,0
+Soul Fire Torch,soul_fire_torch,,,,,,,,,,,,,,,,,,1,1,0,0
+Soul Sand,soul_sand,,,E,1,,,,,,3,,,,,3,6,,1,1,12,12
+Soul Soil,soul_soil,,,E,1,,,,,,3,,3,,,,6,,1,1,12,12
+Spectral Arrow,spectral_arrow,,,,,,,,,,,,,,,,,,1,1,0,0
+Spider Eye,spider_eye,,,F,2,4,,,,,,,,,,,4,,1,1,8,8
+Sponge,sponge,,,C,4,,,80,,,,,40,40,,,,,1,1,160,160
+Stick,stick,,,E,1,,4,,,,,,,,,2,,,0.5,1,6,12
+Stone,stone,,,F,1,2,,,,,2,,,,,,,,1,0.5,4,4
+Stone Axe,stone_axe,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Brick Slab,stone_brick_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone Brick Slab, Mossy",mossy_stone_brick_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Brick Stairs,stone_brick_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone Brick Stairs, Mossy",mossy_stone_brick_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Brick Wall,stone_brick_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone Brick Wall, Mossy",mossy_stone_brick_wall,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Bricks,stone_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone Bricks, Chiseled ",chiseled_stone_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone Bricks, Cracked",cracked_stone_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone Bricks, Mossy",mossy_stone_bricks,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Button,stone_button,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Hoe,stone_hoe,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Pickaxe,stone_pickaxe,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Pressure Plate,stone_pressure_plate,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Shovel,stone_shovel,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Slab,stone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone Slab, Smooth",smooth_stone_slab,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Stairs,stone_stairs,,,,,,,,,,,,,,,,,,1,1,0,0
+Stone Sword,stone_sword,,,,,,,,,,,,,,,,,,1,1,0,0
+"Stone, Smooth",smooth_stone,,,F,1,2,,,,,2,,,,,,,,1,1,4,4
+Stonecutter,stonecutter,,,,,,,,,,,,,,,,,,1,1,0,0
+String,string,,,E,1,6,,,,3,,3,,,,,,,1,1,12,12
+Sugar,sugar,,,E,1,,8,4,,,,,,,,,,,1,0.67,12,12
+Sugar Cane,sugar_cane,,,E,1,,4,4,,,,,4,,,,,,1,1,12,12
+Sunflower,sunflower,,,E,1,,,6,,,,,,6,,,,,1,1,12,12
+Suspicious Stew,suspicious_stew,,,,,,,,,,,,,,,,,,1,1,0,0
+Sweet Berries,sweet_berries,,,E,1,,,8,,,,,,,4,,,,1,1,12,12
+Target,target,,,,,,,,,,,,,,,,,,1,1,0,0
+Terracotta,terracotta,,,F,1,,,,,,2,,1,,,1,,,1,1,4,4
+Thorium Ingot,c:thorium_ingots,X,,A,4,180,90,,,,,,,,,,90,,1,1,360,360
+Tin Ingot,c:tin_ingots,X,,C,4,80,,,,80,,,,,,,,,1,1,160,160
+Tipped Arrow,tipped_arrow,,,,,,,,,,,,,,,,,,1,1,0,0
+Titanium Ingot,c:titanium_ingots,X,,B,4,120,,,,,60,,,,,60,,,1,1,240,240
+TNT,tnt,,,,,,,,,,,,,,,,,,1,1,0,0
+Topaz,c:topazes,X,,B,4,,120,,,120,,,,,,,,,1,1,240,240
+Torch,torch,,,,,,,,,,,,,,,,,,1,1,0,0
+Totem of Undying,totem_of_undying,,,,,,,,,,,,,,,,,,1,1,0,0
+Trapped Chest,trapped_chest,,,,,,,,,,,,,,,,,,1,1,0,0
+Trident,trident,,,,,,,,,,,,,,,,,,1,1,0,0
+Tripwire Hook,tripwire_hook,,,,,,,,,,,,,,,,,,1,1,0,0
+Tropical Fish,tropical_fish,,,E,2,,,,12,,,,12,,,,,,1,1,24,24
+Tropical Fish Bucket,tropical_fish_bucket,,,,,,,,,,,,,,,,,,1,1,0,0
+Tube Coral Block,tube_coral_block,,,,,,,,,,,,,,,,,,1,1,0,0
+Tube Corals,c:tube_corals,X,,,,,,,,,,,,,,,,,1,1,0,0
+Tuff,tuff,,,E,2,12,,,,,,,,,,4,,,1,1,16,16
+Tungsten Ingot,c:tungsten_ingots,X,,B,4,120,,,,60,,,,,,60,,,1,1,240,240
+Turtle Egg,turtle_egg,,,D,2,,16,,,,16,,16,,,,,,1,1,48,48
+Turtle Shell,turtle_helmet,,,,,,,,,,,,,,,,,,1,1,0,0
+Twisting Vines,twisting_vines,,,E,1,,,6,,,,6,,,,,,,1,1,12,12
+Uranium Ingot,c:uranium_ingots,X,,A,4,180,,,,,,90,,,,,90,,1,1,360,360
+Vines,vine,,,E,1,,,12,,,,,,,,,,,1,1,12,12
+Warped Fungus,warped_fungus,,,E,1,4,,,,,,4,,4,,,,,1,1,12,12
+Warped Nylium,warped_nylium,,,F,1,2,,,,2,,2,,,,,2,,1,1,8,4
+Warped Roots,warped_roots,,,E,1,,,4,,,,4,,,,,4,,1,1,12,12
+Warped Wart Block,warped_wart_block,,,E,4,,,12,,,,24,,,,,12,,1,1,48,48
+Water Bucket,water_bucket,,,F,1,,,,,,,,4,,,,,,1,0.5,4,4
+Weeping Vines,weeping_vines,,,E,1,,,6,6,,,,,,,,,,1,1,12,12
+Wheat,wheat,,,E,2,,,24,,,,,,,,,,,1,1,24,24
+Wheat Seeds,wheat_seeds,,,E,1,,,6,,,,,,,,,,,0.5,1,6,12
+White Tulip,white_tulip,,,,,,,,,,,,,,,,,,1,1,0,0
+Wither Rose,wither_rose,,,,,,,,,,,,,,,,,,1,1,0,0
+Wither Skeleton Skull,wither_skeleton_skull,,,A,4,,,,,90,90,,,,,90,90,,1,1,360,360
+Wooden Axe,wooden_axe,,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Buttons,wooden_buttons,X,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Doors,wooden_doors,X,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Fence Gates,c:wooden_fence_gates,X,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Fences,wooden_fences,X,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Hoe,wooden_hoe,,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Pickaxe,wooden_pickaxe,,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Pressure Plates,wooden_pressure_plates,X,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Shovel,wooden_shovel,,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Sword,wooden_sword,,,,,,,,,,,,,,,,,,1,1,0,0
+Wooden Trapdoors,wooden_trapdoors,X,,,,,,,,,,,,,,,,,1,1,0,0
+Wool,wool,X,,E,4,24,,12,,,,12,,,,,,,1,1,48,48
+Written Book,written_book,,,,,,,,,,,,,,,,,,1,1,0,0
+Zinc Ingot,c:zinc_ingots,X,,C,4,80,,80,,,,,,,,,,,1,1,160,160
+Zombie Head,zombie_head,,,,,,,,,,,,,,,,,,1,1,0,0
