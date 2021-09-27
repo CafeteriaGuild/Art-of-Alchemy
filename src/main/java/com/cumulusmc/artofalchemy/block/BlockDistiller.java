@@ -11,6 +11,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -70,13 +71,20 @@ public class BlockDistiller extends BlockWithEntity {
 
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof BlockEntityDistiller) {
-			BlockEntityDistiller dissolver = (BlockEntityDistiller) blockEntity;
-			if (inHand.getItem() == AoAItems.ALKAHEST_BUCKET && dissolver.addAlkahest(1000)) {
+			BlockEntityDistiller distiller = (BlockEntityDistiller) blockEntity;
+			if (inHand.getItem() == Items.BUCKET && distiller.withdrawAlkahest(1000)) {
 				if (!player.getAbilities().creativeMode) {
-					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
+					inHand.decrement(1);
+					player.giveItemStack(new ItemStack(AoAItems.ALKAHEST_BUCKET));
 				}
-				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY,
-						SoundCategory.BLOCKS, 1.0F, 1.0F);
+				world.playSound(
+					null,
+					pos,
+					SoundEvents.ITEM_BUCKET_FILL,
+					SoundCategory.BLOCKS,
+					1.0F,
+					1.0F
+				);
 				return ActionResult.SUCCESS;
 			} else if (inHand.getItem() == AoAItems.ESSENTIA_VESSEL) {
 				ItemUsageContext itemContext = new ItemUsageContext(player, hand, hit);

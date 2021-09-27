@@ -21,8 +21,11 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
@@ -68,7 +71,6 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
 	protected EssentiaContainer essentiaInput;
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
-
 		@Override
 		public int size() {
 			return 5;
@@ -187,13 +189,21 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
-		return true;
+		switch (slot) {
+			case 0:
+				return stack.isOf(AoAItems.AZOTH);
+			case 1:
+				return FuelHelper.isFuel(stack);
+			default:
+				return false;
+		}
 	}
 
 
 	@Override
 	public void tick(World world, BlockPos pos, BlockState state, BlockEntityDistiller blockEntity) {
 		if (!world.isClient()) {
+			tryConvertEssentia();
 			if (fuel > 0) fuel -= 2;
 			if (hasFuel() && hasInput() && !isFull()) {
 				if (!lit) setLit(true);
@@ -206,7 +216,14 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 				if (progress > 0) progress--;
 				if (lit) setLit(true);
 			}
-			sync(); // Maybe this is laggy?
+			sync(); // KG: Maybe this is laggy?
+		}
+	}
+	private void tryConvertEssentia() { // KG: Not clean, could have issues if this function is missed for a tick.
+		if (!essentiaInput.isEmpty()) {
+			essentia += essentiaInput.getCount();
+			essentiaInput.emptyContents();
+			essentiaInput.setCapacity(TANK_MAX - essentia);
 		}
 	}
 	private void setLit(boolean lit) {
@@ -318,6 +335,13 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	@Override
 	public boolean setAlkahest(int amount) {
+		return false; // Alkahest is output
+	}
+	public boolean withdrawAlkahest(int amount) {
+		if (this.alkahest > amount) {
+			this.alkahest -= amount;
+			return true;
+		}
 		return false; // Alkahest is output
 	}
 }

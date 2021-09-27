@@ -54,16 +54,24 @@ public class HandlerDistiller extends SyncedGuiDescription {
 		
 		root.add(fuelBar, PAD + FUEL_SIZE_PAD, PAD + FUEL_SIZE_PAD, FUEL_SIZE, FUEL_SIZE);
 
-		WBar essentiaTankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
-				4, 6, Direction.UP);
+		WBar essentiaTankBar = new WBar(
+			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
+			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
+			4,
+			6,
+			Direction.UP
+		);
 		essentiaTankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".mixed_essentia_tooltip");
 		root.add(essentiaTankBar, 0, SIZE_FACTOR, PAD, ITEM_HEIGHT);
 		
 		// Alkahest tank - TODO
-		WBar alkahestTankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
+		WBar alkahestTankBar = new WBar(
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
-				5, 6, Direction.UP);
+				5,
+				6,
+				Direction.UP
+			);
 		alkahestTankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
 		
 		
