@@ -204,8 +204,8 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	public void tick(World world, BlockPos pos, BlockState state, BlockEntityDistiller blockEntity) {
 		if (!world.isClient()) {
 			tryConvertEssentia();
-			if (fuel > 0) fuel -= 2;
 			if (hasFuel() && hasInput() && !isFull()) {
+				if (fuel > 0) fuel -= 2; // KG: Maybe this should replicate furnaces (don't burn new but do lose energy when nothing to do) 
 				if (!lit) setLit(true);
 				
 				if (++progress >= PROGRESS_MAX) {
@@ -282,7 +282,7 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	@Override
 	public void sync() {
-		//AoANetworking.sendEssentiaPacket(world, pos, 0, essentiaInput);
+		//AoANetworking.sendEssentiaPacket(world, pos, 0, essentiaInput); // KG: Is this needed?
 		BlockEntityClientSerializable.super.sync();
 	}
 

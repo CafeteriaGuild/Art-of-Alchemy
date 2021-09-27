@@ -30,7 +30,7 @@ public class HandlerDissolver extends SyncedGuiDescription {
 		WGridPanel panel = AoAHandlers.makePanel(this);
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.dissolution_chamber"));
 		AoAHandlers.addInventory(panel, this);
-		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"));
+		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"), 2, 3);
 
 		// Item Input
 		panel.add(
