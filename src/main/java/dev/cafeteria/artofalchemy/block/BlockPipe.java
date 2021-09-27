@@ -94,7 +94,9 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 
 	public static void scheduleChunkRebuild(World world, BlockPos pos) {
 		if (world.isClient()) {
-			MinecraftClient.getInstance().worldRenderer.updateBlock(world, pos, null, null, 0);
+			MinecraftClient client = MinecraftClient.getInstance();
+			client.worldRenderer.updateBlock(world, pos, null, null, 0);
+			client.close();
 		}
 	}
 
