@@ -25,7 +25,7 @@ public class HandlerDistiller extends SyncedGuiDescription {
 		pos = ctx.get((world, pos) -> pos, null);
 
 		WGridPanel panel = AoAHandlers.makePanel(this);
-		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.distillation_aparatus"));
+		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.distillation_apparatus"));
 		AoAHandlers.addInventory(panel, this);
 		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"));
 

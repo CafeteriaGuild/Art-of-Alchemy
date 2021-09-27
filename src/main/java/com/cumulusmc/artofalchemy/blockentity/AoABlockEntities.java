@@ -27,7 +27,7 @@ public class AoABlockEntities {
 		register("calcination_furnace_plus", CALCINATOR_PLUS);
 		register("dissolution_chamber", DISSOLVER);
 		register("dissolution_chamber_plus", DISSOLVER_PLUS);
-		register("distillation_aparatus", DISTILLER);
+		register("distillation_apparatus", DISTILLER);
 		register("synthesis_table", SYNTHESIZER);
 		register("synthesis_table_plus", SYNTHESIZER_PLUS);
 		register("projector", PROJECTOR);
