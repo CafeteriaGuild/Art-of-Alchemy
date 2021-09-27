@@ -20,13 +20,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.cumulusmc.artofalchemy.ArtOfAlchemy"
+      "dev.cafeteria.artofalchemy.ArtOfAlchemy"
     ],
     "client": [
-      "com.cumulusmc.artofalchemy.ArtOfAlchemyClient"
+      "dev.cafeteria.artofalchemy.ArtOfAlchemyClient"
     ],
     "modmenu": [
-      "com.cumulusmc.artofalchemy.integration.AoAxModMenu"
+      "dev.cafeteria.artofalchemy.integration.AoAxModMenu"
     ]
   },
   "mixins": [
