@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"QMQ",
+		"ACA",
+		"QMQ"
+	],
+	"key": {
+		"A": { "item":"artofalchemy:azoth" },
+		"B": { "item":"minecraft:brewing_stand" },
+		"Q": { "item":"minecraft:quartz" },
+		"M": { "item":"minecraft:bone_meal" }
+	},
+	"result": {
+		"item": "artofalchemy:distillation_aparatus"
+	}
+}
