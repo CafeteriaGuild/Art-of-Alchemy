@@ -94,12 +94,15 @@ public class AoAHandlers {
 		);
 	}
 	public static void addCentralProgressBar(WGridPanel panel, Identifier type) {
+		addCentralProgressBar(panel, type, 0, 1);
+	}
+	public static void addCentralProgressBar(WGridPanel panel, Identifier type, int progressId, int maxProgressId) {
 		panel.add(
 			new WBar(
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
 				type,
-				0,
-				1,
+				progressId,
+				maxProgressId,
 				Direction.RIGHT
 			),
 			3 * AoAHandlers.BASIS + 7,

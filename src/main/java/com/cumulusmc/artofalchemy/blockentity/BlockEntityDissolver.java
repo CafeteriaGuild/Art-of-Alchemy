@@ -301,6 +301,7 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 							lit = true;
 						}
 						progress++;
+						dirty = true;
 					}
 					if (progress >= maxProgress) {
 						progress -= maxProgress;
@@ -316,10 +317,12 @@ public class BlockEntityDissolver extends BlockEntity implements ImplementedInve
 			if (!canWork) {
 				if (progress != 0) {
 					progress = 0;
+					dirty = true;
 				}
 				if (lit) {
 					lit = false;
 					world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, false));
+					dirty = true;
 				}
 			}
 		}
