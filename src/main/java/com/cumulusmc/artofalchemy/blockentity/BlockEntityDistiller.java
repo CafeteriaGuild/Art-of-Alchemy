@@ -5,13 +5,8 @@ import com.cumulusmc.artofalchemy.AoAConfig;
 import com.cumulusmc.artofalchemy.ArtOfAlchemy;
 import com.cumulusmc.artofalchemy.block.BlockDissolver;
 import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
-import com.cumulusmc.artofalchemy.essentia.EssentiaStack;
-import com.cumulusmc.artofalchemy.gui.handler.HandlerDissolver;
 import com.cumulusmc.artofalchemy.gui.handler.HandlerDistiller;
 import com.cumulusmc.artofalchemy.item.AoAItems;
-import com.cumulusmc.artofalchemy.network.AoANetworking;
-import com.cumulusmc.artofalchemy.recipe.AoARecipes;
-import com.cumulusmc.artofalchemy.recipe.RecipeDissolution;
 import com.cumulusmc.artofalchemy.transport.HasAlkahest;
 import com.cumulusmc.artofalchemy.transport.HasEssentia;
 import com.cumulusmc.artofalchemy.util.ImplementedInventory;
@@ -48,7 +43,8 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	private static final int[] BOTTOM_SLOTS = new int[]{0};
 	private static final int[] SIDE_SLOTS = new int[]{0};
 	
-	// Constant
+	// Constant TODO: Allow config
+	private static final int TANK_MAX = 16000;
 	private static final int PROGRESS_MAX = 100;
 	private static final int DISTILL_GAIN = 1000;
 	private static final int DISTILL_ESSENTIA_COST = 1200;
@@ -71,11 +67,11 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
 	protected EssentiaContainer essentiaInput;
-	protected final PropertyDelegate delegate = new PropertyDelegate() { // What is this for? TODO
+	protected final PropertyDelegate delegate = new PropertyDelegate() {
 
 		@Override
 		public int size() {
-			return 0;
+			return 5;
 		}
 
 		@Override
@@ -84,7 +80,24 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 		@Override
 		public int get(int index) {
-			return 0;
+			switch(index) {
+			case 0:
+				return progress;
+			case 1:
+				return PROGRESS_MAX;
+			case 2:
+				return fuel;
+			case 3:
+				return 20; // Fuel Indicator
+			case 4:
+				return essentia;
+			case 5:
+				return alkahest;
+			case 6:
+				return tankSize;
+			default:
+				return 0;
+			}
 		}
 
 	};
@@ -92,7 +105,7 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	public BlockEntityDistiller(BlockPos pos, BlockState state) {
 		this(AoABlockEntities.DISTILLER, pos, state);
 		AoAConfig.DissolverSettings settings = AoAConfig.get().dissolverSettings;
-		tankSize = settings.tankBasic;
+		tankSize = TANK_MAX; //settings.tankBasic;
 		speedMod = settings.speedBasic;
 		this.yield = settings.yieldBasic;
 		
@@ -102,7 +115,7 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 			.setOutput(false);
 	}
 
-	protected BlockEntityDistiller(BlockEntityType type, BlockPos pos, BlockState state) {
+	protected BlockEntityDistiller(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 
@@ -181,19 +194,19 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	@Override
 	public void tick(World world, BlockPos pos, BlockState state, BlockEntityDistiller blockEntity) {
 		if (!world.isClient()) {
-			if (fuel > 0) fuel--;
+			if (fuel > 0) fuel -= 2;
 			if (hasFuel() && hasInput() && !isFull()) {
 				if (!lit) setLit(true);
 				
 				if (++progress >= PROGRESS_MAX) {
 					progress = 0;
 					distill();
-					markDirty();
 				}
 			} else {
 				if (progress > 0) progress--;
 				if (lit) setLit(true);
 			}
+			sync(); // Maybe this is laggy?
 		}
 	}
 	private void setLit(boolean lit) {

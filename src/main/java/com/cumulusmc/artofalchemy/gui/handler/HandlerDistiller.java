@@ -42,29 +42,28 @@ public class HandlerDistiller extends SyncedGuiDescription {
 		WSprite background = new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/rune_bg.png"));
 		root.add(background, 0, 0, WIDTH, 5 * SIZE_FACTOR);
 
-		WItemSlot azothSlot = WItemSlot.of(blockInventory, 1);
+		WItemSlot azothSlot = WItemSlot.of(blockInventory, 0);
 		root.add(azothSlot, PAD, SIZE_FACTOR * 1);
 		
-		WItemSlot fuelSlot = WItemSlot.of(blockInventory, 0);
+		WItemSlot fuelSlot = WItemSlot.of(blockInventory, 1);
 		root.add(fuelSlot, PAD, SIZE_FACTOR * 3);
 		
 		WBar fuelBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_off.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_on.png"),
-				0, 1, Direction.UP);
+				2, 3, Direction.UP);
 		
 		root.add(fuelBar, PAD + FUEL_SIZE_PAD, PAD + FUEL_SIZE_PAD, FUEL_SIZE, FUEL_SIZE);
 
-		// Essentia tank - TODO
 		WBar essentiaTankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
-				0, 1, Direction.UP);
+				4, 6, Direction.UP);
 		essentiaTankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".mixed_essentia_tooltip");
 		root.add(essentiaTankBar, 0, SIZE_FACTOR, PAD, ITEM_HEIGHT);
 		
 		// Alkahest tank - TODO
 		WBar alkahestTankBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"),
-				0, 1, Direction.UP);
+				5, 6, Direction.UP);
 		alkahestTankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
 		
 		
@@ -72,25 +71,12 @@ public class HandlerDistiller extends SyncedGuiDescription {
 		
 
 		WBar progressBar = new WBar(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"),
-				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"), 2, 3, Direction.RIGHT);
+				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"), 0, 1, Direction.RIGHT);
 		root.add(progressBar, 3 * SIZE_FACTOR, 2 * SIZE_FACTOR, 4 * SIZE_FACTOR, SIZE_FACTOR);
 
 		WLabel title = new WLabel(new TranslatableText("block.artofalchemy.distillation_aparatus"), WLabel.DEFAULT_TEXT_COLOR);
 		title.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		root.add(title, 0, 0, WIDTH, SIZE_FACTOR);
-
-		WDynamicLabel alert = new WDynamicLabel(() -> {
-			switch (propertyDelegate.get(4)) {
-			case 2:
-				return I18n.translate("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_warning");
-			case 3:
-				return I18n.translate("gui." + ArtOfAlchemy.MOD_ID + ".buffer_warning");
-			default:
-				return "";
-			}
-		}, 0xFF5555);
-		alert.setAlignment(HorizontalAlignment.CENTER);
-		root.add(alert, 0, -1 * 18, WIDTH, SIZE_FACTOR);
 
 		EssentiaContainer essentia = getEssentia(ctx);
 		essentiaPanel = new WEssentiaPanel(essentia);
