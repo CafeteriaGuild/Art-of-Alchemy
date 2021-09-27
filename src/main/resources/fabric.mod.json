@@ -1,32 +1,33 @@
 {
   "schemaVersion": 1,
   "id": "artofalchemy",
-  "version": "$version",
+  "version": "1.3.0",
   "name": "Art of Alchemy: Memoriam",
   "description": "An industrial magic mod that allows you to unleash the power of transmutation!\nIn loving memory of Amelia aka SynthRose.",
   "authors": [
     "SynthRose",
-    "Vaerian"
+    "Vaerian",
+    "Kyran"
   ],
   "contributors": [],
   "contact": {
-    "sources": "https://github.com/CumulusMC/Art-of-Alchemy",
-    "homepage": "https://cumulusmc.com/mods/art-of-alchemy",
-    "issues": "https://github.com/CumulusMC/Art-of-Alchemy/issues",
-    "discord": "https://discord.gg/gHMN9mj"
+    "sources": "https://github.com/CafeteriaGuild/Art-of-Alchemy",
+    "homepage": "https://github.com/CafeteriaGuild/Art-of-Alchemy",
+    "issues": "https://github.com/CafeteriaGuild/Art-of-Alchemy/issues",
+    "discord": "https://discord.gg/G4PjhEf"
   },
   "license": "MIT",
   "icon": "assets/artofalchemy/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.cumulusmc.artofalchemy.ArtOfAlchemy"
+      "dev.cafeteria.artofalchemy.ArtOfAlchemy"
     ],
     "client": [
-      "com.cumulusmc.artofalchemy.ArtOfAlchemyClient"
+      "dev.cafeteria.artofalchemy.ArtOfAlchemyClient"
     ],
     "modmenu": [
-      "com.cumulusmc.artofalchemy.integration.AoAxModMenu"
+      "dev.cafeteria.artofalchemy.integration.AoAxModMenu"
     ]
   },
   "mixins": [

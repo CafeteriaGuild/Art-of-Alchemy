@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"lit=false": {
+			"model": "artofalchemy:block/distillation_apparatus"
+		},
+		"lit=true": {
+			"model": "artofalchemy:block/distillation_apparatus"
+		}
+	}
+}
