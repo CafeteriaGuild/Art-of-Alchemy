@@ -30,7 +30,6 @@ public class WFormulaListItem extends WPlainPanel {
 	//	private final WLabel typeLabel;
 	private WButton setButton;
 
-	@SuppressWarnings("MethodCallSideOnly")
 	public WFormulaListItem(ItemStack journal, Item formula, Hand hand) {
 		super();
 		this.journal = journal;

@@ -23,7 +23,6 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 	final BlockPos pos;
 	final WEssentiaPanel essentiaPanel;
 
-	@SuppressWarnings("MethodCallSideOnly")
 	public HandlerSynthesizer(int syncId, PlayerInventory playerInventory, ScreenHandlerContext ctx) {
 		super(AoAHandlers.SYNTHESIZER, syncId, playerInventory, getBlockInventory(ctx), getBlockPropertyDelegate(ctx));
 

@@ -22,7 +22,6 @@ public class HandlerDissolver extends SyncedGuiDescription {
 	final BlockPos pos;
 	final WEssentiaPanel essentiaPanel;
 
-	@SuppressWarnings("MethodCallSideOnly")
 	public HandlerDissolver(int syncId, PlayerInventory playerInventory, ScreenHandlerContext ctx) {
 		super(AoAHandlers.DISSOLVER, syncId, playerInventory, getBlockInventory(ctx), getBlockPropertyDelegate(ctx));
 

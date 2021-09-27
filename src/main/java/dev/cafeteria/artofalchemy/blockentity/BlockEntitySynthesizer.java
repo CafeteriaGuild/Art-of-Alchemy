@@ -113,7 +113,7 @@ PropertyDelegateHolder, BlockEntityClientSerializable, HasEssentia, ExtendedScre
 				.setOutput(false);
 	}
 
-	protected BlockEntitySynthesizer(BlockEntityType type, BlockPos pos, BlockState state) {
+	protected BlockEntitySynthesizer(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 

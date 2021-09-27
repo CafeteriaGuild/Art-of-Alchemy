@@ -102,7 +102,7 @@ PropertyDelegateHolder, BlockEntityClientSerializable, SidedInventory, ExtendedS
 		maxProgress = getOperationTime();
 	}
 
-	protected BlockEntityCalcinator(BlockEntityType type, BlockPos pos, BlockState state) {
+	protected BlockEntityCalcinator(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 
