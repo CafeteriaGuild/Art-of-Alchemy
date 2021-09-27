@@ -36,10 +36,12 @@ public class AoAClientNetworking {
 					BlockPos pos = data.readBlockPos();
 					ctx.getTaskQueue().execute(() -> {
 						EssentiaContainer container = new EssentiaContainer(tag);
-						Screen screen = MinecraftClient.getInstance().currentScreen;
+						MinecraftClient client = MinecraftClient.getInstance();
+						Screen screen = client.currentScreen;
 						if (screen instanceof EssentiaScreen) {
 							((EssentiaScreen) screen).updateEssentia(essentiaId, container, pos);
 						}
+						client.close();
 					});
 				});
 
@@ -52,10 +54,12 @@ public class AoAClientNetworking {
 					ctx.getTaskQueue().execute(() -> {
 						EssentiaContainer container = new EssentiaContainer(essentiaTag);
 						EssentiaStack required = new EssentiaStack(requiredTag);
-						Screen screen = MinecraftClient.getInstance().currentScreen;
+						MinecraftClient client = MinecraftClient.getInstance();
+						Screen screen = client.currentScreen;
 						if (screen instanceof EssentiaScreen) {
 							((EssentiaScreen) screen).updateEssentia(essentiaId, container, required, pos);
 						}
+						client.close();
 					});
 				});
 
@@ -63,10 +67,12 @@ public class AoAClientNetworking {
 				(ctx, data) -> {
 					ItemStack journal = data.readItemStack();
 					ctx.getTaskQueue().execute(() -> {
-						Screen screen = MinecraftClient.getInstance().currentScreen;
+						MinecraftClient client = MinecraftClient.getInstance();
+						Screen screen = client.currentScreen;
 						if (screen instanceof ScreenJournal) {
 							((ScreenJournal) screen).refresh(journal);
 						}
+						client.close();
 					});
 				});
 
@@ -76,12 +82,14 @@ public class AoAClientNetworking {
 					BlockEntityPipe.IOFace face = data.readEnumConstant(BlockEntityPipe.IOFace.class);
 					BlockPos pos = data.readBlockPos();
 					ctx.getTaskQueue().execute(() -> {
-						World world = MinecraftClient.getInstance().world;
+						MinecraftClient client = MinecraftClient.getInstance();
+						World world = client.world;
 						BlockEntity be = world.getBlockEntity(pos);
 						if (be instanceof BlockEntityPipe) {
 							((BlockEntityPipe) be).setFace(dir, face);
 							BlockPipe.scheduleChunkRebuild(world, pos);
 						}
+						client.close();
 					});
 				});
 	}
