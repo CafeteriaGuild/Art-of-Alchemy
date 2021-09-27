@@ -8,12 +8,14 @@ import com.cumulusmc.artofalchemy.essentia.EssentiaContainer;
 import com.cumulusmc.artofalchemy.essentia.EssentiaStack;
 import com.cumulusmc.artofalchemy.gui.handler.HandlerDissolver;
 import com.cumulusmc.artofalchemy.gui.handler.HandlerDistiller;
+import com.cumulusmc.artofalchemy.item.AoAItems;
 import com.cumulusmc.artofalchemy.network.AoANetworking;
 import com.cumulusmc.artofalchemy.recipe.AoARecipes;
 import com.cumulusmc.artofalchemy.recipe.RecipeDissolution;
 import com.cumulusmc.artofalchemy.transport.HasAlkahest;
 import com.cumulusmc.artofalchemy.transport.HasEssentia;
 import com.cumulusmc.artofalchemy.util.ImplementedInventory;
+import com.cumulusmc.artofalchemy.util.FuelHelper;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagRegistry;
@@ -45,70 +47,44 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	private static final int[] TOP_SLOTS = new int[]{0};
 	private static final int[] BOTTOM_SLOTS = new int[]{0};
 	private static final int[] SIDE_SLOTS = new int[]{0};
+	
+	// Constant
+	private static final int PROGRESS_MAX = 100;
+	private static final int DISTILL_GAIN = 1000;
+	private static final int DISTILL_ESSENTIA_COST = 1200;
+	private static final int DISTILL_AZOTH_COST = 1;
+	private static final int SLOT_AZOTH = 0;
+	private static final int SLOT_FUEL = 1;
+	
+	// Settable
 	private int tankSize;
 	private float speedMod;
 	private float yield;
-	private int alkahest = 0;
-	protected int maxAlkahest = getTankSize();
-
-	protected int fuel = 0;
-	protected int maxFuel = 20;
-	protected int progress = 0;
-	protected int maxProgress = 100;
 	
-	private int status = 0;
-	// Status 0: Can convert
-	// Status 1: Generic error (no message)
-	// Status 2: Need azoth or essentia
-	// Status 3: Full output buffer
+	
+	protected int progress = 0;
+	protected int fuel = 0;
+	private int essentia = 0;
+	private int alkahest = 0;
+	
 	private boolean lit = false;
 
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
-	protected EssentiaContainer essentia;
-	protected final PropertyDelegate delegate = new PropertyDelegate() {
+	protected EssentiaContainer essentiaInput;
+	protected final PropertyDelegate delegate = new PropertyDelegate() { // What is this for? TODO
 
 		@Override
 		public int size() {
-			return 5;
+			return 0;
 		}
 
 		@Override
 		public void set(int index, int value) {
-			switch(index) {
-			case 0:
-				alkahest = value;
-				break;
-			case 1:
-				maxAlkahest = value;
-				break;
-			case 2:
-				progress = value;
-				break;
-			case 3:
-				maxProgress = value;
-				break;
-			case 4:
-				status = value;
-				break;
-			}
 		}
 
 		@Override
 		public int get(int index) {
-			switch(index) {
-			case 0:
-				return alkahest;
-			case 1:
-				return maxAlkahest;
-			case 2:
-				return progress;
-			case 3:
-				return maxProgress;
-			case 4:
-				return status;
-			default:
-				return 0;
-			}
+			return 0;
 		}
 
 	};
@@ -119,11 +95,11 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 		tankSize = settings.tankBasic;
 		speedMod = settings.speedBasic;
 		this.yield = settings.yieldBasic;
-		maxAlkahest = getTankSize();
-		essentia = new EssentiaContainer()
-				.setCapacity(getTankSize())
-				.setInput(true)
-				.setOutput(false);
+		
+		essentiaInput = new EssentiaContainer()
+			.setCapacity(tankSize - essentia)
+			.setInput(true)
+			.setOutput(false);
 	}
 
 	protected BlockEntityDistiller(BlockEntityType type, BlockPos pos, BlockState state) {
@@ -153,7 +129,7 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	@Override
 	public EssentiaContainer getContainer(int id) {
 		if (id == 0) {
-			return essentia;
+			return essentiaInput;
 		} else {
 			return null;
 		}
@@ -161,7 +137,7 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	@Override
 	public int getNumContainers() {
-		return 1;
+		return 2;
 	}
 
 	@Override
@@ -170,91 +146,12 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	}
 
 	@Override
-	public boolean setAlkahest(int amount) {
-		if (amount >= 0 && amount <= maxAlkahest) {
-			alkahest = amount;
-			world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.FILLED, alkahest > 0));
-			markDirty();
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private boolean updateStatus(int status) {
-		if (this.status != status) {
-			this.status = status;
-			markDirty();
-		}
-		return (status == 0);
-	}
-
-	private boolean canCraft(RecipeDissolution recipe) {
-		ItemStack inSlot = items.get(0);
-
-		if (recipe == null || inSlot.isEmpty()) {
-			return updateStatus(1);
-		} else {
-			ItemStack container = recipe.getContainer();
-			EssentiaStack results = recipe.getEssentia();
-
-			maxProgress = (int) Math.sqrt(results.getCount() / getSpeedMod());
-			if (maxProgress < 2/getSpeedMod()) {
-				maxProgress = (int) (2/getSpeedMod());
-			}
-
-			if (container != ItemStack.EMPTY && inSlot.getCount() != container.getCount()) {
-				 return updateStatus(1);
-			}
-
-			float factor = getEfficiency() * recipe.getFactor();
-			if (inSlot.isDamageable()) {
-				factor *= 1.0 - (float) inSlot.getDamage() / inSlot.getMaxDamage();
-			}
-			results.multiply(factor);
-
-			if (results.getCount() > alkahest) {
-				return updateStatus(2);
-			} else {
-				if (!essentia.canAcceptIgnoreIO(results)) {
-					return updateStatus(3);
-				} else {
-					return updateStatus(0);
-				}
-			}
-		}
-	}
-
-	// Be sure to check canCraft() first!
-	private void doCraft(RecipeDissolution recipe) {
-		ItemStack inSlot = items.get(0);
-		EssentiaStack results = recipe.getEssentia();
-		ItemStack container = recipe.getContainer();
-
-		float factor = getEfficiency() * recipe.getFactor();
-		if (inSlot.isDamageable()) {
-			factor *= 1.0 - (float) inSlot.getDamage() / inSlot.getMaxDamage();
-		}
-		results.multiplyStochastic(factor);
-
-		if (container != ItemStack.EMPTY) {
-			items.set(0, container.copy());
-		} else {
-			inSlot.decrement(1);
-		}
-
-		essentia.addEssentia(results);
-		alkahest -= results.getCount();
-
-	}
-
-	@Override
 	public NbtCompound writeNbt(NbtCompound tag) {
-		tag.putInt("alkahest", alkahest);
 		tag.putInt("progress", progress);
-		tag.putInt("max_progress", maxProgress);
-		tag.putInt("status", status);
-		tag.put("essentia", essentia.writeNbt());
+		tag.putInt("fuel", fuel);
+		tag.putInt("essentia", essentia);
+		tag.putInt("alkahest", alkahest);
+		tag.put("essentiaInput", essentiaInput.writeNbt());
 		Inventories.writeNbt(tag, items);
 		return super.writeNbt(tag);
 	}
@@ -263,12 +160,11 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 	public void readNbt(NbtCompound tag) {
 		super.readNbt(tag);
 		Inventories.readNbt(tag, items);
-		alkahest = tag.getInt("alkahest");
 		progress = tag.getInt("progress");
-		maxProgress = tag.getInt("max_progress");
-		status = tag.getInt("status");
-		essentia = new EssentiaContainer(tag.getCompound("essentia"));
-		maxAlkahest = getTankSize();
+		fuel = tag.getInt("fuel");
+		essentia = tag.getInt("essentia");
+		alkahest = tag.getInt("alkahest");
+		essentiaInput = new EssentiaContainer(tag.getCompound("essentiaInput"));
 	}
 
 	@Override
@@ -284,54 +180,61 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	@Override
 	public void tick(World world, BlockPos pos, BlockState state, BlockEntityDistiller blockEntity) {
-		boolean dirty = false;
-
 		if (!world.isClient()) {
-			ItemStack inSlot = items.get(0);
-			boolean canWork = false;
-
-			if (inSlot.isEmpty()) {
-				updateStatus(1);
-			} else if (!hasAlkahest()) {
-				updateStatus(2);
-			} else {
-				RecipeDissolution recipe = world.getRecipeManager()
-						.getFirstMatch(AoARecipes.DISSOLUTION, this, world).orElse(null);
-				canWork = canCraft(recipe);
-
-				if (canWork) {
-					if (progress < maxProgress) {
-						if (!lit) {
-							world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, true));
-							lit = true;
-						}
-						progress++;
-					}
-					if (progress >= maxProgress) {
-						progress -= maxProgress;
-						doCraft(recipe);
-						if (alkahest <= 0) {
-							world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.FILLED, false));
-						}
-						dirty = true;
-					}
-				}
-			}
-
-			if (!canWork) {
-				if (progress != 0) {
+			if (fuel > 0) fuel--;
+			if (hasFuel() && hasInput() && !isFull()) {
+				if (!lit) setLit(true);
+				
+				if (++progress >= PROGRESS_MAX) {
 					progress = 0;
+					distill();
+					markDirty();
 				}
-				if (lit) {
-					lit = false;
-					world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, false));
-				}
+			} else {
+				if (progress > 0) progress--;
+				if (lit) setLit(true);
 			}
 		}
-
-		if (dirty) {
-			markDirty();
+	}
+	private void setLit(boolean lit) {
+		this.lit = lit;
+		updateLit();
+	}
+	private void updateLit() {
+		world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, lit));
+	}
+	// Assumes prerequisites have been met
+	private void distill() {
+		if (hasEnoughEssentia()) essentia -= DISTILL_ESSENTIA_COST;
+		else if (hasAzoth()) items.get(SLOT_AZOTH).decrement(1);
+		// Else: Throw?
+		alkahest += DISTILL_GAIN;
+	}
+	
+	private boolean isFull() {
+		return this.alkahest > (this.tankSize - DISTILL_GAIN);
+	}
+	private boolean hasInput() {
+		return hasEnoughEssentia() || hasAzoth();
+	}
+	private boolean hasEnoughEssentia() {
+		return this.essentia >= DISTILL_ESSENTIA_COST;
+	}
+	private boolean hasAzoth() {
+		ItemStack azothSlot = items.get(SLOT_AZOTH);
+		return azothSlot.getItem().equals(AoAItems.AZOTH) && azothSlot.getCount() >= DISTILL_AZOTH_COST;
+	}
+	
+	private boolean hasFuel() {
+		if (this.fuel <= 0) {
+			ItemStack fuelSlot = items.get(SLOT_FUEL);
+			if (FuelHelper.isFuel(fuelSlot)) {
+				this.fuel = FuelHelper.fuelTime(fuelSlot);
+				fuelSlot.decrement(1);
+			}
+			else return false;
 		}
+		return true;
 	}
 
 	@Override
@@ -349,7 +252,7 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	@Override
 	public void sync() {
-		AoANetworking.sendEssentiaPacket(world, pos, 0, essentia);
+		//AoANetworking.sendEssentiaPacket(world, pos, 0, essentiaInput);
 		BlockEntityClientSerializable.super.sync();
 	}
 
@@ -387,7 +290,7 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 			return true;
 		}
 	}
-
+	
 	public int getTankSize() {
 		return tankSize;
 	}
@@ -398,5 +301,10 @@ public class BlockEntityDistiller extends BlockEntity implements ImplementedInve
 
 	public float getEfficiency() {
 		return yield;
+	}
+
+	@Override
+	public boolean setAlkahest(int amount) {
+		return false; // Alkahest is output
 	}
 }
