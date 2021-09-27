@@ -58,7 +58,8 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 			3 * AoAHandlers.BASIS + 8
 		);
 
-		WDynamicLabel alert = new WDynamicLabel(() -> {
+		// KG: Unsure if we should keep alerts. I can see cause for adding them to help new players. A manual would achieve this too. They tend to look a little out of place.
+		/*WDynamicLabel alert = new WDynamicLabel(() -> {
 			switch (propertyDelegate.get(2)) {
 			case 2:
 				return I18n.translate("gui." + ArtOfAlchemy.MOD_ID + ".target_warning");
@@ -81,7 +82,7 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 			-1 * AoAHandlers.BASIS,
 			9 * AoAHandlers.BASIS,
 			AoAHandlers.BASIS
-		);
+		);*/
 
 		essentiaPanel = new WEssentiaPanel(getEssentia(ctx), getRequirements(ctx));
 		panel.add(

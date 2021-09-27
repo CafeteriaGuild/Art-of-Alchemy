@@ -55,7 +55,8 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			3 * AoAHandlers.BASIS + 6
 		);
 
-		WDynamicLabel alert = new WDynamicLabel(() -> {
+		// KG: Unsure if we should keep alerts. I can see cause for adding them to help new players. A manual would achieve this too. They tend to look a little out of place.
+		/*WDynamicLabel alert = new WDynamicLabel(() -> {
 			switch (propertyDelegate.get(4)) {
 			case 2:
 				return I18n.translate("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_warning");
@@ -72,7 +73,7 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			0 * AoAHandlers.BASIS,
 			9 * AoAHandlers.BASIS,
 			AoAHandlers.BASIS
-		);
+		);*/
 
 		this.essentiaPanel = new WEssentiaPanel(getEssentia(ctx));
 		panel.add(
