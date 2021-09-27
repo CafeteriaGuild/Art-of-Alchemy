@@ -38,7 +38,6 @@ public class HandlerJournal extends SyncedGuiDescription {
 		}
 	};
 
-	@SuppressWarnings("MethodCallSideOnly")
 	public HandlerJournal(int syncId, PlayerInventory playerInventory, ScreenHandlerContext ctx, Hand hand) {
 		super(AoAHandlers.JOURNAL, syncId, playerInventory);
 		blockInventory = inventory;
