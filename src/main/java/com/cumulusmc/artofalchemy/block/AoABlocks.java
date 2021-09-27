@@ -39,7 +39,7 @@ public class AoABlocks {
 		register("analysis_desk", ANALYZER);
 		register("calcination_furnace", CALCINATOR);
 		register("dissolution_chamber", DISSOLVER);
-		register("distillation_aparatus", DISTILLER);
+		register("distillation_apparatus", DISTILLER);
 		register("synthesis_table", SYNTHESIZER);
 		register("projection_altar", PROJECTOR);
 		register("calcination_furnace_plus", CALCINATOR_PLUS);
