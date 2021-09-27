@@ -96,7 +96,6 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		if (world.isClient()) {
 			MinecraftClient client = MinecraftClient.getInstance();
 			client.worldRenderer.updateBlock(world, pos, null, null, 0);
-			client.close();
 		}
 	}
 

@@ -41,7 +41,6 @@ public class AoAClientNetworking {
 						if (screen instanceof EssentiaScreen) {
 							((EssentiaScreen) screen).updateEssentia(essentiaId, container, pos);
 						}
-						client.close();
 					});
 				});
 
@@ -59,7 +58,6 @@ public class AoAClientNetworking {
 						if (screen instanceof EssentiaScreen) {
 							((EssentiaScreen) screen).updateEssentia(essentiaId, container, required, pos);
 						}
-						client.close();
 					});
 				});
 
@@ -72,7 +70,6 @@ public class AoAClientNetworking {
 						if (screen instanceof ScreenJournal) {
 							((ScreenJournal) screen).refresh(journal);
 						}
-						client.close();
 					});
 				});
 
@@ -89,7 +86,6 @@ public class AoAClientNetworking {
 							((BlockEntityPipe) be).setFace(dir, face);
 							BlockPipe.scheduleChunkRebuild(world, pos);
 						}
-						client.close();
 					});
 				});
 	}
