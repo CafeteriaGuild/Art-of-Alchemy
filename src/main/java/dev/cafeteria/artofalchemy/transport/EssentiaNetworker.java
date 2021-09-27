@@ -105,7 +105,6 @@ public class EssentiaNetworker extends PersistentState {
 		return world.getPersistentStateManager().getOrCreate((tag) -> EssentiaNetworker.fromNbt(world, tag), () -> new EssentiaNetworker(world), getName(world.getDimension()));
 	}
 
-	@SuppressWarnings("deprecation")
 	public static String getName(DimensionType dimension) {
 		return "essentia" + dimension.getSuffix();
 	}

@@ -100,7 +100,7 @@ PropertyDelegateHolder, BlockEntityClientSerializable, HasAlkahest, SidedInvento
 		maxAlkahest = getTankSize();
 	}
 
-	protected BlockEntityProjector(BlockEntityType type, BlockPos pos, BlockState state) {
+	protected BlockEntityProjector(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 

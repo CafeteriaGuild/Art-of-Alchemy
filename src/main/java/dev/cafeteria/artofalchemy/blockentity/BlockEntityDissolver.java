@@ -122,7 +122,7 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 				.setOutput(true);
 	}
 
-	protected BlockEntityDissolver(BlockEntityType type, BlockPos pos, BlockState state) {
+	protected BlockEntityDissolver(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 

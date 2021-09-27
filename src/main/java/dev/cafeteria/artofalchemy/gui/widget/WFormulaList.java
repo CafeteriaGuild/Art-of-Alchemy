@@ -29,7 +29,6 @@ public class WFormulaList extends WListPanel<Item, WFormulaListItem> {
 		};
 	}
 
-	@SuppressWarnings("MethodCallSideOnly")
 	public void refresh(ItemStack journal, String filter) {
 		this.journal = journal;
 		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
