@@ -1,0 +1,4 @@
+# Philosopher's Stone
+The great work, or _magnum opus_, of alchemy is the creation of the Philosopher's Stone. All alchemists aspire to synthesize this miraculous object, but it's not an easy task, and the exact process has been lost to time. If you seek to complete the _magnum opus_, finding the formula deduced by the ancient alchemists might be in your interests. Beyond that, you're on your own...
+
+The Philosopher's Stone has the power to augment your alchemical machines to be faster, more efficient, and higher capacity. It can also be used to make the [[Projection Altar]], which allows materia to be upgraded to higher ranks.
