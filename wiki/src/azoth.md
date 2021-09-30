@@ -1,5 +1,5 @@
 # Azoth
-Azoth is a miraculous substance used to craft many useful alchemical devices. It also forms the basis of [[Alkahest]].
+Azoth is a miraculous substance used to craft many useful alchemical devices. It also forms the basis of [Alkahest](./alkahest.md).
 
 ### Crafting Recipe
 

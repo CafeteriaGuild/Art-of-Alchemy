@@ -1,6 +1,6 @@
 # The Art of Alchemy
 ## The World of Alchemy
-At the heart of alchemy is the practice of transmutation. The ability to transmute substances into other, more useful substances is a valuable skill for any would-be crafter, and it starts with understanding the world around us. Our world is fundamentally made of two things: [[materia]] and [[essentia]].
+At the heart of alchemy is the practice of transmutation. The ability to transmute substances into other, more useful substances is a valuable skill for any would-be crafter, and it starts with understanding the world around us. Our world is fundamentally made of two things: [Materia](./materia.md) and [Essentia](./essentia.md).
 
 Materia is the physical material that all objects are made from. Although in principle all matter is interchangeable, in practice an alchemist will obtain poorer-quality materia from more common items, and richer materia from rare items. Thus, materia comes in seven grades, from F rank through to A and S rank. There are rumors of an eighth "omega" rank, but no concrete evidence of such a thing has ever surfaced.
 

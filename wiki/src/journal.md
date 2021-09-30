@@ -3,6 +3,6 @@ The Alchemical Journal allows you to store an unlimited number of [[formulas|For
 
 ### Crafting Recipe
 
-The Alchemical Journal can by crafted by shapelessly combining one book with one [[Azoth]] in a crafting table as follows.
+The Alchemical Journal can by crafted by shapelessly combining one book with one [Azoth](./Azoth.md) in a crafting table as follows.
 
 <img src="https://github.com/Cumulus-Mods/Art-of-Alchemy/wiki/images/recipes/alchemical-journal.png" width="400px" />
