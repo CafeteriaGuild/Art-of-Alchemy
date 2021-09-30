@@ -14,7 +14,7 @@ import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -313,7 +313,7 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 	@Override
 	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
 		if (dir == Direction.DOWN) {
-			return TagRegistry.item(ArtOfAlchemy.id("containers")).contains(stack.getItem());
+			return TagFactory.ITEM.create(ArtOfAlchemy.id("containers")).contains(stack.getItem());
 		} else {
 			return true;
 		}

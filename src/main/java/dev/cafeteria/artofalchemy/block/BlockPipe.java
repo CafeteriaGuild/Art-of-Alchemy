@@ -17,7 +17,7 @@ import dev.cafeteria.artofalchemy.transport.EssentiaNetworker;
 import dev.cafeteria.artofalchemy.transport.NetworkElement;
 import dev.cafeteria.artofalchemy.transport.NetworkNode;
 
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -276,7 +276,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 			}
 			return ActionResult.SUCCESS;
 		}
-		if (TagRegistry.item(ArtOfAlchemy.id("usable_on_pipes")).contains(heldStack.getItem())) {
+		if (TagFactory.ITEM.create(ArtOfAlchemy.id("usable_on_pipes")).contains(heldStack.getItem())) {
 			return ActionResult.PASS;
 		}
 		Set<BlockPos> oldConnections = getConnections(world, pos);

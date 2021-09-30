@@ -21,7 +21,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.event.world.WorldTickCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
@@ -54,7 +54,7 @@ public class ArtOfAlchemy implements ModInitializer {
 		AoADispenserBehavior.registerDispenserBehavior();
 		AoANetworking.initializeNetworking();
 		AoALoot.initialize();
-		WorldTickCallback.EVENT.register((world) -> {
+		ServerTickEvents.END_WORLD_TICK.register((world) -> {
 			if (!world.isClient()) {
 				EssentiaNetworker.get((ServerWorld) world).tick();
 			}
