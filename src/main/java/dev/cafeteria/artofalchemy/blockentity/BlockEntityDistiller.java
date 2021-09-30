@@ -217,11 +217,14 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 			sync(); // KG: Maybe this is laggy?
 		}
 	}
+	private void updateEssentiaTankSize() {
+		essentiaInput.setCapacity(TANK_MAX - essentia);
+	}
 	private void tryConvertEssentia() { // KG: Not clean, could have issues if this function is missed for a tick.
 		if (!essentiaInput.isEmpty()) {
 			essentia += essentiaInput.getCount();
 			essentiaInput.emptyContents();
-			essentiaInput.setCapacity(TANK_MAX - essentia);
+			updateEssentiaTankSize();
 		}
 	}
 	private void setLit(boolean lit) {
@@ -237,6 +240,7 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 		else if (hasAzoth()) items.get(SLOT_AZOTH).decrement(1);
 		// Else: Throw?
 		alkahest += DISTILL_GAIN;
+		updateEssentiaTankSize();
 	}
 
 	private boolean isFull() {
