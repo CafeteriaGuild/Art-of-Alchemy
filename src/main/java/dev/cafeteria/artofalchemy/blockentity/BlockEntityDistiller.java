@@ -150,7 +150,7 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 
 	@Override
 	public int getNumContainers() {
-		return 2;
+		return 1;
 	}
 
 	@Override
