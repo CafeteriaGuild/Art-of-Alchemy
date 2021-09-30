@@ -19,7 +19,7 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.model.ModelProviderContext;
 import net.fabricmc.fabric.api.client.model.ModelProviderException;
 import net.fabricmc.fabric.api.client.model.ModelResourceProvider;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.mixin.object.builder.ModelPredicateProviderRegistrySpecificAccessor;
 import net.minecraft.client.render.RenderLayer;
@@ -33,7 +33,7 @@ public class AoARenderers {
 
 	@Environment(EnvType.CLIENT)
 	public static void registerRenderers() {
-		BlockEntityRendererRegistry.INSTANCE.register(AoABlockEntities.TANK, RendererTank::new);
+		BlockEntityRendererRegistry.register(AoABlockEntities.TANK, RendererTank::new);
 		BlockRenderLayerMap.INSTANCE.putBlock(AoABlocks.TANK, RenderLayer.getCutout());
 
 		RendererFluid.setupFluidRendering(AoAFluids.ALKAHEST, AoAFluids.ALKAHEST_FLOWING,
