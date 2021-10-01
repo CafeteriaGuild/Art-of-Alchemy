@@ -28,6 +28,7 @@ public class NetworkNode {
 	private final World world;
 	private final NetworkNode.Type type;
 	private final BlockPos pos;
+	private BlockEntity blockEntity;
 
 	private final Direction dir;
 
@@ -40,14 +41,17 @@ public class NetworkNode {
 		this.type = type;
 		this.pos = pos;
 		this.dir = dir;
+		this.updateBlockEntity();
+	}
+
+	public void checkBlockEntity() {
+		if ((this.blockEntity == null) || this.blockEntity.isRemoved()) {
+			this.updateBlockEntity();
+		}
 	}
 
 	public BlockEntity getBlockEntity() {
-		if (this.dir != null) {
-			return this.world.getBlockEntity(this.pos.offset(this.dir));
-		} else {
-			return this.world.getBlockEntity(this.pos);
-		}
+		return this.blockEntity;
 	}
 
 	public Optional<Direction> getDirection() {
@@ -60,6 +64,10 @@ public class NetworkNode {
 
 	public NetworkNode.Type getType() {
 		return this.type;
+	}
+
+	public void updateBlockEntity() {
+		this.blockEntity = this.world.getBlockEntity(this.dir == null ? this.pos : this.pos.offset(this.dir));
 	}
 
 }

@@ -53,6 +53,8 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		}
 	}
 
+	private HashSet<NetworkNode> nodes;
+
 	public BlockPipe() {
 		super(
 			Settings.of(Material.ORGANIC_PRODUCT).strength(0.1f).nonOpaque().noCollision().sounds(BlockSoundGroup.NETHERITE)
@@ -170,15 +172,15 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 
 	@Override
 	public Set<NetworkNode> getNodes(final World world, final BlockPos pos) {
-		final HashSet<NetworkNode> nodes = new HashSet<>();
+		this.nodes = new HashSet<>(); // TODO: Only reset when needed
 		final Map<Direction, IOFace> faces = this.getFaces(world, pos);
 		for (final Direction dir : faces.keySet()) {
 			final IOFace face = faces.get(dir);
 			if (face.isNode()) {
-				nodes.add(new NetworkNode(world, face.getType(), pos, dir));
+				this.nodes.add(new NetworkNode(world, face.getType(), pos, dir));
 			}
 		}
-		return nodes;
+		return this.nodes;
 	}
 
 	@Override
@@ -232,6 +234,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		final boolean notify
 	) {
 		super.neighborUpdate(state, world, pos, block, fromPos, notify);
+
 		for (final Direction dir : Direction.values()) {
 			if (fromPos.subtract(pos).equals(dir.getVector())) {
 				if (this.faceOpen(world, pos, dir) && this.faceOpen(world, fromPos, dir.getOpposite())) {
