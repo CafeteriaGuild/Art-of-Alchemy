@@ -8,6 +8,8 @@ import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
+import io.github.cottonmc.cotton.gui.widget.icon.ItemIcon;
+import io.github.cottonmc.cotton.gui.widget.icon.TextureIcon;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -39,41 +41,17 @@ public class HandlerAnalyzer extends SyncedGuiDescription {
 		AoAHandlers.addInventory(panel, this);
 		AoAHandlers.addBigOutput(panel, WItemSlot.outputOf(this.blockInventory, 3));
 
-		// Paper Icon
-		panel.add(
-			new WSprite(new Identifier("minecraft", "textures/item/paper.png")),
-			(2 * AoAHandlers.BASIS) + 7 + 1,
-			(2 * AoAHandlers.BASIS) + 4 + 1,
-			16,
-			16
-		);
+		WItemSlot paperSlot = WItemSlot.of(this.blockInventory, 0);
+		paperSlot.setIcon(new ItemIcon(Items.PAPER));
+		panel.add(paperSlot, (2 * AoAHandlers.BASIS) + 7, (2 * AoAHandlers.BASIS) + 4);
 
-		// Paper Slot
-		panel.add(WItemSlot.of(this.blockInventory, 0), (2 * AoAHandlers.BASIS) + 7, (2 * AoAHandlers.BASIS) + 4);
+		WItemSlot inkSlot = WItemSlot.of(this.blockInventory, 1);
+		inkSlot.setIcon(new ItemIcon(Items.INK_SAC));
+		panel.add(inkSlot, (4 * AoAHandlers.BASIS) + 7, AoAHandlers.BASIS);
 
-		// Ink Icon
-		panel.add(
-			new WSprite(new Identifier("minecraft", "textures/item/ink_sac.png")),
-			(4 * AoAHandlers.BASIS) + 7 + 1,
-			AoAHandlers.BASIS + 1,
-			16,
-			16
-		);
-
-		// Ink Slot
-		panel.add(WItemSlot.of(this.blockInventory, 1), (4 * AoAHandlers.BASIS) + 7, AoAHandlers.BASIS);
-
-		// Target Icon
-		panel.add(
-			new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png")),
-			(4 * AoAHandlers.BASIS) + 7 + 1,
-			(3 * AoAHandlers.BASIS) + 8 + 1,
-			AoAHandlers.BASIS,
-			AoAHandlers.BASIS
-		);
-
-		// Target Slot
-		panel.add(WItemSlot.of(this.blockInventory, 2), (4 * AoAHandlers.BASIS) + 7, (3 * AoAHandlers.BASIS) + 8);
+		WItemSlot targetSlot = WItemSlot.of(this.blockInventory, 2);
+		targetSlot.setIcon(new TextureIcon(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png")));
+		panel.add(targetSlot, (4 * AoAHandlers.BASIS) + 7, (3 * AoAHandlers.BASIS) + 8);
 
 		// Progress Bar
 		panel.add(
