@@ -45,6 +45,7 @@ import net.minecraft.world.World;
 public class BlockPipe extends Block implements NetworkElement, BlockEntityProvider {
 
 	private static VoxelShape boundingBox = VoxelShapes.cuboid(0.25, 0.25, 0.25, 0.75, 0.75, 0.75);
+	private HashSet<NetworkNode> nodes;
 
 	public static void scheduleChunkRebuild(final World world, final BlockPos pos) {
 		if (world.isClient()) {
@@ -170,7 +171,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 
 	@Override
 	public Set<NetworkNode> getNodes(final World world, final BlockPos pos) {
-		final HashSet<NetworkNode> nodes = new HashSet<>();
+		this.nodes = new HashSet<>(); // TODO: Only reset when needed
 		final Map<Direction, IOFace> faces = this.getFaces(world, pos);
 		for (final Direction dir : faces.keySet()) {
 			final IOFace face = faces.get(dir);
@@ -232,6 +233,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		final boolean notify
 	) {
 		super.neighborUpdate(state, world, pos, block, fromPos, notify);
+
 		for (final Direction dir : Direction.values()) {
 			if (fromPos.subtract(pos).equals(dir.getVector())) {
 				if (this.faceOpen(world, pos, dir) && this.faceOpen(world, fromPos, dir.getOpposite())) {

@@ -155,6 +155,9 @@ public class EssentiaNetwork {
 			return;
 		}
 		this.lastTicked = this.world.getTime();
+		this.nodes.forEach(node -> node.checkBlockEntity()); // KG: This should be run as irregularly as possible. Ideally
+																													// node would listen for nearby updates and update on demand
+																													// there.
 
 		for (final NetworkNode pusher : this.pushers) {
 			for (final NetworkNode puller : this.pullers) {
@@ -187,19 +190,21 @@ public class EssentiaNetwork {
 		final BlockEntity fromBE = from.getBlockEntity();
 		final BlockEntity toBE = to.getBlockEntity();
 		if ((fromBE instanceof HasEssentia) && (toBE instanceof HasEssentia)) {
-			for (int i = 0; i < ((HasEssentia) fromBE).getNumContainers(); i++) {
+			final HasEssentia fromEssenceBE = (HasEssentia) fromBE;
+			final HasEssentia toEssenceBE = (HasEssentia) toBE;
+			for (int i = 0; i < fromEssenceBE.getNumContainers(); i++) {
 				EssentiaContainer fromContainer;
 				if (from.getDirection().isPresent()) {
-					fromContainer = ((HasEssentia) fromBE).getContainer(from.getDirection().get().getOpposite());
+					fromContainer = fromEssenceBE.getContainer(from.getDirection().get().getOpposite());
 				} else {
-					fromContainer = ((HasEssentia) fromBE).getContainer();
+					fromContainer = fromEssenceBE.getContainer();
 				}
-				for (int j = 0; j < ((HasEssentia) toBE).getNumContainers(); j++) {
+				for (int j = 0; j < toEssenceBE.getNumContainers(); j++) {
 					EssentiaContainer toContainer;
 					if (to.getDirection().isPresent()) {
-						toContainer = ((HasEssentia) toBE).getContainer(to.getDirection().get().getOpposite());
+						toContainer = toEssenceBE.getContainer(to.getDirection().get().getOpposite());
 					} else {
-						toContainer = ((HasEssentia) toBE).getContainer();
+						toContainer = toEssenceBE.getContainer();
 					}
 					fromContainer.pushContents(toContainer);
 				}
