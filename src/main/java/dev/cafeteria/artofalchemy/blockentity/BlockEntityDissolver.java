@@ -12,7 +12,6 @@ import dev.cafeteria.artofalchemy.recipe.RecipeDissolution;
 import dev.cafeteria.artofalchemy.transport.HasAlkahest;
 import dev.cafeteria.artofalchemy.transport.HasEssentia;
 import dev.cafeteria.artofalchemy.util.ImplementedInventory;
-
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -39,17 +38,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class BlockEntityDissolver extends BlockEntity implements ImplementedInventory, BlockEntityTicker<BlockEntityDissolver>, PropertyDelegateHolder,
-BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
+public class BlockEntityDissolver extends BlockEntity
+	implements ImplementedInventory, BlockEntityTicker<BlockEntityDissolver>, PropertyDelegateHolder,
+	BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
 
-	private static final int[] TOP_SLOTS = new int[]{0};
-	private static final int[] BOTTOM_SLOTS = new int[]{0};
-	private static final int[] SIDE_SLOTS = new int[]{0};
+	private static final int[] TOP_SLOTS = {
+		0
+	};
+	private static final int[] BOTTOM_SLOTS = {
+		0
+	};
+	private static final int[] SIDE_SLOTS = {
+		0
+	};
 	private int tankSize;
 	private float speedMod;
 	private float yield;
 	private int alkahest = 0;
-	protected int maxAlkahest = getTankSize();
+	protected int maxAlkahest = this.getTankSize();
 	private int progress = 0;
 	private int maxProgress = 100;
 	private int status = 0;
@@ -64,71 +70,174 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 
 		@Override
+		public int get(final int index) {
+			switch (index) {
+				case 0:
+					return BlockEntityDissolver.this.alkahest;
+				case 1:
+					return BlockEntityDissolver.this.maxAlkahest;
+				case 2:
+					return BlockEntityDissolver.this.progress;
+				case 3:
+					return BlockEntityDissolver.this.maxProgress;
+				case 4:
+					return BlockEntityDissolver.this.status;
+				default:
+					return 0;
+			}
+		}
+
+		@Override
+		public void set(final int index, final int value) {
+			switch (index) {
+				case 0:
+					BlockEntityDissolver.this.alkahest = value;
+					break;
+				case 1:
+					BlockEntityDissolver.this.maxAlkahest = value;
+					break;
+				case 2:
+					BlockEntityDissolver.this.progress = value;
+					break;
+				case 3:
+					BlockEntityDissolver.this.maxProgress = value;
+					break;
+				case 4:
+					BlockEntityDissolver.this.status = value;
+					break;
+			}
+		}
+
+		@Override
 		public int size() {
 			return 5;
 		}
 
-		@Override
-		public void set(int index, int value) {
-			switch(index) {
-			case 0:
-				alkahest = value;
-				break;
-			case 1:
-				maxAlkahest = value;
-				break;
-			case 2:
-				progress = value;
-				break;
-			case 3:
-				maxProgress = value;
-				break;
-			case 4:
-				status = value;
-				break;
-			}
-		}
-
-		@Override
-		public int get(int index) {
-			switch(index) {
-			case 0:
-				return alkahest;
-			case 1:
-				return maxAlkahest;
-			case 2:
-				return progress;
-			case 3:
-				return maxProgress;
-			case 4:
-				return status;
-			default:
-				return 0;
-			}
-		}
-
 	};
 
-	public BlockEntityDissolver(BlockPos pos, BlockState state) {
-		this(AoABlockEntities.DISSOLVER, pos, state);
-		AoAConfig.DissolverSettings settings = AoAConfig.get().dissolverSettings;
-		tankSize = settings.tankBasic;
-		speedMod = settings.speedBasic;
-		this.yield = settings.yieldBasic;
-		maxAlkahest = getTankSize();
-		essentia = new EssentiaContainer()
-				.setCapacity(getTankSize())
-				.setInput(false)
-				.setOutput(true);
-	}
-
-	protected BlockEntityDissolver(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+	protected BlockEntityDissolver(final BlockEntityType<?> type, final BlockPos pos, final BlockState state) {
 		super(type, pos, state);
 	}
 
+	public BlockEntityDissolver(final BlockPos pos, final BlockState state) {
+		this(AoABlockEntities.DISSOLVER, pos, state);
+		final AoAConfig.DissolverSettings settings = AoAConfig.get().dissolverSettings;
+		this.tankSize = settings.tankBasic;
+		this.speedMod = settings.speedBasic;
+		this.yield = settings.yieldBasic;
+		this.maxAlkahest = this.getTankSize();
+		this.essentia = new EssentiaContainer().setCapacity(this.getTankSize()).setInput(false).setOutput(true);
+	}
+
+	private boolean canCraft(final RecipeDissolution recipe) {
+		final ItemStack inSlot = this.items.get(0);
+
+		if ((recipe == null) || inSlot.isEmpty()) {
+			return this.updateStatus(1);
+		} else {
+			final ItemStack container = recipe.getContainer();
+			final EssentiaStack results = recipe.getEssentia();
+
+			this.maxProgress = (int) Math.sqrt(results.getCount() / this.getSpeedMod());
+			if (this.maxProgress < (2 / this.getSpeedMod())) {
+				this.maxProgress = (int) (2 / this.getSpeedMod());
+			}
+
+			if ((container != ItemStack.EMPTY) && (inSlot.getCount() != container.getCount())) {
+				return this.updateStatus(1);
+			}
+
+			float factor = this.getEfficiency() * recipe.getFactor();
+			if (inSlot.isDamageable()) {
+				factor *= 1.0 - ((float) inSlot.getDamage() / inSlot.getMaxDamage());
+			}
+			results.multiply(factor);
+
+			if (results.getCount() > this.alkahest) {
+				return this.updateStatus(2);
+			} else if (!this.essentia.canAcceptIgnoreIO(results)) {
+				return this.updateStatus(3);
+			} else {
+				return this.updateStatus(0);
+			}
+		}
+	}
+
 	@Override
-	public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-		return new HandlerDissolver(syncId, inv, ScreenHandlerContext.create(world, pos));
+	public boolean canExtract(final int slot, final ItemStack stack, final Direction dir) {
+		if (dir == Direction.DOWN) {
+			return TagFactory.ITEM.create(ArtOfAlchemy.id("containers")).contains(stack.getItem());
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canInsert(final int slot, final ItemStack stack, final Direction dir) {
+		return this.isValid(slot, stack);
+	}
+
+	@Override
+	public ScreenHandler createMenu(final int syncId, final PlayerInventory inv, final PlayerEntity player) {
+		return new HandlerDissolver(syncId, inv, ScreenHandlerContext.create(this.world, this.pos));
+	}
+
+	// Be sure to check canCraft() first!
+	private void doCraft(final RecipeDissolution recipe) {
+		final ItemStack inSlot = this.items.get(0);
+		final EssentiaStack results = recipe.getEssentia();
+		final ItemStack container = recipe.getContainer();
+
+		float factor = this.getEfficiency() * recipe.getFactor();
+		if (inSlot.isDamageable()) {
+			factor *= 1.0 - ((float) inSlot.getDamage() / inSlot.getMaxDamage());
+		}
+		results.multiplyStochastic(factor);
+
+		if (container != ItemStack.EMPTY) {
+			this.items.set(0, container.copy());
+		} else {
+			inSlot.decrement(1);
+		}
+
+		this.essentia.addEssentia(results);
+		this.alkahest -= results.getCount();
+
+	}
+
+	@Override
+	public void fromClientTag(final NbtCompound tag) {
+		this.readNbt(tag);
+	}
+
+	@Override
+	public int getAlkahest() {
+		return this.alkahest;
+	}
+
+	@Override
+	public int[] getAvailableSlots(final Direction side) {
+		if (side == Direction.UP) {
+			return BlockEntityDissolver.TOP_SLOTS;
+		} else if (side == Direction.DOWN) {
+			return BlockEntityDissolver.BOTTOM_SLOTS;
+		} else {
+			return BlockEntityDissolver.SIDE_SLOTS;
+		}
+	}
+
+	@Override
+	public EssentiaContainer getContainer(final Direction dir) {
+		return this.getContainer(0);
+	}
+
+	@Override
+	public EssentiaContainer getContainer(final int id) {
+		if (id == 0) {
+			return this.essentia;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -136,23 +245,13 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 		return new LiteralText("");
 	}
 
-	@Override
-	public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-		buf.writeBlockPos(pos);
+	public float getEfficiency() {
+		return this.yield;
 	}
 
 	@Override
-	public EssentiaContainer getContainer(Direction dir) {
-		return getContainer(0);
-	}
-
-	@Override
-	public EssentiaContainer getContainer(int id) {
-		if (id == 0) {
-			return essentia;
-		} else {
-			return null;
-		}
+	public DefaultedList<ItemStack> getItems() {
+		return this.items;
 	}
 
 	@Override
@@ -161,153 +260,94 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 	}
 
 	@Override
-	public int getAlkahest() {
-		return alkahest;
+	public PropertyDelegate getPropertyDelegate() {
+		return this.delegate;
+	}
+
+	public float getSpeedMod() {
+		return this.speedMod;
+	}
+
+	public int getTankSize() {
+		return this.tankSize;
 	}
 
 	@Override
-	public boolean setAlkahest(int amount) {
-		if (amount >= 0 && amount <= maxAlkahest) {
-			alkahest = amount;
-			world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.FILLED, alkahest > 0));
-			markDirty();
+	public boolean isValid(final int slot, final ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		if (!this.world.isClient()) {
+			this.sync();
+		}
+	}
+
+	@Override
+	public void readNbt(final NbtCompound tag) {
+		super.readNbt(tag);
+		Inventories.readNbt(tag, this.items);
+		this.alkahest = tag.getInt("alkahest");
+		this.progress = tag.getInt("progress");
+		this.maxProgress = tag.getInt("max_progress");
+		this.status = tag.getInt("status");
+		this.essentia = new EssentiaContainer(tag.getCompound("essentia"));
+		this.maxAlkahest = this.getTankSize();
+	}
+
+	@Override
+	public boolean setAlkahest(final int amount) {
+		if ((amount >= 0) && (amount <= this.maxAlkahest)) {
+			this.alkahest = amount;
+			this.world
+				.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockDissolver.FILLED, this.alkahest > 0));
+			this.markDirty();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	private boolean updateStatus(int status) {
-		if (this.status != status) {
-			this.status = status;
-			markDirty();
-		}
-		return (status == 0);
-	}
-
-	private boolean canCraft(RecipeDissolution recipe) {
-		ItemStack inSlot = items.get(0);
-
-		if (recipe == null || inSlot.isEmpty()) {
-			return updateStatus(1);
-		} else {
-			ItemStack container = recipe.getContainer();
-			EssentiaStack results = recipe.getEssentia();
-
-			maxProgress = (int) Math.sqrt(results.getCount() / getSpeedMod());
-			if (maxProgress < 2/getSpeedMod()) {
-				maxProgress = (int) (2/getSpeedMod());
-			}
-
-			if (container != ItemStack.EMPTY && inSlot.getCount() != container.getCount()) {
-				return updateStatus(1);
-			}
-
-			float factor = getEfficiency() * recipe.getFactor();
-			if (inSlot.isDamageable()) {
-				factor *= 1.0 - (float) inSlot.getDamage() / inSlot.getMaxDamage();
-			}
-			results.multiply(factor);
-
-			if (results.getCount() > alkahest) {
-				return updateStatus(2);
-			} else {
-				if (!essentia.canAcceptIgnoreIO(results)) {
-					return updateStatus(3);
-				} else {
-					return updateStatus(0);
-				}
-			}
-		}
-	}
-
-	// Be sure to check canCraft() first!
-	private void doCraft(RecipeDissolution recipe) {
-		ItemStack inSlot = items.get(0);
-		EssentiaStack results = recipe.getEssentia();
-		ItemStack container = recipe.getContainer();
-
-		float factor = getEfficiency() * recipe.getFactor();
-		if (inSlot.isDamageable()) {
-			factor *= 1.0 - (float) inSlot.getDamage() / inSlot.getMaxDamage();
-		}
-		results.multiplyStochastic(factor);
-
-		if (container != ItemStack.EMPTY) {
-			items.set(0, container.copy());
-		} else {
-			inSlot.decrement(1);
-		}
-
-		essentia.addEssentia(results);
-		alkahest -= results.getCount();
-
+	@Override
+	public void sync() {
+		AoANetworking.sendEssentiaPacket(this.world, this.pos, 0, this.essentia);
+		BlockEntityClientSerializable.super.sync();
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
-		tag.putInt("alkahest", alkahest);
-		tag.putInt("progress", progress);
-		tag.putInt("max_progress", maxProgress);
-		tag.putInt("status", status);
-		tag.put("essentia", essentia.writeNbt());
-		Inventories.writeNbt(tag, items);
-		return super.writeNbt(tag);
-	}
-
-	@Override
-	public void readNbt(NbtCompound tag) {
-		super.readNbt(tag);
-		Inventories.readNbt(tag, items);
-		alkahest = tag.getInt("alkahest");
-		progress = tag.getInt("progress");
-		maxProgress = tag.getInt("max_progress");
-		status = tag.getInt("status");
-		essentia = new EssentiaContainer(tag.getCompound("essentia"));
-		maxAlkahest = getTankSize();
-	}
-
-	@Override
-	public DefaultedList<ItemStack> getItems() {
-		return items;
-	}
-
-	@Override
-	public boolean isValid(int slot, ItemStack stack) {
-		return true;
-	}
-
-
-	@Override
-	public void tick(World world, BlockPos pos, BlockState state, BlockEntityDissolver blockEntity) {
+	public void tick(
+		final World world, final BlockPos pos, final BlockState state, final BlockEntityDissolver blockEntity
+	) {
 		boolean dirty = false;
 
 		if (!world.isClient()) {
-			ItemStack inSlot = items.get(0);
+			final ItemStack inSlot = this.items.get(0);
 			boolean canWork = false;
 
 			if (inSlot.isEmpty()) {
-				updateStatus(1);
-			} else if (!hasAlkahest()) {
-				updateStatus(2);
+				this.updateStatus(1);
+			} else if (!this.hasAlkahest()) {
+				this.updateStatus(2);
 			} else {
-				RecipeDissolution recipe = world.getRecipeManager()
-						.getFirstMatch(AoARecipes.DISSOLUTION, this, world).orElse(null);
-				canWork = canCraft(recipe);
+				final RecipeDissolution recipe = world.getRecipeManager().getFirstMatch(AoARecipes.DISSOLUTION, this, world)
+					.orElse(null);
+				canWork = this.canCraft(recipe);
 
 				if (canWork) {
-					if (progress < maxProgress) {
-						if (!lit) {
+					if (this.progress < this.maxProgress) {
+						if (!this.lit) {
 							world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, true));
-							lit = true;
+							this.lit = true;
 						}
-						progress++;
+						this.progress++;
 						dirty = true;
 					}
-					if (progress >= maxProgress) {
-						progress -= maxProgress;
-						doCraft(recipe);
-						if (alkahest <= 0) {
+					if (this.progress >= this.maxProgress) {
+						this.progress -= this.maxProgress;
+						this.doCraft(recipe);
+						if (this.alkahest <= 0) {
 							world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.FILLED, false));
 						}
 						dirty = true;
@@ -316,12 +356,12 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 			}
 
 			if (!canWork) {
-				if (progress != 0) {
-					progress = 0;
+				if (this.progress != 0) {
+					this.progress = 0;
 					dirty = true;
 				}
-				if (lit) {
-					lit = false;
+				if (this.lit) {
+					this.lit = false;
 					world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, false));
 					dirty = true;
 				}
@@ -329,73 +369,36 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 		}
 
 		if (dirty) {
-			markDirty();
+			this.markDirty();
 		}
 	}
 
 	@Override
-	public PropertyDelegate getPropertyDelegate() {
-		return delegate;
+	public NbtCompound toClientTag(final NbtCompound tag) {
+		return this.writeNbt(tag);
 	}
 
-	@Override
-	public void markDirty() {
-		super.markDirty();
-		if (!world.isClient()) {
-			sync();
+	private boolean updateStatus(final int status) {
+		if (this.status != status) {
+			this.status = status;
+			this.markDirty();
 		}
+		return status == 0;
 	}
 
 	@Override
-	public void sync() {
-		AoANetworking.sendEssentiaPacket(world, pos, 0, essentia);
-		BlockEntityClientSerializable.super.sync();
+	public NbtCompound writeNbt(final NbtCompound tag) {
+		tag.putInt("alkahest", this.alkahest);
+		tag.putInt("progress", this.progress);
+		tag.putInt("max_progress", this.maxProgress);
+		tag.putInt("status", this.status);
+		tag.put("essentia", this.essentia.writeNbt());
+		Inventories.writeNbt(tag, this.items);
+		return super.writeNbt(tag);
 	}
 
 	@Override
-	public void fromClientTag(NbtCompound tag) {
-		readNbt(tag);
-	}
-
-	@Override
-	public NbtCompound toClientTag(NbtCompound tag) {
-		return writeNbt(tag);
-	}
-
-	@Override
-	public int[] getAvailableSlots(Direction side) {
-		if (side == Direction.UP) {
-			return TOP_SLOTS;
-		} else if (side == Direction.DOWN) {
-			return BOTTOM_SLOTS;
-		} else {
-			return SIDE_SLOTS;
-		}
-	}
-
-	@Override
-	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-		return isValid(slot, stack);
-	}
-
-	@Override
-	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-		if (dir == Direction.DOWN) {
-			return TagFactory.ITEM.create(ArtOfAlchemy.id("containers")).contains(stack.getItem());
-		} else {
-			return true;
-		}
-	}
-
-	public int getTankSize() {
-		return tankSize;
-	}
-
-	public float getSpeedMod() {
-		return speedMod;
-	}
-
-	public float getEfficiency() {
-		return yield;
+	public void writeScreenOpeningData(final ServerPlayerEntity player, final PacketByteBuf buf) {
+		buf.writeBlockPos(this.pos);
 	}
 }

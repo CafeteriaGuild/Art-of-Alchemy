@@ -6,27 +6,27 @@ import net.minecraft.item.ItemStack;
 
 public class FuelHelper {
 
-	public static boolean isFuel(Item item) {
-		return AbstractFurnaceBlockEntity.createFuelTimeMap().containsKey(item);
-	}
-
-	public static boolean isFuel(ItemStack stack) {
-		if (stack.isEmpty()) {
-			return false;
-		} else {
-			return isFuel(stack.getItem());
-		}
-	}
-
-	public static int fuelTime(Item item) {
+	public static int fuelTime(final Item item) {
 		return AbstractFurnaceBlockEntity.createFuelTimeMap().getOrDefault(item, 0);
 	}
 
-	public static int fuelTime(ItemStack stack) {
+	public static int fuelTime(final ItemStack stack) {
 		if (stack.isEmpty()) {
 			return 0;
 		} else {
-			return fuelTime(stack.getItem());
+			return FuelHelper.fuelTime(stack.getItem());
+		}
+	}
+
+	public static boolean isFuel(final Item item) {
+		return AbstractFurnaceBlockEntity.createFuelTimeMap().containsKey(item);
+	}
+
+	public static boolean isFuel(final ItemStack stack) {
+		if (stack.isEmpty()) {
+			return false;
+		} else {
+			return FuelHelper.isFuel(stack.getItem());
 		}
 	}
 

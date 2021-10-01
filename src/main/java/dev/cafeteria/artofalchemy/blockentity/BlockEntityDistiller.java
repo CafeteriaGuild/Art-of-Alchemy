@@ -10,7 +10,6 @@ import dev.cafeteria.artofalchemy.transport.HasAlkahest;
 import dev.cafeteria.artofalchemy.transport.HasEssentia;
 import dev.cafeteria.artofalchemy.util.FuelHelper;
 import dev.cafeteria.artofalchemy.util.ImplementedInventory;
-
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -37,12 +36,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class BlockEntityDistiller extends BlockEntity implements ImplementedInventory, BlockEntityTicker<BlockEntityDistiller>, PropertyDelegateHolder,
-BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
+public class BlockEntityDistiller extends BlockEntity
+	implements ImplementedInventory, BlockEntityTicker<BlockEntityDistiller>, PropertyDelegateHolder,
+	BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
 
-	private static final int[] TOP_SLOTS = new int[]{0};
-	private static final int[] BOTTOM_SLOTS = new int[]{0};
-	private static final int[] SIDE_SLOTS = new int[]{0};
+	private static final int[] TOP_SLOTS = {
+		0
+	};
+	private static final int[] BOTTOM_SLOTS = {
+		0
+	};
+	private static final int[] SIDE_SLOTS = {
+		0
+	};
 
 	// Constant TODO: Allow config
 	private static final int TANK_MAX = 16000;
@@ -58,7 +64,6 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 	private float speedMod;
 	private float yield;
 
-
 	protected int progress = 0;
 	protected int fuel = 0;
 	private int essentia = 0;
@@ -70,58 +75,117 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 	protected EssentiaContainer essentiaInput;
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 		@Override
+		public int get(final int index) {
+			switch (index) {
+				case 0:
+					return BlockEntityDistiller.this.progress;
+				case 1:
+					return BlockEntityDistiller.PROGRESS_MAX;
+				case 2:
+					return BlockEntityDistiller.this.fuel;
+				case 3:
+					return 20; // Fuel Indicator
+				case 4:
+					return BlockEntityDistiller.this.essentia;
+				case 5:
+					return BlockEntityDistiller.this.alkahest;
+				case 6:
+					return BlockEntityDistiller.this.tankSize;
+				default:
+					return 0;
+			}
+		}
+
+		@Override
+		public void set(final int index, final int value) {
+		}
+
+		@Override
 		public int size() {
 			return 5;
 		}
 
-		@Override
-		public void set(int index, int value) {
-		}
-
-		@Override
-		public int get(int index) {
-			switch(index) {
-			case 0:
-				return progress;
-			case 1:
-				return PROGRESS_MAX;
-			case 2:
-				return fuel;
-			case 3:
-				return 20; // Fuel Indicator
-			case 4:
-				return essentia;
-			case 5:
-				return alkahest;
-			case 6:
-				return tankSize;
-			default:
-				return 0;
-			}
-		}
-
 	};
 
-	public BlockEntityDistiller(BlockPos pos, BlockState state) {
-		this(AoABlockEntities.DISTILLER, pos, state);
-		AoAConfig.DissolverSettings settings = AoAConfig.get().dissolverSettings;
-		tankSize = TANK_MAX; //settings.tankBasic;
-		speedMod = settings.speedBasic;
-		this.yield = settings.yieldBasic;
-
-		essentiaInput = new EssentiaContainer()
-				.setCapacity(tankSize - essentia)
-				.setInput(true)
-				.setOutput(false);
-	}
-
-	protected BlockEntityDistiller(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+	protected BlockEntityDistiller(final BlockEntityType<?> type, final BlockPos pos, final BlockState state) {
 		super(type, pos, state);
 	}
 
+	public BlockEntityDistiller(final BlockPos pos, final BlockState state) {
+		this(AoABlockEntities.DISTILLER, pos, state);
+		final AoAConfig.DissolverSettings settings = AoAConfig.get().dissolverSettings;
+		this.tankSize = BlockEntityDistiller.TANK_MAX; // settings.tankBasic;
+		this.speedMod = settings.speedBasic;
+		this.yield = settings.yieldBasic;
+
+		this.essentiaInput = new EssentiaContainer().setCapacity(this.tankSize - this.essentia).setInput(true)
+			.setOutput(false);
+	}
+
 	@Override
-	public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-		return new HandlerDistiller(syncId, inv, ScreenHandlerContext.create(world, pos));
+	public boolean canExtract(final int slot, final ItemStack stack, final Direction dir) {
+		if (dir == Direction.DOWN) {
+			return TagFactory.ITEM.create(ArtOfAlchemy.id("containers")).contains(stack.getItem());
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canInsert(final int slot, final ItemStack stack, final Direction dir) {
+		return this.isValid(slot, stack);
+	}
+
+	@Override
+	public ScreenHandler createMenu(final int syncId, final PlayerInventory inv, final PlayerEntity player) {
+		return new HandlerDistiller(syncId, inv, ScreenHandlerContext.create(this.world, this.pos));
+	}
+
+	// Assumes prerequisites have been met
+	private void distill() {
+		if (this.hasEnoughEssentia()) {
+			this.essentia -= BlockEntityDistiller.DISTILL_ESSENTIA_COST;
+		} else if (this.hasAzoth()) {
+			this.items.get(BlockEntityDistiller.SLOT_AZOTH).decrement(1);
+		}
+		// Else: Throw?
+		this.alkahest += BlockEntityDistiller.DISTILL_GAIN;
+		this.updateEssentiaTankSize();
+	}
+
+	@Override
+	public void fromClientTag(final NbtCompound tag) {
+		this.readNbt(tag);
+	}
+
+	@Override
+	public int getAlkahest() {
+		return this.alkahest;
+	}
+
+	@Override
+	public int[] getAvailableSlots(final Direction side) {
+		if (side == Direction.UP) {
+			return BlockEntityDistiller.TOP_SLOTS;
+		} else if (side == Direction.DOWN) {
+			return BlockEntityDistiller.BOTTOM_SLOTS;
+		} else {
+			return BlockEntityDistiller.SIDE_SLOTS;
+		}
+	}
+
+	@Override
+	public EssentiaContainer getContainer(final Direction dir) {
+		return this.getContainer(0);
+	}
+
+	@Override
+	public EssentiaContainer getContainer(final int id) {
+		if (id == 0) {
+			return this.essentiaInput;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -129,23 +193,13 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 		return new LiteralText("");
 	}
 
-	@Override
-	public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-		buf.writeBlockPos(pos);
+	public float getEfficiency() {
+		return this.yield;
 	}
 
 	@Override
-	public EssentiaContainer getContainer(Direction dir) {
-		return getContainer(0);
-	}
-
-	@Override
-	public EssentiaContainer getContainer(int id) {
-		if (id == 0) {
-			return essentiaInput;
-		} else {
-			return null;
-		}
+	public DefaultedList<ItemStack> getItems() {
+		return this.items;
 	}
 
 	@Override
@@ -154,196 +208,170 @@ BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, Extende
 	}
 
 	@Override
-	public int getAlkahest() {
-		return alkahest;
+	public PropertyDelegate getPropertyDelegate() {
+		return this.delegate;
 	}
 
-	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
-		tag.putInt("progress", progress);
-		tag.putInt("fuel", fuel);
-		tag.putInt("essentia", essentia);
-		tag.putInt("alkahest", alkahest);
-		tag.put("essentiaInput", essentiaInput.writeNbt());
-		Inventories.writeNbt(tag, items);
-		return super.writeNbt(tag);
+	public float getSpeedMod() {
+		return this.speedMod;
 	}
 
-	@Override
-	public void readNbt(NbtCompound tag) {
-		super.readNbt(tag);
-		Inventories.readNbt(tag, items);
-		progress = tag.getInt("progress");
-		fuel = tag.getInt("fuel");
-		essentia = tag.getInt("essentia");
-		alkahest = tag.getInt("alkahest");
-		essentiaInput = new EssentiaContainer(tag.getCompound("essentiaInput"));
+	public int getTankSize() {
+		return this.tankSize;
 	}
 
-	@Override
-	public DefaultedList<ItemStack> getItems() {
-		return items;
-	}
-
-	@Override
-	public boolean isValid(int slot, ItemStack stack) {
-		switch (slot) {
-		case 0:
-			return stack.isOf(AoAItems.AZOTH);
-		case 1:
-			return FuelHelper.isFuel(stack);
-		default:
-			return false;
-		}
-	}
-
-
-	@Override
-	public void tick(World world, BlockPos pos, BlockState state, BlockEntityDistiller blockEntity) {
-		if (!world.isClient()) {
-			tryConvertEssentia();
-			if (hasFuel() && hasInput() && !isFull()) {
-				if (fuel > 0) fuel -= 2; // KG: Maybe this should replicate furnaces (don't burn new but do lose energy when nothing to do)
-				if (!lit) setLit(true);
-
-				if (++progress >= PROGRESS_MAX) {
-					progress = 0;
-					distill();
-				}
-			} else {
-				if (progress > 0) progress--;
-				if (lit) setLit(true);
-			}
-			sync(); // KG: Maybe this is laggy?
-		}
-	}
-	private void updateEssentiaTankSize() {
-		essentiaInput.setCapacity(TANK_MAX - essentia);
-	}
-	private void tryConvertEssentia() { // KG: Not clean, could have issues if this function is missed for a tick.
-		if (!essentiaInput.isEmpty()) {
-			essentia += essentiaInput.getCount();
-			essentiaInput.emptyContents();
-			updateEssentiaTankSize();
-		}
-	}
-	private void setLit(boolean lit) {
-		this.lit = lit;
-		updateLit();
-	}
-	private void updateLit() {
-		world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, lit));
-	}
-	// Assumes prerequisites have been met
-	private void distill() {
-		if (hasEnoughEssentia()) essentia -= DISTILL_ESSENTIA_COST;
-		else if (hasAzoth()) items.get(SLOT_AZOTH).decrement(1);
-		// Else: Throw?
-		alkahest += DISTILL_GAIN;
-		updateEssentiaTankSize();
-	}
-
-	private boolean isFull() {
-		return this.alkahest > (this.tankSize - DISTILL_GAIN);
-	}
-	private boolean hasInput() {
-		return hasEnoughEssentia() || hasAzoth();
-	}
-	private boolean hasEnoughEssentia() {
-		return this.essentia >= DISTILL_ESSENTIA_COST;
-	}
 	private boolean hasAzoth() {
-		ItemStack azothSlot = items.get(SLOT_AZOTH);
-		return azothSlot.getItem().equals(AoAItems.AZOTH) && azothSlot.getCount() >= DISTILL_AZOTH_COST;
+		final ItemStack azothSlot = this.items.get(BlockEntityDistiller.SLOT_AZOTH);
+		return azothSlot.getItem().equals(AoAItems.AZOTH)
+			&& (azothSlot.getCount() >= BlockEntityDistiller.DISTILL_AZOTH_COST);
+	}
+
+	private boolean hasEnoughEssentia() {
+		return this.essentia >= BlockEntityDistiller.DISTILL_ESSENTIA_COST;
 	}
 
 	private boolean hasFuel() {
 		if (this.fuel <= 0) {
-			ItemStack fuelSlot = items.get(SLOT_FUEL);
+			final ItemStack fuelSlot = this.items.get(BlockEntityDistiller.SLOT_FUEL);
 			if (FuelHelper.isFuel(fuelSlot)) {
 				this.fuel = FuelHelper.fuelTime(fuelSlot);
 				fuelSlot.decrement(1);
+			} else {
+				return false;
 			}
-			else return false;
 		}
 		return true;
 	}
 
+	private boolean hasInput() {
+		return this.hasEnoughEssentia() || this.hasAzoth();
+	}
+
+	private boolean isFull() {
+		return this.alkahest > (this.tankSize - BlockEntityDistiller.DISTILL_GAIN);
+	}
+
 	@Override
-	public PropertyDelegate getPropertyDelegate() {
-		return delegate;
+	public boolean isValid(final int slot, final ItemStack stack) {
+		switch (slot) {
+			case 0:
+				return stack.isOf(AoAItems.AZOTH);
+			case 1:
+				return FuelHelper.isFuel(stack);
+			default:
+				return false;
+		}
 	}
 
 	@Override
 	public void markDirty() {
 		super.markDirty();
-		if (!world.isClient()) {
-			sync();
+		if (!this.world.isClient()) {
+			this.sync();
 		}
+	}
+
+	@Override
+	public void readNbt(final NbtCompound tag) {
+		super.readNbt(tag);
+		Inventories.readNbt(tag, this.items);
+		this.progress = tag.getInt("progress");
+		this.fuel = tag.getInt("fuel");
+		this.essentia = tag.getInt("essentia");
+		this.alkahest = tag.getInt("alkahest");
+		this.essentiaInput = new EssentiaContainer(tag.getCompound("essentiaInput"));
+	}
+
+	@Override
+	public boolean setAlkahest(final int amount) {
+		return false; // Alkahest is output
+	}
+
+	private void setLit(final boolean lit) {
+		this.lit = lit;
+		this.updateLit();
 	}
 
 	@Override
 	public void sync() {
-		//AoANetworking.sendEssentiaPacket(world, pos, 0, essentiaInput); // KG: Is this needed?
+		// AoANetworking.sendEssentiaPacket(world, pos, 0, essentiaInput); // KG: Is
+		// this needed?
 		BlockEntityClientSerializable.super.sync();
 	}
 
 	@Override
-	public void fromClientTag(NbtCompound tag) {
-		readNbt(tag);
-	}
+	public void tick(
+		final World world, final BlockPos pos, final BlockState state, final BlockEntityDistiller blockEntity
+	) {
+		if (!world.isClient()) {
+			this.tryConvertEssentia();
+			if (this.hasFuel() && this.hasInput() && !this.isFull()) {
+				if (this.fuel > 0) {
+					this.fuel -= 2; // KG: Maybe this should replicate furnaces (don't burn new but do lose energy
+													// when nothing to do)
+				}
+				if (!this.lit) {
+					this.setLit(true);
+				}
 
-	@Override
-	public NbtCompound toClientTag(NbtCompound tag) {
-		return writeNbt(tag);
-	}
-
-	@Override
-	public int[] getAvailableSlots(Direction side) {
-		if (side == Direction.UP) {
-			return TOP_SLOTS;
-		} else if (side == Direction.DOWN) {
-			return BOTTOM_SLOTS;
-		} else {
-			return SIDE_SLOTS;
+				if (++this.progress >= BlockEntityDistiller.PROGRESS_MAX) {
+					this.progress = 0;
+					this.distill();
+				}
+			} else {
+				if (this.progress > 0) {
+					this.progress--;
+				}
+				if (this.lit) {
+					this.setLit(true);
+				}
+			}
+			this.sync(); // KG: Maybe this is laggy?
 		}
 	}
 
 	@Override
-	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-		return isValid(slot, stack);
+	public NbtCompound toClientTag(final NbtCompound tag) {
+		return this.writeNbt(tag);
 	}
 
-	@Override
-	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-		if (dir == Direction.DOWN) {
-			return TagFactory.ITEM.create(ArtOfAlchemy.id("containers")).contains(stack.getItem());
-		} else {
-			return true;
+	private void tryConvertEssentia() { // KG: Not clean, could have issues if this function is missed for a tick.
+		if (!this.essentiaInput.isEmpty()) {
+			this.essentia += this.essentiaInput.getCount();
+			this.essentiaInput.emptyContents();
+			this.updateEssentiaTankSize();
 		}
 	}
 
-	public int getTankSize() {
-		return tankSize;
+	private void updateEssentiaTankSize() {
+		this.essentiaInput.setCapacity(BlockEntityDistiller.TANK_MAX - this.essentia);
 	}
 
-	public float getSpeedMod() {
-		return speedMod;
+	private void updateLit() {
+		this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockDissolver.LIT, this.lit));
 	}
 
-	public float getEfficiency() {
-		return yield;
-	}
-
-	@Override
-	public boolean setAlkahest(int amount) {
-		return false; // Alkahest is output
-	}
-	public boolean withdrawAlkahest(int amount) {
+	public boolean withdrawAlkahest(final int amount) {
 		if (this.alkahest > amount) {
 			this.alkahest -= amount;
 			return true;
 		}
 		return false; // Alkahest is output
+	}
+
+	@Override
+	public NbtCompound writeNbt(final NbtCompound tag) {
+		tag.putInt("progress", this.progress);
+		tag.putInt("fuel", this.fuel);
+		tag.putInt("essentia", this.essentia);
+		tag.putInt("alkahest", this.alkahest);
+		tag.put("essentiaInput", this.essentiaInput.writeNbt());
+		Inventories.writeNbt(tag, this.items);
+		return super.writeNbt(tag);
+	}
+
+	@Override
+	public void writeScreenOpeningData(final ServerPlayerEntity player, final PacketByteBuf buf) {
+		buf.writeBlockPos(this.pos);
 	}
 }

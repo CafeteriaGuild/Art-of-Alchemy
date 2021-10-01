@@ -2,16 +2,16 @@ package dev.cafeteria.artofalchemy.transport;
 
 public interface HasAlkahest {
 
+	default boolean addAlkahest(final int amount) {
+		return this.setAlkahest(this.getAlkahest() + amount);
+	}
+
 	int getAlkahest();
 
-	boolean setAlkahest(int amount);
-
 	default boolean hasAlkahest() {
-		return getAlkahest() > 0;
+		return this.getAlkahest() > 0;
 	}
 
-	default boolean addAlkahest(int amount) {
-		return setAlkahest(getAlkahest() + amount);
-	}
+	boolean setAlkahest(int amount);
 
 }

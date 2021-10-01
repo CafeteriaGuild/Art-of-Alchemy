@@ -4,7 +4,6 @@ import java.util.Random;
 
 import dev.cafeteria.artofalchemy.essentia.Essentia;
 import dev.cafeteria.artofalchemy.fluid.AoAFluids;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -18,33 +17,32 @@ import net.minecraft.world.World;
 
 public class BlockEssentia extends FluidBlock {
 
-	public static final Settings SETTINGS = Settings.copy(Blocks.WATER)
-			.luminance((state) -> 9);
+	public static final Settings SETTINGS = Settings.copy(Blocks.WATER).luminance(state -> 9);
 	protected static Essentia essentia;
 
-	public BlockEssentia(Essentia essentia) {
-		super(AoAFluids.ESSENTIA_FLUIDS.get(essentia), SETTINGS);
+	public BlockEssentia(final Essentia essentia) {
+		super(AoAFluids.ESSENTIA_FLUIDS.get(essentia), BlockEssentia.SETTINGS);
 	}
 
 	public Essentia getEssentia() {
-		return essentia;
+		return BlockEssentia.essentia;
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+	public void onEntityCollision(final BlockState state, final World world, final BlockPos pos, final Entity entity) {
 		entity.damage(DamageSource.MAGIC, 2);
-		//		world.playSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_GENERIC_BURN,
-		//				entity.getSoundCategory(), 1.0F, 1.0F, false);
-		world.addParticle(ParticleTypes.LARGE_SMOKE, entity.getX(), entity.getY(), entity.getZ(),
-				0.0D, 0.0D, 0.0D);
+		// world.playSound(entity.getX(), entity.getY(), entity.getZ(),
+		// SoundEvents.ENTITY_GENERIC_BURN,
+		// entity.getSoundCategory(), 1.0F, 1.0F, false);
+		world.addParticle(ParticleTypes.LARGE_SMOKE, entity.getX(), entity.getY(), entity.getZ(), 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-		double x = pos.getX() + random.nextDouble();
-		double y = pos.getY() + random.nextDouble();
-		double z = pos.getZ() + random.nextDouble();
+	public void randomDisplayTick(final BlockState state, final World world, final BlockPos pos, final Random random) {
+		final double x = pos.getX() + random.nextDouble();
+		final double y = pos.getY() + random.nextDouble();
+		final double z = pos.getZ() + random.nextDouble();
 		world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
 		super.randomDisplayTick(state, world, pos, random);
 	}

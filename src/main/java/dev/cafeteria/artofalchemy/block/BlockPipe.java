@@ -16,7 +16,6 @@ import dev.cafeteria.artofalchemy.transport.EssentiaNetwork;
 import dev.cafeteria.artofalchemy.transport.EssentiaNetworker;
 import dev.cafeteria.artofalchemy.transport.NetworkElement;
 import dev.cafeteria.artofalchemy.transport.NetworkNode;
-
 import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -47,65 +46,41 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 
 	private static VoxelShape boundingBox = VoxelShapes.cuboid(0.25, 0.25, 0.25, 0.75, 0.75, 0.75);
 
-	public BlockPipe() {
-		super(Settings.of(Material.ORGANIC_PRODUCT).strength(0.1f).nonOpaque().noCollision().sounds(BlockSoundGroup.NETHERITE));
-	}
-
-	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return boundingBox;
-	}
-
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return boundingBox;
-	}
-
-	@Override
-	public VoxelShape getRaycastShape(BlockState state, BlockView world, BlockPos pos) {
-		return boundingBox;
-	}
-
-	@Override
-	public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return boundingBox;
-	}
-
-	private Map<Direction, IOFace> getFaces(World world, BlockPos pos) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof BlockEntityPipe) {
-			return ((BlockEntityPipe) be).getFaces();
-		} else {
-			// Returning a dummy map here would just hide bugs
-			return null;
-		}
-	}
-
-	private IOFace getFace(World world, BlockPos pos, Direction dir) {
-		return getFaces(world, pos).get(dir);
-	}
-
-	private void setFace(World world, BlockPos pos, Direction dir, IOFace face) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof BlockEntityPipe) {
-			((BlockEntityPipe) be).setFace(dir, face);
-		}
-	}
-
-	public static void scheduleChunkRebuild(World world, BlockPos pos) {
+	public static void scheduleChunkRebuild(final World world, final BlockPos pos) {
 		if (world.isClient()) {
-			MinecraftClient client = MinecraftClient.getInstance();
+			final MinecraftClient client = MinecraftClient.getInstance();
 			client.worldRenderer.updateBlock(world, pos, null, null, 0);
+		}
+	}
+
+	public BlockPipe() {
+		super(
+			Settings.of(Material.ORGANIC_PRODUCT).strength(0.1f).nonOpaque().noCollision().sounds(BlockSoundGroup.NETHERITE)
+		);
+	}
+
+	// Overriding afterBreak instead of onBroken means we still get access to the
+	// underlying block entity
+	@Override
+	public void afterBreak(
+		final World world, final PlayerEntity player, final BlockPos pos, final BlockState state,
+		final BlockEntity blockEntity, final ItemStack stack
+	) {
+		super.afterBreak(world, player, pos, state, blockEntity, stack);
+		final Map<Direction, IOFace> faces = ((BlockEntityPipe) blockEntity).getFaces();
+		for (final IOFace face : faces.values()) {
+			if (face.isNode()) {
+				Block.dropStack(world, pos, new ItemStack(ItemEssentiaPort.getItem(face)));
+			}
 		}
 	}
 
 	// If a pipe exists at pos, and it was previously connected in Direction dir,
 	// undo the connection
-	private void closeFace(World world, BlockPos pos, Direction dir) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof BlockEntityPipe) {
-			BlockEntityPipe pipe = (BlockEntityPipe) be;
-			IOFace previous = pipe.getFace(dir);
+	private void closeFace(final World world, final BlockPos pos, final Direction dir) {
+		final BlockEntity be = world.getBlockEntity(pos);
+		if (be instanceof final BlockEntityPipe pipe) {
+			final IOFace previous = pipe.getFace(dir);
 			if (previous == IOFace.CONNECT) {
 				pipe.setFace(dir, IOFace.NONE);
 			}
@@ -114,63 +89,49 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 
 	// If a pipe exists at pos, and it is capable of connecting in Direction dir,
 	// set it as connected
-	private void connectFace(World world, BlockPos pos, Direction dir) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof BlockEntityPipe) {
-			BlockEntityPipe pipe = (BlockEntityPipe) be;
-			IOFace previous = pipe.getFace(dir);
+	private void connectFace(final World world, final BlockPos pos, final Direction dir) {
+		final BlockEntity be = world.getBlockEntity(pos);
+		if (be instanceof final BlockEntityPipe pipe) {
+			final IOFace previous = pipe.getFace(dir);
 			if (previous == IOFace.NONE) {
 				pipe.setFace(dir, IOFace.CONNECT);
 			}
 		}
 	}
 
-	public boolean hasNodes(World world, BlockPos pos) {
-		return !getNodes(world, pos).isEmpty();
+	@Override
+	public BlockEntity createBlockEntity(final BlockPos pos, final BlockState state) {
+		return new BlockEntityPipe(pos, state);
 	}
 
-	public Set<NetworkNode> getNodes(World world, BlockPos pos) {
-		HashSet<NetworkNode> nodes = new HashSet<>();
-		Map<Direction, IOFace> faces = getFaces(world, pos);
-		for (Direction dir : faces.keySet()) {
-			IOFace face = faces.get(dir);
-			if (face.isNode()) {
-				nodes.add(new NetworkNode(world, face.getType(), pos, dir));
-			}
-		}
-		return nodes;
-	}
-
-	public boolean faceOpen(World world, BlockPos pos, Direction dir) {
+	public boolean faceOpen(final World world, final BlockPos pos, final Direction dir) {
 		if (world.getBlockState(pos).getBlock() == this) {
-			IOFace face = getFace(world, pos, dir);
-			return (face == IOFace.NONE || face == IOFace.CONNECT);
+			final IOFace face = this.getFace(world, pos, dir);
+			return (face == IOFace.NONE) || (face == IOFace.CONNECT);
 		} else {
 			return false;
 		}
 	}
 
-	public boolean isConnected(World world, BlockPos pos, Direction dir) {
-		Map<Direction, IOFace> theseFaces = getFaces(world, pos);
-		Map<Direction, IOFace> otherFaces = getFaces(world, pos.offset(dir));
-		return (theseFaces.get(dir) == IOFace.CONNECT && otherFaces.get(dir.getOpposite()) == IOFace.CONNECT);
-	}
-
-	public boolean isConnected(World world, BlockPos pos1, BlockPos pos2) {
-		BlockPos difference = pos2.subtract(pos1);
-		for (Direction dir : Direction.values()) {
-			if (difference.equals(dir.getVector())) {
-				return isConnected(world, pos1, dir);
-			}
-		}
-		return false;
+	@Override
+	public VoxelShape getCameraCollisionShape(
+		final BlockState state, final BlockView world, final BlockPos pos, final ShapeContext context
+	) {
+		return BlockPipe.boundingBox;
 	}
 
 	@Override
-	public Set<BlockPos> getConnections(World world, BlockPos pos) {
-		Set<BlockPos> connections = new HashSet<>();
-		Map<Direction, IOFace> faces = getFaces(world, pos);
-		for (Direction dir : faces.keySet()) {
+	public VoxelShape getCollisionShape(
+		final BlockState state, final BlockView world, final BlockPos pos, final ShapeContext context
+	) {
+		return BlockPipe.boundingBox;
+	}
+
+	@Override
+	public Set<BlockPos> getConnections(final World world, final BlockPos pos) {
+		final Set<BlockPos> connections = new HashSet<>();
+		final Map<Direction, IOFace> faces = this.getFaces(world, pos);
+		for (final Direction dir : faces.keySet()) {
 			if (faces.get(dir) == IOFace.CONNECT) {
 				connections.add(pos.offset(dir));
 			}
@@ -181,95 +142,157 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 	// Same as getConnections, but doesn't interact with the block entity at
 	// 'pos' itself. Useful when said block entity might already be disposed
 	// and not available (eg. on broken block).
-	private Set<BlockPos> getConnectionsBlockless(World world, BlockPos pos) {
-		Set<BlockPos> connections = new HashSet<>();
-		for (Direction dir : Direction.values()) {
-			BlockPos neighbour = pos.offset(dir);
-			BlockEntity be = world.getBlockEntity(neighbour);
-			if (be instanceof BlockEntityPipe) {
-				BlockEntityPipe bep = (BlockEntityPipe) be;
-				if (bep.getFace(dir.getOpposite()) == IOFace.CONNECT) {
-					connections.add(neighbour);
-				}
+	private Set<BlockPos> getConnectionsBlockless(final World world, final BlockPos pos) {
+		final Set<BlockPos> connections = new HashSet<>();
+		for (final Direction dir : Direction.values()) {
+			final BlockPos neighbour = pos.offset(dir);
+			final BlockEntity be = world.getBlockEntity(neighbour);
+			if (be instanceof final BlockEntityPipe bep && (bep.getFace(dir.getOpposite()) == IOFace.CONNECT)) {
+				connections.add(neighbour);
 			}
 		}
 		return connections;
 	}
 
+	private IOFace getFace(final World world, final BlockPos pos, final Direction dir) {
+		return this.getFaces(world, pos).get(dir);
+	}
+
+	private Map<Direction, IOFace> getFaces(final World world, final BlockPos pos) {
+		final BlockEntity be = world.getBlockEntity(pos);
+		if (be instanceof BlockEntityPipe) {
+			return ((BlockEntityPipe) be).getFaces();
+		} else {
+			// Returning a dummy map here would just hide bugs
+			return null;
+		}
+	}
+
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-		super.neighborUpdate(state, world, pos, block, fromPos, notify);
-		for (Direction dir : Direction.values()) {
-			if (fromPos.subtract(pos).equals(dir.getVector())) {
-				if (faceOpen(world, pos, dir) && faceOpen(world, fromPos, dir.getOpposite())) {
-					setFace(world, pos, dir, IOFace.CONNECT);
-					AoANetworking.sendPipeFaceUpdate(world, pos, dir, IOFace.CONNECT);
-				} else if (getFace(world, pos, dir) == IOFace.CONNECT) {
-					setFace(world, pos, dir, IOFace.NONE);
-					AoANetworking.sendPipeFaceUpdate(world, pos, dir, IOFace.NONE);
-				}
-				scheduleChunkRebuild(world, pos);
+	public Set<NetworkNode> getNodes(final World world, final BlockPos pos) {
+		final HashSet<NetworkNode> nodes = new HashSet<>();
+		final Map<Direction, IOFace> faces = this.getFaces(world, pos);
+		for (final Direction dir : faces.keySet()) {
+			final IOFace face = faces.get(dir);
+			if (face.isNode()) {
+				nodes.add(new NetworkNode(world, face.getType(), pos, dir));
 			}
 		}
+		return nodes;
+	}
+
+	@Override
+	public VoxelShape getOutlineShape(
+		final BlockState state, final BlockView world, final BlockPos pos, final ShapeContext context
+	) {
+		return BlockPipe.boundingBox;
+	}
+
+	@Override
+	public VoxelShape getRaycastShape(final BlockState state, final BlockView world, final BlockPos pos) {
+		return BlockPipe.boundingBox;
+	}
+
+	@Override
+	public boolean hasNodes(final World world, final BlockPos pos) {
+		return !this.getNodes(world, pos).isEmpty();
 	}
 
 	// Check surrounding blocks for open connections, and initialize this
 	// blocks face configuration accordingly
-	private void initConnectionFaces(World world, BlockPos pos) {
-		for (Direction dir : Direction.values()) {
-			if (faceOpen(world, pos.offset(dir), dir.getOpposite())) {
-				setFace(world, pos, dir, IOFace.CONNECT);
+	private void initConnectionFaces(final World world, final BlockPos pos) {
+		for (final Direction dir : Direction.values()) {
+			if (this.faceOpen(world, pos.offset(dir), dir.getOpposite())) {
+				this.setFace(world, pos, dir, IOFace.CONNECT);
 			}
 		}
 	}
 
 	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-		super.onPlaced(world, pos, state, placer, itemStack);
-		initConnectionFaces(world, pos);
-		if (!world.isClient()) {
-			EssentiaNetworker.get((ServerWorld) world).add(pos);
+	public boolean isConnected(final World world, final BlockPos pos1, final BlockPos pos2) {
+		final BlockPos difference = pos2.subtract(pos1);
+		for (final Direction dir : Direction.values()) {
+			if (difference.equals(dir.getVector())) {
+				return this.isConnected(world, pos1, dir);
+			}
 		}
+		return false;
 	}
 
-	// Overriding afterBreak instead of onBroken means we still get access to the underlying block entity
 	@Override
-	public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack) {
-		super.afterBreak(world, player, pos, state, blockEntity, stack);
-		Map<Direction, IOFace> faces = ((BlockEntityPipe)blockEntity).getFaces();
-		for (IOFace face : faces.values()) {
-			if (face.isNode()) {
-				dropStack(world, pos, new ItemStack(ItemEssentiaPort.getItem(face)));
+	public boolean isConnected(final World world, final BlockPos pos, final Direction dir) {
+		final Map<Direction, IOFace> theseFaces = this.getFaces(world, pos);
+		final Map<Direction, IOFace> otherFaces = this.getFaces(world, pos.offset(dir));
+		return (theseFaces.get(dir) == IOFace.CONNECT) && (otherFaces.get(dir.getOpposite()) == IOFace.CONNECT);
+	}
+
+	@Override
+	public void neighborUpdate(
+		final BlockState state, final World world, final BlockPos pos, final Block block, final BlockPos fromPos,
+		final boolean notify
+	) {
+		super.neighborUpdate(state, world, pos, block, fromPos, notify);
+		for (final Direction dir : Direction.values()) {
+			if (fromPos.subtract(pos).equals(dir.getVector())) {
+				if (this.faceOpen(world, pos, dir) && this.faceOpen(world, fromPos, dir.getOpposite())) {
+					this.setFace(world, pos, dir, IOFace.CONNECT);
+					AoANetworking.sendPipeFaceUpdate(world, pos, dir, IOFace.CONNECT);
+				} else if (this.getFace(world, pos, dir) == IOFace.CONNECT) {
+					this.setFace(world, pos, dir, IOFace.NONE);
+					AoANetworking.sendPipeFaceUpdate(world, pos, dir, IOFace.NONE);
+				}
+				BlockPipe.scheduleChunkRebuild(world, pos);
 			}
 		}
 	}
 
 	@Override
-	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+	public void onBlockAdded(
+		final BlockState state, final World world, final BlockPos pos, final BlockState oldState, final boolean notify
+	) {
 		super.onBlockAdded(state, world, pos, oldState, notify);
-		initConnectionFaces(world, pos);
+		this.initConnectionFaces(world, pos);
 		if (!world.isClient()) {
 			EssentiaNetworker.get((ServerWorld) world).add(pos);
 		}
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean notify) {
-		super.onStateReplaced(state, world, pos, newState, notify);
-		if (!world.isClient() && newState.getBlock() != this) {
-			EssentiaNetworker.get((ServerWorld) world).remove(pos, getConnectionsBlockless(world, pos));
+	public void onPlaced(
+		final World world, final BlockPos pos, final BlockState state, final LivingEntity placer, final ItemStack itemStack
+	) {
+		super.onPlaced(world, pos, state, placer, itemStack);
+		this.initConnectionFaces(world, pos);
+		if (!world.isClient()) {
+			EssentiaNetworker.get((ServerWorld) world).add(pos);
 		}
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		Direction dir = player.isSneaking() ? hit.getSide().getOpposite() : hit.getSide();
-		ItemStack heldStack = player.getStackInHand(hand);
+	public void onStateReplaced(
+		final BlockState state, final World world, final BlockPos pos, final BlockState newState, final boolean notify
+	) {
+		super.onStateReplaced(state, world, pos, newState, notify);
+		if (!world.isClient() && (newState.getBlock() != this)) {
+			EssentiaNetworker.get((ServerWorld) world).remove(pos, this.getConnectionsBlockless(world, pos));
+		}
+	}
+
+	@Override
+	public ActionResult onUse(
+		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
+		final BlockHitResult hit
+	) {
+		final Direction dir = player.isSneaking() ? hit.getSide().getOpposite() : hit.getSide();
+		final ItemStack heldStack = player.getStackInHand(hand);
 		if (heldStack.getItem() == AoAItems.MYSTERIOUS_SIGIL) {
 			if (!world.isClient()) {
-				Optional<EssentiaNetwork> network = EssentiaNetworker.get((ServerWorld) world).getNetwork(pos);
+				final Optional<EssentiaNetwork> network = EssentiaNetworker.get((ServerWorld) world).getNetwork(pos);
 				if (network.isPresent()) {
-					player.sendSystemMessage(new LiteralText(network.get().getUuid().toString() + " w/ " + network.get().getNodes().size() + " nodes"), new UUID(0, 0));
+					player.sendSystemMessage(
+						new LiteralText(network.get().getUuid().toString() + " w/ " + network.get().getNodes().size() + " nodes"),
+						new UUID(0, 0)
+					);
 				} else {
 					player.sendSystemMessage(new LiteralText("no network"), new UUID(0, 0));
 				}
@@ -279,51 +302,53 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		if (TagFactory.ITEM.create(ArtOfAlchemy.id("usable_on_pipes")).contains(heldStack.getItem())) {
 			return ActionResult.PASS;
 		}
-		Set<BlockPos> oldConnections = getConnections(world, pos);
-		IOFace face = getFace(world, pos, dir);
+		final Set<BlockPos> oldConnections = this.getConnections(world, pos);
+		final IOFace face = this.getFace(world, pos, dir);
 		switch (face) {
-		case NONE:
-		case CONNECT:
-			world.playSound(null, pos, SoundEvents.BLOCK_NETHERITE_BLOCK_FALL, SoundCategory.BLOCKS, 0.6f, 1.0f);
-			if (heldStack.getItem() instanceof ItemEssentiaPort) {
-				setFace(world, pos, dir, ((ItemEssentiaPort) heldStack.getItem()).IOFACE);
-				if (!player.getAbilities().creativeMode) {
-					heldStack.decrement(1);
+			case NONE:
+			case CONNECT:
+				world.playSound(null, pos, SoundEvents.BLOCK_NETHERITE_BLOCK_FALL, SoundCategory.BLOCKS, 0.6f, 1.0f);
+				if (heldStack.getItem() instanceof ItemEssentiaPort) {
+					this.setFace(world, pos, dir, ((ItemEssentiaPort) heldStack.getItem()).IOFACE);
+					if (!player.getAbilities().creativeMode) {
+						heldStack.decrement(1);
+					}
+				} else {
+					this.setFace(world, pos, dir, IOFace.BLOCK);
 				}
-			} else {
-				setFace(world, pos, dir, IOFace.BLOCK);
-			}
-			closeFace(world, pos.offset(dir), dir.getOpposite());
-			scheduleChunkRebuild(world, pos);
-			break;
-		case BLOCK:
-		case INSERTER:
-		case EXTRACTOR:
-		case PASSIVE:
-			world.playSound(null, pos, SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundCategory.BLOCKS, 0.6f, 1.0f);
-			if (!player.getAbilities().creativeMode) {
-				ItemStack stack = new ItemStack(ItemEssentiaPort.getItem(face));
-				dropStack(world, pos, stack);
-			}
-			if (faceOpen(world, pos.offset(dir), dir.getOpposite())) {
-				setFace(world, pos, dir, IOFace.CONNECT);
-			} else {
-				setFace(world, pos, dir, IOFace.NONE);
-			}
-			connectFace(world, pos.offset(dir), dir.getOpposite());
-			scheduleChunkRebuild(world, pos);
-			break;
+				this.closeFace(world, pos.offset(dir), dir.getOpposite());
+				BlockPipe.scheduleChunkRebuild(world, pos);
+				break;
+			case BLOCK:
+			case INSERTER:
+			case EXTRACTOR:
+			case PASSIVE:
+				world.playSound(null, pos, SoundEvents.BLOCK_NETHERITE_BLOCK_HIT, SoundCategory.BLOCKS, 0.6f, 1.0f);
+				if (!player.getAbilities().creativeMode) {
+					final ItemStack stack = new ItemStack(ItemEssentiaPort.getItem(face));
+					Block.dropStack(world, pos, stack);
+				}
+				if (this.faceOpen(world, pos.offset(dir), dir.getOpposite())) {
+					this.setFace(world, pos, dir, IOFace.CONNECT);
+				} else {
+					this.setFace(world, pos, dir, IOFace.NONE);
+				}
+				this.connectFace(world, pos.offset(dir), dir.getOpposite());
+				BlockPipe.scheduleChunkRebuild(world, pos);
+				break;
 		}
 		if (!world.isClient()) {
-			EssentiaNetworker networker = EssentiaNetworker.get((ServerWorld) world);
+			final EssentiaNetworker networker = EssentiaNetworker.get((ServerWorld) world);
 			networker.remove(pos, oldConnections);
 			networker.add(pos);
 		}
 		return ActionResult.SUCCESS;
 	}
 
-	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new BlockEntityPipe(pos, state);
+	private void setFace(final World world, final BlockPos pos, final Direction dir, final IOFace face) {
+		final BlockEntity be = world.getBlockEntity(pos);
+		if (be instanceof BlockEntityPipe) {
+			((BlockEntityPipe) be).setFace(dir, face);
+		}
 	}
 }

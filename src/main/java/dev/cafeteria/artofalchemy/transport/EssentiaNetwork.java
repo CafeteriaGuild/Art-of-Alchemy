@@ -1,10 +1,10 @@
 package dev.cafeteria.artofalchemy.transport;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtElement;
@@ -24,58 +24,157 @@ public class EssentiaNetwork {
 	protected long lastTicked;
 	protected boolean dirty;
 
-	EssentiaNetwork(World world) {
+	EssentiaNetwork(final World world) {
 		this.world = world;
-		lastTicked = world.getTime();
+		this.lastTicked = world.getTime();
 	}
 
-	EssentiaNetwork(World world, NbtList tag) {
+	EssentiaNetwork(final World world, final NbtList tag) {
 		this(world);
-		fromTag(tag);
+		this.fromTag(tag);
 	}
 
-	public World getWorld() {
-		return world;
+	public boolean add(final BlockPos pos) {
+		if (!this.positions.contains(pos)) {
+			this.addNodes(pos);
+			return this.positions.add(pos);
+		} else {
+			return false;
+		}
 	}
 
-	public UUID getUuid() {
-		return uuid;
-	}
-
-	public Set<BlockPos> getPositions() {
-		return positions;
-	}
-
-	public int getSize() {
-		return positions.size();
-	}
-
-	public boolean contains(BlockPos pos) { return positions.contains(pos); }
-
-	public Set<NetworkNode> getNodes() {
-		return nodes;
-	}
-
-	public void markDirty() {
-		dirty = true;
-	}
-
-	public void fromTag(NbtList tag) {
-		for (NbtElement listElement : tag) {
-			if (listElement instanceof NbtList) {
-				NbtList posTag = (NbtList) listElement;
-				BlockPos pos = new BlockPos(posTag.getInt(0), posTag.getInt(1), posTag.getInt(2));
-				if (world.getBlockState(pos).getBlock() instanceof NetworkElement) {
-					add(pos);
+	public void addNodes(final BlockPos pos) {
+		final Block block = this.world.getBlockState(pos).getBlock();
+		if (block instanceof NetworkElement) {
+			final Set<NetworkNode> newNodes = ((NetworkElement) block).getNodes(this.world, pos);
+			for (final NetworkNode node : newNodes) {
+				this.nodes.add(node);
+				switch (node.getType()) {
+					case PULL:
+						this.pullers.add(node);
+						break;
+					case PUSH:
+						this.pushers.add(node);
+						break;
+					case PASSIVE:
+						this.passives.add(node);
+						break;
 				}
 			}
 		}
 	}
 
+	public boolean contains(final BlockPos pos) {
+		return this.positions.contains(pos);
+	}
+
+	public void fromTag(final NbtList tag) {
+		for (final NbtElement listElement : tag) {
+			if (listElement instanceof final NbtList posTag) {
+				final BlockPos pos = new BlockPos(posTag.getInt(0), posTag.getInt(1), posTag.getInt(2));
+				if (this.world.getBlockState(pos).getBlock() instanceof NetworkElement) {
+					this.add(pos);
+				}
+			}
+		}
+	}
+
+	public Set<NetworkNode> getNodes() {
+		return this.nodes;
+	}
+
+	public Set<BlockPos> getPositions() {
+		return this.positions;
+	}
+
+	public int getSize() {
+		return this.positions.size();
+	}
+
+	public UUID getUuid() {
+		return this.uuid;
+	}
+
+	public World getWorld() {
+		return this.world;
+	}
+
+	public void markDirty() {
+		this.dirty = true;
+	}
+
+	public void rebuildNodes() {
+		this.nodes.clear();
+		for (final BlockPos pos : this.positions) {
+			final Block block = this.world.getBlockState(pos).getBlock();
+			if (block instanceof NetworkElement) {
+				this.nodes.addAll(((NetworkElement) block).getNodes(this.world, pos));
+			}
+		}
+		this.pullers.clear();
+		this.pushers.clear();
+		this.passives.clear();
+		for (final NetworkNode node : this.nodes) {
+			switch (node.getType()) {
+				case PULL:
+					this.pullers.add(node);
+					break;
+				case PUSH:
+					this.pushers.add(node);
+					break;
+				case PASSIVE:
+					this.passives.add(node);
+					break;
+			}
+		}
+	}
+
+	public boolean remove(final BlockPos pos) {
+		if (this.positions.contains(pos)) {
+			this.removeNodes(pos);
+			return this.positions.remove(pos);
+		} else {
+			return false;
+		}
+	}
+
+	public void removeNodes(final BlockPos pos) {
+		this.nodes.removeIf(node -> node.getPos().equals(pos));
+		this.pullers.removeIf(node -> node.getPos().equals(pos));
+		this.pushers.removeIf(node -> node.getPos().equals(pos));
+		this.passives.removeIf(node -> node.getPos().equals(pos));
+	}
+
+	public void tick() {
+		if (this.dirty) {
+			this.rebuildNodes();
+			this.dirty = false;
+		}
+
+		if (this.world.getTime() < (this.lastTicked + 5)) {
+			return;
+		}
+		this.lastTicked = this.world.getTime();
+
+		for (final NetworkNode pusher : this.pushers) {
+			for (final NetworkNode puller : this.pullers) {
+				this.transfer(pusher, puller);
+			}
+			for (final NetworkNode passive : this.passives) {
+				this.transfer(pusher, passive);
+			}
+		}
+		for (final NetworkNode puller : this.pullers) {
+			for (final NetworkNode passive : this.passives) {
+				this.transfer(passive, puller);
+			}
+		}
+	}
+
 	public NbtList toTag() {
-		NbtList tag = new NbtList();
-		for (BlockPos pos : positions) {
-			NbtList posTag = new NbtList();
+		final NbtList tag = new NbtList();
+		for (final BlockPos pos : this.positions) {
+			final NbtList posTag = new NbtList();
 			posTag.add(NbtInt.of(pos.getX()));
 			posTag.add(NbtInt.of(pos.getY()));
 			posTag.add(NbtInt.of(pos.getZ()));
@@ -84,90 +183,10 @@ public class EssentiaNetwork {
 		return tag;
 	}
 
-	public void rebuildNodes() {
-		nodes.clear();
-		for (BlockPos pos : positions) {
-			Block block = world.getBlockState(pos).getBlock();
-			if (block instanceof NetworkElement) {
-				nodes.addAll(((NetworkElement) block).getNodes(world, pos));
-			}
-		}
-		pullers.clear();
-		pushers.clear();
-		passives.clear();
-		for (NetworkNode node : nodes) {
-			switch (node.getType()) {
-			case PULL:
-				pullers.add(node);
-				break;
-			case PUSH:
-				pushers.add(node);
-				break;
-			case PASSIVE:
-				passives.add(node);
-				break;
-			}
-		}
-	}
-
-	public void removeNodes(BlockPos pos) {
-		nodes.removeIf((node) -> node.getPos().equals(pos));
-		pullers.removeIf((node) -> node.getPos().equals(pos));
-		pushers.removeIf((node) -> node.getPos().equals(pos));
-		passives.removeIf((node) -> node.getPos().equals(pos));
-	}
-
-	public void addNodes(BlockPos pos) {
-		Block block = world.getBlockState(pos).getBlock();
-		if (block instanceof NetworkElement) {
-			Set<NetworkNode> newNodes = ((NetworkElement) block).getNodes(world, pos);
-			for (NetworkNode node : newNodes) {
-				nodes.add(node);
-				switch (node.getType()) {
-				case PULL:
-					pullers.add(node);
-					break;
-				case PUSH:
-					pushers.add(node);
-					break;
-				case PASSIVE:
-					passives.add(node);
-					break;
-				}
-			}
-		}
-	}
-
-	public void tick() {
-		if (dirty) {
-			rebuildNodes();
-			dirty = false;
-		}
-
-		if (world.getTime() < lastTicked + 5) {
-			return;
-		}
-		lastTicked = world.getTime();
-
-		for (NetworkNode pusher : pushers) {
-			for (NetworkNode puller : pullers) {
-				transfer(pusher, puller);
-			}
-			for (NetworkNode passive : passives) {
-				transfer(pusher, passive);
-			}
-		}
-		for (NetworkNode puller : pullers) {
-			for (NetworkNode passive : passives) {
-				transfer(passive, puller);
-			}
-		}
-	}
-
-	public void transfer(NetworkNode from, NetworkNode to) {
-		BlockEntity fromBE = from.getBlockEntity();
-		BlockEntity toBE = to.getBlockEntity();
-		if (fromBE instanceof HasEssentia && toBE instanceof HasEssentia) {
+	public void transfer(final NetworkNode from, final NetworkNode to) {
+		final BlockEntity fromBE = from.getBlockEntity();
+		final BlockEntity toBE = to.getBlockEntity();
+		if ((fromBE instanceof HasEssentia) && (toBE instanceof HasEssentia)) {
 			for (int i = 0; i < ((HasEssentia) fromBE).getNumContainers(); i++) {
 				EssentiaContainer fromContainer;
 				if (from.getDirection().isPresent()) {
@@ -187,24 +206,6 @@ public class EssentiaNetwork {
 			}
 			fromBE.markDirty();
 			toBE.markDirty();
-		}
-	}
-
-	public boolean add(BlockPos pos) {
-		if (!positions.contains(pos)) {
-			addNodes(pos);
-			return positions.add(pos);
-		} else {
-			return false;
-		}
-	}
-
-	public boolean remove(BlockPos pos) {
-		if (positions.contains(pos)) {
-			removeNodes(pos);
-			return positions.remove(pos);
-		} else {
-			return false;
 		}
 	}
 

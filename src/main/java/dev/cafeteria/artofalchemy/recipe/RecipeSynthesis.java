@@ -1,10 +1,8 @@
 package dev.cafeteria.artofalchemy.recipe;
 
-
 import dev.cafeteria.artofalchemy.block.AoABlocks;
 import dev.cafeteria.artofalchemy.essentia.EssentiaStack;
 import dev.cafeteria.artofalchemy.util.AoAHelper;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.inventory.Inventory;
@@ -27,8 +25,10 @@ public class RecipeSynthesis implements Recipe<Inventory> {
 	protected final int cost;
 	protected final int tier;
 
-	public RecipeSynthesis(Identifier id, String group, Ingredient target, Ingredient materia, EssentiaStack essentia,
-			Ingredient container, int cost, int tier) {
+	public RecipeSynthesis(
+		final Identifier id, final String group, final Ingredient target, final Ingredient materia,
+		final EssentiaStack essentia, final Ingredient container, final int cost, final int tier
+	) {
 		this.id = id;
 		this.group = group;
 		this.target = target;
@@ -40,27 +40,47 @@ public class RecipeSynthesis implements Recipe<Inventory> {
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
-		ItemStack stack = inv.getStack(2);
-		return target.test(new ItemStack(AoAHelper.getTarget(stack)));
-	}
-
-	@Override
-	public ItemStack craft(Inventory inv) {
+	public ItemStack craft(final Inventory inv) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public Identifier getId() {
-		return id;
+	@Environment(EnvType.CLIENT)
+	public ItemStack createIcon() {
+		return new ItemStack(AoABlocks.SYNTHESIZER);
 	}
 
-	public Ingredient getMateria() {
-		return materia;
+	@Override
+	@Environment(EnvType.CLIENT)
+	public boolean fits(final int width, final int height) {
+		return true;
+	}
+
+	public Ingredient getContainer() {
+		return this.container;
+	}
+
+	public int getCost() {
+		return this.cost;
 	}
 
 	public EssentiaStack getEssentia() {
-		return (EssentiaStack) essentia.clone();
+		return (EssentiaStack) this.essentia.clone();
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public String getGroup() {
+		return this.group;
+	}
+
+	@Override
+	public Identifier getId() {
+		return this.id;
+	}
+
+	public Ingredient getMateria() {
+		return this.materia;
 	}
 
 	@Override
@@ -68,16 +88,13 @@ public class RecipeSynthesis implements Recipe<Inventory> {
 		return ItemStack.EMPTY;
 	}
 
-	public Ingredient getContainer() {
-		return container;
-	}
-
-	public int getCost() {
-		return cost;
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return AoARecipes.SYNTHESIS_SERIALIZER;
 	}
 
 	public int getTier() {
-		return tier;
+		return this.tier;
 	}
 
 	@Override
@@ -86,26 +103,9 @@ public class RecipeSynthesis implements Recipe<Inventory> {
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return AoARecipes.SYNTHESIS_SERIALIZER;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public boolean fits(int width, int height) {
-		return true;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public String getGroup() {
-		return group;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public ItemStack createIcon() {
-		return new ItemStack(AoABlocks.SYNTHESIZER);
+	public boolean matches(final Inventory inv, final World world) {
+		final ItemStack stack = inv.getStack(2);
+		return this.target.test(new ItemStack(AoAHelper.getTarget(stack)));
 	}
 
 }

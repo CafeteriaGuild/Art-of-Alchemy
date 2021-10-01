@@ -7,25 +7,26 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public interface NetworkElement {
-	boolean hasNodes(World world, BlockPos pos);
-	Set<NetworkNode> getNodes(World world, BlockPos pos);
-
 	/**
-	 * Query whether this element is connected to a neighbouring element.
+	 * Query the set of surrounding blocks that have an established connection to
+	 * this element.
 	 *
 	 * @param world the world instance.
-	 * @param pos the block position identifying this element.
-	 * @param dir the direction in which the other element is located.
+	 * @param pos   the block position identifying this element.
 	 *
-	 * @return whether the two elements are connected.
+	 * @return the set of block positions towards which a connection is established.
 	 */
-	boolean isConnected(World world, BlockPos pos, Direction dir);
+	Set<BlockPos> getConnections(World world, BlockPos pos);
+
+	Set<NetworkNode> getNodes(World world, BlockPos pos);
+
+	boolean hasNodes(World world, BlockPos pos);
 
 	/**
 	 * Query whether this element is connected to another element.
 	 *
 	 * @param world the world instance.
-	 * @param pos the block position identifying this element.
+	 * @param pos   the block position identifying this element.
 	 * @param other the block position identifying the other element.
 	 *
 	 * @return whether the two elements are connected.
@@ -33,13 +34,13 @@ public interface NetworkElement {
 	boolean isConnected(World world, BlockPos pos, BlockPos other);
 
 	/**
-	 * Query the set of surrounding blocks that have an established
-	 * connection to this element.
+	 * Query whether this element is connected to a neighbouring element.
 	 *
 	 * @param world the world instance.
-	 * @param pos the block position identifying this element.
+	 * @param pos   the block position identifying this element.
+	 * @param dir   the direction in which the other element is located.
 	 *
-	 * @return the set of block positions towards which a connection is established.
+	 * @return whether the two elements are connected.
 	 */
-	Set<BlockPos> getConnections(World world, BlockPos pos);
+	boolean isConnected(World world, BlockPos pos, Direction dir);
 }

@@ -9,7 +9,6 @@ import dev.cafeteria.artofalchemy.essentia.RegistryEssentia;
 import dev.cafeteria.artofalchemy.item.AoAItems;
 import dev.cafeteria.artofalchemy.item.BlockItemMateria;
 import dev.cafeteria.artofalchemy.util.MateriaRank;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
@@ -36,50 +35,50 @@ public class AoABlocks {
 	public static final Block ALKAHEST = new BlockAlkahest();
 	public static final Map<Essentia, Block> ESSENTIA = new HashMap<>();
 
-	public static void registerBlocks() {
-		register("analysis_desk", ANALYZER);
-		register("calcination_furnace", CALCINATOR);
-		register("dissolution_chamber", DISSOLVER);
-		register("distillation_apparatus", DISTILLER);
-		register("synthesis_table", SYNTHESIZER);
-		register("projection_altar", PROJECTOR);
-		register("calcination_furnace_plus", CALCINATOR_PLUS);
-		register("dissolution_chamber_plus", DISSOLVER_PLUS);
-		register("synthesis_table_plus", SYNTHESIZER_PLUS);
-		register("astrological_centrifuge", ASTRO_CENTRIFUGE);
-		register("elemental_centrifuge", ELEMENT_CENTRIFUGE);
-		register("essentia_tank", TANK);
-		register("essentia_pipe", PIPE);
+	public static Block register(final String name, final Block block) {
+		AoAItems.register(name, new BlockItem(block, AoAItems.defaults()));
+		return AoABlocks.registerItemless(name, block);
+	}
 
-		registerItemless("alkahest", ALKAHEST);
+	public static void registerBlocks() {
+		AoABlocks.register("analysis_desk", AoABlocks.ANALYZER);
+		AoABlocks.register("calcination_furnace", AoABlocks.CALCINATOR);
+		AoABlocks.register("dissolution_chamber", AoABlocks.DISSOLVER);
+		AoABlocks.register("distillation_apparatus", AoABlocks.DISTILLER);
+		AoABlocks.register("synthesis_table", AoABlocks.SYNTHESIZER);
+		AoABlocks.register("projection_altar", AoABlocks.PROJECTOR);
+		AoABlocks.register("calcination_furnace_plus", AoABlocks.CALCINATOR_PLUS);
+		AoABlocks.register("dissolution_chamber_plus", AoABlocks.DISSOLVER_PLUS);
+		AoABlocks.register("synthesis_table_plus", AoABlocks.SYNTHESIZER_PLUS);
+		AoABlocks.register("astrological_centrifuge", AoABlocks.ASTRO_CENTRIFUGE);
+		AoABlocks.register("elemental_centrifuge", AoABlocks.ELEMENT_CENTRIFUGE);
+		AoABlocks.register("essentia_tank", AoABlocks.TANK);
+		AoABlocks.register("essentia_pipe", AoABlocks.PIPE);
+
+		AoABlocks.registerItemless("alkahest", AoABlocks.ALKAHEST);
 
 		// Register materia dusts
-		for (MateriaRank rank : MateriaRank.values()) {
-			String name = "materia_block_" + rank.toString().toLowerCase();
-			BlockMateria block = new BlockMateria(rank);
-			MATERIA_BLOCKS.put(rank, registerItemless(name, block));
+		for (final MateriaRank rank : MateriaRank.values()) {
+			final String name = "materia_block_" + rank.toString().toLowerCase();
+			final BlockMateria block = new BlockMateria(rank);
+			AoABlocks.MATERIA_BLOCKS.put(rank, AoABlocks.registerItemless(name, block));
 			AoAItems.register(name, new BlockItemMateria(block, AoAItems.defaults()));
 		}
 
-		// Register essentia fluid blocks; add-on essentia fluids will be registered to THEIR namespace
-		RegistryEssentia.INSTANCE.forEach((Essentia essentia, Identifier id) -> {
-			Identifier blockId = new Identifier(id.getNamespace(), "essentia_" + id.getPath());
-			ESSENTIA.put(essentia, registerItemless(blockId, new BlockEssentia(essentia)));
+		// Register essentia fluid blocks; add-on essentia fluids will be registered to
+		// THEIR namespace
+		RegistryEssentia.INSTANCE.forEach((essentia, id) -> {
+			final Identifier blockId = new Identifier(id.getNamespace(), "essentia_" + id.getPath());
+			AoABlocks.ESSENTIA.put(essentia, AoABlocks.registerItemless(blockId, new BlockEssentia(essentia)));
 		});
 	}
 
-
-	public static Block register(String name, Block block) {
-		AoAItems.register(name, new BlockItem(block, AoAItems.defaults()));
-		return registerItemless(name, block);
-	}
-
-	public static Block registerItemless(String name, Block block) {
-		return registerItemless(ArtOfAlchemy.id(name), block);
-	}
-
-	public static Block registerItemless(Identifier id, Block block) {
+	public static Block registerItemless(final Identifier id, final Block block) {
 		return Registry.register(Registry.BLOCK, id, block);
+	}
+
+	public static Block registerItemless(final String name, final Block block) {
+		return AoABlocks.registerItemless(ArtOfAlchemy.id(name), block);
 	}
 
 }

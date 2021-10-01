@@ -1,9 +1,9 @@
 package dev.cafeteria.artofalchemy.recipe;
 
-import dev.cafeteria.artofalchemy.essentia.EssentiaStack;
-import dev.cafeteria.artofalchemy.item.ItemMateria;
 import com.google.gson.JsonObject;
 
+import dev.cafeteria.artofalchemy.essentia.EssentiaStack;
+import dev.cafeteria.artofalchemy.item.ItemMateria;
 import net.minecraft.item.Item;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
@@ -15,19 +15,19 @@ import net.minecraft.util.registry.Registry;
 public class SerializerSynthesis implements RecipeSerializer<RecipeSynthesis> {
 
 	@Override
-	public RecipeSynthesis read(Identifier id, JsonObject json) {
-		String group = JsonHelper.getString(json, "group", "");
-		Ingredient target = Ingredient.fromJson(JsonHelper.getObject(json, "target"));
-		Ingredient materia = Ingredient.fromJson(JsonHelper.getObject(json, "materia"));
-		EssentiaStack essentia = new EssentiaStack(JsonHelper.getObject(json, "essentia"));
+	public RecipeSynthesis read(final Identifier id, final JsonObject json) {
+		final String group = JsonHelper.getString(json, "group", "");
+		final Ingredient target = Ingredient.fromJson(JsonHelper.getObject(json, "target"));
+		final Ingredient materia = Ingredient.fromJson(JsonHelper.getObject(json, "materia"));
+		final EssentiaStack essentia = new EssentiaStack(JsonHelper.getObject(json, "essentia"));
 		Ingredient container = Ingredient.EMPTY;
 		if (json.has("container")) {
 			container = Ingredient.fromJson(JsonHelper.getObject(json, "container"));
 		}
-		int cost = JsonHelper.getInt(json, "cost", 1);
+		final int cost = JsonHelper.getInt(json, "cost", 1);
 		int tier = JsonHelper.getInt(json, "tier", -1);
-		if (tier == -1 && !materia.isEmpty()) {
-			Item item = Registry.ITEM.get(materia.getMatchingItemIds().getInt(0));
+		if ((tier == -1) && !materia.isEmpty()) {
+			final Item item = Registry.ITEM.get(materia.getMatchingItemIds().getInt(0));
 			if (item instanceof ItemMateria) {
 				tier = ((ItemMateria) item).getTier();
 			}
@@ -36,19 +36,19 @@ public class SerializerSynthesis implements RecipeSerializer<RecipeSynthesis> {
 	}
 
 	@Override
-	public RecipeSynthesis read(Identifier id, PacketByteBuf buf) {
-		String group = buf.readString(32767);
-		Ingredient target = Ingredient.fromPacket(buf);
-		Ingredient materia = Ingredient.fromPacket(buf);
-		EssentiaStack essentia = new EssentiaStack(buf.readNbt());
-		Ingredient container = Ingredient.fromPacket(buf);
-		int cost = buf.readVarInt();
-		int tier = buf.readVarInt();
+	public RecipeSynthesis read(final Identifier id, final PacketByteBuf buf) {
+		final String group = buf.readString(32767);
+		final Ingredient target = Ingredient.fromPacket(buf);
+		final Ingredient materia = Ingredient.fromPacket(buf);
+		final EssentiaStack essentia = new EssentiaStack(buf.readNbt());
+		final Ingredient container = Ingredient.fromPacket(buf);
+		final int cost = buf.readVarInt();
+		final int tier = buf.readVarInt();
 		return new RecipeSynthesis(id, group, target, materia, essentia, container, cost, tier);
 	}
 
 	@Override
-	public void write(PacketByteBuf buf, RecipeSynthesis recipe) {
+	public void write(final PacketByteBuf buf, final RecipeSynthesis recipe) {
 		buf.writeString(recipe.group);
 		recipe.target.write(buf);
 		recipe.materia.write(buf);
@@ -57,6 +57,5 @@ public class SerializerSynthesis implements RecipeSerializer<RecipeSynthesis> {
 		buf.writeVarInt(recipe.cost);
 		buf.writeVarInt(recipe.tier);
 	}
-
 
 }

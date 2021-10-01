@@ -3,7 +3,6 @@ package dev.cafeteria.artofalchemy.block;
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityProjector;
 import dev.cafeteria.artofalchemy.item.AoAItems;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -35,96 +34,39 @@ import net.minecraft.world.World;
 public class BlockProjector extends BlockWithEntity {
 
 	public static final BooleanProperty LIT = Properties.LIT;
-	public static final Settings SETTINGS = Settings
-			.of(Material.METAL).sounds(BlockSoundGroup.METAL)
-			.strength(5.0f, 6.0f)
-			.luminance((state) -> state.get(LIT) ? 15 : 0)
-			.nonOpaque();
+	public static final Settings SETTINGS = Settings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(5.0f, 6.0f)
+		.luminance(state -> state.get(BlockProjector.LIT) ? 15 : 0).nonOpaque();
 
 	public static Identifier getId() {
 		return Registry.BLOCK.getId(AoABlocks.PROJECTOR);
 	}
 
 	public BlockProjector() {
-		this(SETTINGS);
+		this(BlockProjector.SETTINGS);
 	}
 
-	protected BlockProjector(Settings settings) {
+	protected BlockProjector(final Settings settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(LIT, false));
+		this.setDefaultState(this.getDefaultState().with(BlockProjector.LIT, false));
 	}
 
 	@Override
-	protected void appendProperties(Builder<Block, BlockState> builder) {
-		builder.add(LIT);
+	protected void appendProperties(final Builder<Block, BlockState> builder) {
+		builder.add(BlockProjector.LIT);
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return super.getPlacementState(ctx);
-	}
-
-	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockHitResult hit) {
-
-		ItemStack inHand = player.getStackInHand(hand);
-
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof BlockEntityProjector) {
-			BlockEntityProjector projector = (BlockEntityProjector) blockEntity;
-			if (inHand.getItem() == AoAItems.ALKAHEST_BUCKET && projector.addAlkahest(1000)) {
-				if (!player.getAbilities().creativeMode) {
-					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
-				}
-				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY,
-						SoundCategory.BLOCKS, 1.0F, 1.0F);
-				return ActionResult.SUCCESS;
-			}
-			if (!world.isClient()) {
-				player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
-			}
-			return ActionResult.SUCCESS;
-		} else {
-			return ActionResult.PASS;
-		}
-
-	}
-
-	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity createBlockEntity(final BlockPos pos, final BlockState state) {
 		return new BlockEntityProjector(pos, state);
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (state.getBlock() != newState.getBlock()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof BlockEntityProjector) {
-				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
-			}
-
-			super.onStateReplaced(state, world, pos, newState, moved);
-		}
-	}
-
-	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
-	}
-
-	@Override
-	public boolean hasComparatorOutput(BlockState state) {
-		return true;
-	}
-
-	@Override
-	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-		BlockEntity be = world.getBlockEntity(pos);
+	public int getComparatorOutput(final BlockState state, final World world, final BlockPos pos) {
+		final BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof BlockEntityProjector) {
-			int capacity = ((BlockEntityProjector) be).getTankSize();
-			int filled = ((BlockEntityProjector) be).getAlkahest();
-			double fillLevel = (double) filled / capacity;
+			final int capacity = ((BlockEntityProjector) be).getTankSize();
+			final int filled = ((BlockEntityProjector) be).getAlkahest();
+			final double fillLevel = (double) filled / capacity;
 			if (fillLevel == 0.0) {
 				return 0;
 			} else {
@@ -136,8 +78,69 @@ public class BlockProjector extends BlockWithEntity {
 	}
 
 	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return type == AoABlockEntities.PROJECTOR ? (world2, pos, state2, entity) -> ((BlockEntityProjector) entity).tick(world2, pos, state2, (BlockEntityProjector) entity) : null;
+	public BlockState getPlacementState(final ItemPlacementContext ctx) {
+		return super.getPlacementState(ctx);
+	}
+
+	@Override
+	public BlockRenderType getRenderType(final BlockState state) {
+		return BlockRenderType.MODEL;
+	}
+
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+		final World world, final BlockState state, final BlockEntityType<T> type
+	) {
+		return type == AoABlockEntities.PROJECTOR
+			? (world2, pos, state2, entity) -> ((BlockEntityProjector) entity)
+				.tick(world2, pos, state2, (BlockEntityProjector) entity)
+			: null;
+	}
+
+	@Override
+	public boolean hasComparatorOutput(final BlockState state) {
+		return true;
+	}
+
+	@Override
+	public void onStateReplaced(
+		final BlockState state, final World world, final BlockPos pos, final BlockState newState, final boolean moved
+	) {
+		if (state.getBlock() != newState.getBlock()) {
+			final BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof BlockEntityProjector) {
+				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+			}
+
+			super.onStateReplaced(state, world, pos, newState, moved);
+		}
+	}
+
+	@Override
+	public ActionResult onUse(
+		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
+		final BlockHitResult hit
+	) {
+
+		final ItemStack inHand = player.getStackInHand(hand);
+
+		final BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof final BlockEntityProjector projector) {
+			if ((inHand.getItem() == AoAItems.ALKAHEST_BUCKET) && projector.addAlkahest(1000)) {
+				if (!player.getAbilities().creativeMode) {
+					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
+				}
+				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+				return ActionResult.SUCCESS;
+			}
+			if (!world.isClient()) {
+				player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
+			}
+			return ActionResult.SUCCESS;
+		} else {
+			return ActionResult.PASS;
+		}
+
 	}
 
 }

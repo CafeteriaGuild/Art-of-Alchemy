@@ -13,11 +13,11 @@ import net.minecraft.util.JsonHelper;
 public class SerializerCalcination implements RecipeSerializer<RecipeCalcination> {
 
 	@Override
-	public RecipeCalcination read(Identifier id, JsonObject json) {
-		String group = JsonHelper.getString(json, "group", "");
-		Ingredient input = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
-		ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
-		float factor = JsonHelper.getFloat(json, "factor", 1.0f);
+	public RecipeCalcination read(final Identifier id, final JsonObject json) {
+		final String group = JsonHelper.getString(json, "group", "");
+		final Ingredient input = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
+		final ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
+		final float factor = JsonHelper.getFloat(json, "factor", 1.0f);
 		ItemStack container = ItemStack.EMPTY;
 		if (json.has("container")) {
 			container = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "container"));
@@ -26,17 +26,17 @@ public class SerializerCalcination implements RecipeSerializer<RecipeCalcination
 	}
 
 	@Override
-	public RecipeCalcination read(Identifier id, PacketByteBuf buf) {
-		String group = buf.readString(32767);
-		Ingredient input = Ingredient.fromPacket(buf);
-		ItemStack output = buf.readItemStack();
-		float factor = buf.readFloat();
-		ItemStack container = buf.readItemStack();
+	public RecipeCalcination read(final Identifier id, final PacketByteBuf buf) {
+		final String group = buf.readString(32767);
+		final Ingredient input = Ingredient.fromPacket(buf);
+		final ItemStack output = buf.readItemStack();
+		final float factor = buf.readFloat();
+		final ItemStack container = buf.readItemStack();
 		return new RecipeCalcination(id, group, input, output, factor, container);
 	}
 
 	@Override
-	public void write(PacketByteBuf buf, RecipeCalcination recipe) {
+	public void write(final PacketByteBuf buf, final RecipeCalcination recipe) {
 		buf.writeString(recipe.group);
 		recipe.input.write(buf);
 		buf.writeItemStack(recipe.output);

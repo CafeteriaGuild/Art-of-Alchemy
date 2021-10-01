@@ -1,8 +1,6 @@
 package dev.cafeteria.artofalchemy.recipe;
 
-
 import dev.cafeteria.artofalchemy.block.AoABlocks;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.inventory.Inventory;
@@ -23,7 +21,10 @@ public class RecipeProjection implements Recipe<Inventory> {
 	protected final ItemStack output;
 	protected final int alkahest;
 
-	public RecipeProjection(Identifier id, String group, Ingredient input, int cost, ItemStack output, int alkahest) {
+	public RecipeProjection(
+		final Identifier id, final String group, final Ingredient input, final int cost, final ItemStack output,
+		final int alkahest
+	) {
 		this.id = id;
 		this.group = group;
 		this.input = input;
@@ -33,40 +34,48 @@ public class RecipeProjection implements Recipe<Inventory> {
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
-		return input.test(inv.getStack(0));
+	public ItemStack craft(final Inventory inv) {
+		return this.output.copy();
 	}
 
 	@Override
-	public ItemStack craft(Inventory inv) {
-		return output.copy();
-	}
-
-	public Ingredient getInput() {
-		return input;
-	}
-
-	public int getCost() {
-		return cost;
+	@Environment(EnvType.CLIENT)
+	public ItemStack createIcon() {
+		return new ItemStack(AoABlocks.PROJECTOR);
 	}
 
 	@Override
-	public ItemStack getOutput() {
-		return output;
+	@Environment(EnvType.CLIENT)
+	public boolean fits(final int width, final int height) {
+		return true;
 	}
 
 	public int getAlkahest() {
-		return alkahest;
+		return this.alkahest;
+	}
+
+	public int getCost() {
+		return this.cost;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public String getGroup() {
+		return this.group;
 	}
 
 	@Override
 	public Identifier getId() {
-		return id;
+		return this.id;
+	}
+
+	public Ingredient getInput() {
+		return this.input;
 	}
 
 	@Override
-	public RecipeType<?> getType() {
-		return AoARecipes.PROJECTION;
+	public ItemStack getOutput() {
+		return this.output;
 	}
 
 	@Override
@@ -75,21 +84,13 @@ public class RecipeProjection implements Recipe<Inventory> {
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public boolean fits(int width, int height) {
-		return true;
+	public RecipeType<?> getType() {
+		return AoARecipes.PROJECTION;
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public String getGroup() {
-		return group;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public ItemStack createIcon() {
-		return new ItemStack(AoABlocks.PROJECTOR);
+	public boolean matches(final Inventory inv, final World world) {
+		return this.input.test(inv.getStack(0));
 	}
 
 }

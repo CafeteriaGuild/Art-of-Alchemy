@@ -2,41 +2,37 @@ package dev.cafeteria.artofalchemy.blockentity;
 
 import dev.cafeteria.artofalchemy.AoAConfig;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 
 public class BlockEntitySynthesizerPlus extends BlockEntitySynthesizer {
 
-	private int maxTier;
-	private float speedMod;
-	private int tankSize;
+	private final int maxTier;
+	private final float speedMod;
+	private final int tankSize;
 
-	public BlockEntitySynthesizerPlus(BlockPos pos, BlockState state) {
+	public BlockEntitySynthesizerPlus(final BlockPos pos, final BlockState state) {
 		super(AoABlockEntities.SYNTHESIZER_PLUS, pos, state);
-		AoAConfig.SynthesizerSettings settings = AoAConfig.get().synthesizerSettings;
-		tankSize = settings.tankPlus;
-		speedMod = settings.speedPlus;
-		maxTier = settings.maxTierPlus.tier;
-		essentiaContainer = new EssentiaContainer()
-				.setCapacity(getTankSize())
-				.setInput(true)
-				.setOutput(false);
+		final AoAConfig.SynthesizerSettings settings = AoAConfig.get().synthesizerSettings;
+		this.tankSize = settings.tankPlus;
+		this.speedMod = settings.speedPlus;
+		this.maxTier = settings.maxTierPlus.tier;
+		this.essentiaContainer = new EssentiaContainer().setCapacity(this.getTankSize()).setInput(true).setOutput(false);
 	}
 
 	@Override
 	public int getMaxTier() {
-		return maxTier;
+		return this.maxTier;
 	}
 
 	@Override
 	public float getSpeedMod() {
-		return speedMod;
+		return this.speedMod;
 	}
 
 	@Override
 	public int getTankSize() {
-		return tankSize;
+		return this.tankSize;
 	}
 
 }

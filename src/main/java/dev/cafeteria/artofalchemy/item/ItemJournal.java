@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.cafeteria.artofalchemy.gui.handler.HandlerJournal;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -33,31 +32,82 @@ import net.minecraft.world.World;
 
 public class ItemJournal extends AbstractItemFormula {
 
-	public ItemJournal(Settings settings) {
-		super(settings.maxCount(1));
+	public static boolean addFormula(final ItemStack stack, final Identifier formula) {
+		final NbtList entries = ItemJournal.getOrCreateEntriesTag(stack);
+		final NbtString newEntry = NbtString.of(formula.toString());
+		if (!ItemJournal.hasFormula(stack, new Identifier(newEntry.asString()))) {
+			entries.add(newEntry);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	public static Identifier getId() {
-		return Registry.ITEM.getId(AoAItems.JOURNAL);
+	public static boolean addFormula(final ItemStack stack, final Item formula) {
+		return ItemJournal.addFormula(stack, Registry.ITEM.getId(formula));
 	}
 
-	public static Item getFormula(ItemStack stack) {
-		NbtCompound tag = stack.getNbt();
-		if (tag != null && tag.contains("selected")) {
-			Identifier id = new Identifier(tag.getString("selected"));
+	public static List<Item> getEntries(final ItemStack stack) {
+		final List<Item> list = new ArrayList<>();
+		final NbtList entries = ItemJournal.getOrCreateEntriesTag(stack);
+		for (int i = 0; i < entries.size(); i++) {
+			final Item item = Registry.ITEM.get(Identifier.tryParse(entries.getString(i)));
+			if (item != Items.AIR) {
+				list.add(item);
+			}
+		}
+		return list;
+	}
+
+	public static NbtList getEntriesTag(final ItemStack stack) {
+		final NbtCompound tag = stack.getOrCreateNbt();
+		if (tag.contains("entries", 9)) {
+			return tag.getList("entries", 8);
+		} else {
+			return null;
+		}
+	}
+
+	public static Item getFormula(final ItemStack stack) {
+		final NbtCompound tag = stack.getNbt();
+		if ((tag != null) && tag.contains("selected")) {
+			final Identifier id = new Identifier(tag.getString("selected"));
 			return Registry.ITEM.get(id);
 		} else {
 			return Items.AIR;
 		}
 	}
 
-	public static void setFormula(ItemStack stack, Item formula) {
-		setFormula(stack, Registry.ITEM.getId(formula));
+	public static Identifier getId() {
+		return Registry.ITEM.getId(AoAItems.JOURNAL);
 	}
 
-	public static boolean setFormula(ItemStack stack, Identifier formula) {
-		if (hasFormula(stack, formula) || formula == Registry.ITEM.getId(Items.AIR)) {
-			NbtCompound tag = stack.getOrCreateNbt();
+	public static NbtList getOrCreateEntriesTag(final ItemStack stack) {
+		final NbtCompound tag = stack.getOrCreateNbt();
+		if (tag.contains("entries", 9)) {
+			return tag.getList("entries", 8);
+		} else {
+			final NbtList entries = new NbtList();
+			tag.put("entries", entries);
+			return entries;
+		}
+	}
+
+	public static boolean hasFormula(final ItemStack stack, final Identifier formula) {
+		if (formula.equals(Registry.ITEM.getId(Items.AIR))) {
+			return true;
+		} else {
+			return ItemJournal.getOrCreateEntriesTag(stack).contains(NbtString.of(formula.toString()));
+		}
+	}
+
+	public static boolean hasFormula(final ItemStack stack, final Item formula) {
+		return ItemJournal.hasFormula(stack, Registry.ITEM.getId(formula));
+	}
+
+	public static boolean setFormula(final ItemStack stack, final Identifier formula) {
+		if (ItemJournal.hasFormula(stack, formula) || (formula == Registry.ITEM.getId(Items.AIR))) {
+			final NbtCompound tag = stack.getOrCreateNbt();
 			tag.put("selected", NbtString.of(formula.toString()));
 			stack.setNbt(tag);
 			return true;
@@ -66,72 +116,38 @@ public class ItemJournal extends AbstractItemFormula {
 		}
 	}
 
-	public static NbtList getOrCreateEntriesTag(ItemStack stack) {
-		NbtCompound tag = stack.getOrCreateNbt();
-		if (tag.contains("entries", 9)) {
-			return tag.getList("entries", 8);
-		} else {
-			NbtList entries = new NbtList();
-			tag.put("entries", entries);
-			return entries;
+	public static void setFormula(final ItemStack stack, final Item formula) {
+		ItemJournal.setFormula(stack, Registry.ITEM.getId(formula));
+	}
+
+	public ItemJournal(final Settings settings) {
+		super(settings.maxCount(1));
+	}
+
+	@Environment(EnvType.CLIENT)
+	@Override
+	public void appendTooltip(
+		final ItemStack stack, final World world, final List<Text> tooltip, final TooltipContext ctx
+	) {
+		final int entryCount = ItemJournal.getEntriesTag(stack) == null ? 0 : ItemJournal.getEntriesTag(stack).size();
+		if (ItemJournal.getFormula(stack) != Items.AIR) {
+			tooltip
+				.add(new TranslatableText(ItemJournal.getFormula(stack).getTranslationKey()).formatted(Formatting.DARK_PURPLE));
 		}
-	}
-
-	public static NbtList getEntriesTag(ItemStack stack) {
-		NbtCompound tag = stack.getOrCreateNbt();
-		if (tag.contains("entries", 9)) {
-			return tag.getList("entries", 8);
-		} else {
-			return null;
-		}
-	}
-
-	public static List<Item> getEntries(ItemStack stack) {
-		List<Item> list = new ArrayList<>();
-		NbtList entries = getOrCreateEntriesTag(stack);
-		for (int i = 0; i < entries.size(); i++) {
-			Item item = Registry.ITEM.get(Identifier.tryParse(entries.getString(i)));
-			if (item != Items.AIR) {
-				list.add(item);
-			}
-		}
-		return list;
-	}
-
-	public static boolean hasFormula(ItemStack stack, Identifier formula) {
-		if (formula.equals(Registry.ITEM.getId(Items.AIR))) {
-			return true;
-		} else {
-			return getOrCreateEntriesTag(stack).contains(NbtString.of(formula.toString()));
-		}
-	}
-
-	public static boolean hasFormula(ItemStack stack, Item formula) {
-		return hasFormula(stack, Registry.ITEM.getId(formula));
-	}
-
-	public static boolean addFormula(ItemStack stack, Identifier formula) {
-		NbtList entries = getOrCreateEntriesTag(stack);
-		NbtString newEntry = NbtString.of(formula.toString());
-		if (!hasFormula(stack, new Identifier(newEntry.asString()))) {
-			entries.add(newEntry);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public static boolean addFormula(ItemStack stack, Item formula) {
-		return addFormula(stack, Registry.ITEM.getId(formula));
+		tooltip.add(
+			new TranslatableText("item.artofalchemy.alchemical_journal.tooltip_entries", entryCount)
+				.formatted(Formatting.GRAY)
+		);
+		super.appendTooltip(stack, world, tooltip, ctx);
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+	public TypedActionResult<ItemStack> use(final World world, final PlayerEntity user, final Hand hand) {
 		if (!world.isClient()) {
 			user.openHandledScreen(new ExtendedScreenHandlerFactory() {
 				@Override
-				public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-					buf.writeEnumConstant(hand);
+				public ScreenHandler createMenu(final int syncId, final PlayerInventory inv, final PlayerEntity player) {
+					return new HandlerJournal(syncId, inv, ScreenHandlerContext.EMPTY, hand);
 				}
 
 				@Override
@@ -140,23 +156,12 @@ public class ItemJournal extends AbstractItemFormula {
 				}
 
 				@Override
-				public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-					return new HandlerJournal(syncId, inv, ScreenHandlerContext.EMPTY, hand);
+				public void writeScreenOpeningData(final ServerPlayerEntity player, final PacketByteBuf buf) {
+					buf.writeEnumConstant(hand);
 				}
 			});
 		}
 		return super.use(world, user, hand);
-	}
-
-	@Environment(EnvType.CLIENT)
-	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext ctx) {
-		int entryCount = getEntriesTag(stack) == null? 0 : getEntriesTag(stack).size();
-		if (getFormula(stack) != Items.AIR) {
-			tooltip.add(new TranslatableText(getFormula(stack).getTranslationKey()).formatted(Formatting.DARK_PURPLE));
-		}
-		tooltip.add(new TranslatableText("item.artofalchemy.alchemical_journal.tooltip_entries", entryCount).formatted(Formatting.GRAY));
-		super.appendTooltip(stack, world, tooltip, ctx);
 	}
 
 }

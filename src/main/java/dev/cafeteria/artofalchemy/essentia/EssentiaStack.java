@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import dev.cafeteria.artofalchemy.util.AoAHelper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
+import dev.cafeteria.artofalchemy.util.AoAHelper;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -17,148 +17,93 @@ import net.minecraft.util.math.Vec3d;
 @SuppressWarnings("serial")
 public class EssentiaStack extends HashMap<Essentia, Integer> {
 
-	public EssentiaStack() {
-		super();
+	// Non-mutating addition.
+	public static EssentiaStack add(final EssentiaStack stack1, final EssentiaStack stack2) {
+		final EssentiaStack outStack = new EssentiaStack();
+		final Set<Essentia> union = new HashSet<>(stack1.keySet());
+		union.addAll(stack2.keySet());
+		union
+			.forEach(essentia -> outStack.put(essentia, stack1.getOrDefault(essentia, 0) + stack2.getOrDefault(essentia, 0)));
+		return outStack;
 	}
 
-	public EssentiaStack(JsonObject obj) {
-		obj.entrySet().forEach((entry) -> {
-			Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(entry.getKey()));
+	// Non-mutating scalar multiplication. Can go negative - try not to break
+	// things.
+	public static EssentiaStack multiply(final EssentiaStack inStack, final double scalar) {
+		final EssentiaStack outStack = new EssentiaStack();
+		inStack.forEach((essentia, amount) -> outStack.put(essentia, (int) (amount * scalar)));
+		return outStack;
+	}
+
+	// Non-mutating scalar multiplication. Can go negative - try not to break
+	// things.
+	public static EssentiaStack multiply(final EssentiaStack inStack, final int scalar) {
+		final EssentiaStack outStack = new EssentiaStack();
+		inStack.forEach((essentia, amount) -> outStack.put(essentia, amount * scalar));
+		return outStack;
+	}
+
+	// Non-mutating scalar multiplication. Can go negative - try not to break
+	// things.
+	public static EssentiaStack multiplyCeil(final EssentiaStack inStack, final double scalar) {
+		final EssentiaStack outStack = new EssentiaStack();
+		inStack.forEach((essentia, amount) -> outStack.put(essentia, (int) Math.ceil(amount * scalar)));
+		return outStack;
+	}
+
+	// Non-mutating subtraction.
+	public static EssentiaStack subtract(final EssentiaStack stack1, final EssentiaStack stack2) {
+		final EssentiaStack outStack = new EssentiaStack();
+		final Set<Essentia> union = stack1.keySet();
+		union.addAll(stack2.keySet());
+		union.forEach(essentia -> {
+			final int amount = Math.min(0, stack1.getOrDefault(essentia, 0) - stack2.getOrDefault(essentia, 0));
+			outStack.put(essentia, amount);
+		});
+		return outStack;
+	}
+
+	public EssentiaStack() {
+	}
+
+	public EssentiaStack(final JsonObject obj) {
+		obj.entrySet().forEach(entry -> {
+			final Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(entry.getKey()));
 			if (essentia != null) {
-				put(essentia, entry.getValue().getAsInt());
+				EssentiaStack.this.put(essentia, entry.getValue().getAsInt());
 			} else {
 				throw new JsonSyntaxException("Unknown essentia '" + entry.getKey() + "'");
 			}
 		});
 	}
 
-	public EssentiaStack(NbtCompound tag) {
+	public EssentiaStack(final NbtCompound tag) {
 		if (tag != null) {
-			tag.getKeys().forEach((key) -> {
-				Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(key));
+			tag.getKeys().forEach(key -> {
+				final Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(key));
 				if (essentia != null) {
-					put(essentia, tag.getInt(key));
+					EssentiaStack.this.put(essentia, tag.getInt(key));
 				}
 			});
 		}
 	}
 
-	public int getCount() {
-		int sum = 0;
-		for (int amount : values()) {
-			sum += amount;
-		}
-		return sum;
-	}
-
-	public NbtCompound toTag() {
-		NbtCompound tag = new NbtCompound();
-		for (Essentia essentia : keySet()) {
-			tag.putInt(RegistryEssentia.INSTANCE.getId(essentia).toString(), get(essentia));
-		}
-		return tag;
-	}
-
-	public List<Essentia> sortedList() {
-		List<Essentia> list = new ArrayList<>();
-		for (Essentia key : keySet()) {
-			if (get(key) > 0) {
-				list.add(key);
-			}
-		}
-		list.sort((item1, item2) -> get(item2) - get(item1));
-		return list;
-	}
-
-	// Mutating scalar multiplication for a single essentia type. Can go negative - try not to break things.
-	public void multiply(Essentia essentia, int scalar) {
-		this.put(essentia, this.getOrDefault(essentia, 0) * scalar);
-	}
-	public void multiply(Essentia essentia, double scalar) {
-		this.put(essentia, (int) (this.getOrDefault(essentia, 0) * scalar));
-	}
-
-	// Mutating scalar multiplication. Can go negative - try not to break things.
-	public void multiply(int scalar) {
-		this.forEach((essentia, __) -> multiply(essentia, scalar));
-	}
-	public void multiply(double scalar) {
-		this.forEach((essentia, __) -> multiply(essentia, scalar));
-	}
-
-	public void multiplyStochastic(double scalar) {
-		this.replaceAll((__, value) -> AoAHelper.stochasticRound(value * scalar));
-	}
-
-	// Non-mutating scalar multiplication. Can go negative - try not to break things.
-	public static EssentiaStack multiply(EssentiaStack inStack, int scalar) {
-		EssentiaStack outStack = new EssentiaStack();
-		inStack.forEach((essentia, amount) -> outStack.put(essentia, amount * scalar));
-		return outStack;
-	}
-
-	// Non-mutating scalar multiplication. Can go negative - try not to break things.
-	public static EssentiaStack multiply(EssentiaStack inStack, double scalar) {
-		EssentiaStack outStack = new EssentiaStack();
-		inStack.forEach((essentia, amount) -> outStack.put(essentia, (int) (amount * scalar)));
-		return outStack;
-	}
-
-	// Non-mutating scalar multiplication. Can go negative - try not to break things.
-	public static EssentiaStack multiplyCeil(EssentiaStack inStack, double scalar) {
-		EssentiaStack outStack = new EssentiaStack();
-		inStack.forEach((essentia, amount) -> outStack.put(essentia, (int) Math.ceil(amount * scalar)));
-		return outStack;
-	}
-
 	// Mutating addition for a single essentia type.
-	public void add(Essentia essentia, int amount) {
+	public void add(final Essentia essentia, final int amount) {
 		this.put(essentia, this.getOrDefault(essentia, 0) + amount);
 	}
 
 	// Mutating addition.
-	public void add(EssentiaStack other) {
+	public void add(final EssentiaStack other) {
 		other.forEach(this::add);
 	}
 
-	// Non-mutating addition.
-	public static EssentiaStack add(EssentiaStack stack1, EssentiaStack stack2) {
-		EssentiaStack outStack = new EssentiaStack();
-		Set<Essentia> union = new HashSet<>();
-		union.addAll(stack1.keySet());
-		union.addAll(stack2.keySet());
-		union.forEach((essentia) -> outStack.put(essentia, stack1.getOrDefault(essentia, 0) + stack2.getOrDefault(essentia, 0)));
-		return outStack;
-	}
-
-	// Mutating subtraction for a single essentia type.
-	public void subtract(Essentia essentia, int amount) {
-		this.put(essentia, Math.max(0, this.getOrDefault(essentia, 0) - amount));
-	}
-
-	// Mutating subtraction.
-	public void subtract(EssentiaStack other) {
-		other.forEach(this::subtract);
-	}
-
-	// Non-mutating subtraction.
-	public static EssentiaStack subtract(EssentiaStack stack1, EssentiaStack stack2) {
-		EssentiaStack outStack = new EssentiaStack();
-		Set<Essentia> union = stack1.keySet();
-		union.addAll(stack2.keySet());
-		union.forEach((essentia) -> {
-			int amount = Math.min(0, stack1.getOrDefault(essentia, 0) - stack2.getOrDefault(essentia, 0));
-			outStack.put(essentia, amount);
-		});
-		return outStack;
-	}
-
-	// Returns true if this stack contains at least as much essentia of all types as the argument.
-	public boolean contains(EssentiaStack other) {
-		Set<Essentia> union = new HashSet<>();
-		union.addAll(this.keySet());
+	// Returns true if this stack contains at least as much essentia of all types as
+	// the argument.
+	public boolean contains(final EssentiaStack other) {
+		final Set<Essentia> union = new HashSet<>(this.keySet());
 		union.addAll(other.keySet());
-		for (Essentia essentia : union) {
+		for (final Essentia essentia : union) {
 			if (this.getOrDefault(essentia, 0) < other.getOrDefault(essentia, 0)) {
 				return false;
 			}
@@ -168,13 +113,73 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 
 	public int getColor() {
 		Vec3d colorSum = new Vec3d(0, 0, 0);
-		double count = getCount();
-		for (Essentia essentia : keySet()) {
+		final double count = this.getCount();
+		for (final Essentia essentia : this.keySet()) {
 			Vec3d color = AoAHelper.decimalColor(essentia.getColor());
-			color = color.multiply(get(essentia) / count);
+			color = color.multiply(this.get(essentia) / count);
 			colorSum = colorSum.add(color);
 		}
 		return AoAHelper.combineColor(colorSum);
+	}
+
+	public int getCount() {
+		int sum = 0;
+		for (final int amount : this.values()) {
+			sum += amount;
+		}
+		return sum;
+	}
+
+	public void multiply(final double scalar) {
+		this.forEach((essentia, __) -> EssentiaStack.this.multiply(essentia, scalar));
+	}
+
+	public void multiply(final Essentia essentia, final double scalar) {
+		this.put(essentia, (int) (this.getOrDefault(essentia, 0) * scalar));
+	}
+
+	// Mutating scalar multiplication for a single essentia type. Can go negative -
+	// try not to break things.
+	public void multiply(final Essentia essentia, final int scalar) {
+		this.put(essentia, this.getOrDefault(essentia, 0) * scalar);
+	}
+
+	// Mutating scalar multiplication. Can go negative - try not to break things.
+	public void multiply(final int scalar) {
+		this.forEach((essentia, __) -> EssentiaStack.this.multiply(essentia, scalar));
+	}
+
+	public void multiplyStochastic(final double scalar) {
+		this.replaceAll((__, value) -> AoAHelper.stochasticRound(value * scalar));
+	}
+
+	public List<Essentia> sortedList() {
+		final List<Essentia> list = new ArrayList<>();
+		for (final Essentia key : this.keySet()) {
+			if (this.get(key) > 0) {
+				list.add(key);
+			}
+		}
+		list.sort((item1, item2) -> EssentiaStack.this.get(item2) - EssentiaStack.this.get(item1));
+		return list;
+	}
+
+	// Mutating subtraction for a single essentia type.
+	public void subtract(final Essentia essentia, final int amount) {
+		this.put(essentia, Math.max(0, this.getOrDefault(essentia, 0) - amount));
+	}
+
+	// Mutating subtraction.
+	public void subtract(final EssentiaStack other) {
+		other.forEach(this::subtract);
+	}
+
+	public NbtCompound toTag() {
+		final NbtCompound tag = new NbtCompound();
+		for (final Essentia essentia : this.keySet()) {
+			tag.putInt(RegistryEssentia.INSTANCE.getId(essentia).toString(), this.get(essentia));
+		}
+		return tag;
 	}
 
 }
