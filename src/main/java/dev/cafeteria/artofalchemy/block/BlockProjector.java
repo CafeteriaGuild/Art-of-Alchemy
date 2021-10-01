@@ -126,7 +126,7 @@ public class BlockProjector extends BlockWithEntity {
 
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityProjector projector) {
-			if (inHand.getItem() == AoAItems.ALKAHEST_BUCKET && projector.addAlkahest(1000)) {
+			if ((inHand.getItem() == AoAItems.ALKAHEST_BUCKET) && projector.addAlkahest(1000)) {
 				if (!player.getAbilities().creativeMode) {
 					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
 				}

@@ -116,7 +116,7 @@ public class BlockEntityCalcinator extends BlockEntity
 		final ItemStack inSlot = this.items.get(0);
 		final ItemStack outSlot = this.items.get(2);
 
-		if (recipe == null || inSlot.isEmpty()) {
+		if ((recipe == null) || inSlot.isEmpty()) {
 			return false;
 		} else {
 			final ItemStack outStack = recipe.getOutput();
@@ -124,18 +124,18 @@ public class BlockEntityCalcinator extends BlockEntity
 
 			float factor = this.getYield() * recipe.getFactor();
 			if (inSlot.isDamageable()) {
-				factor *= 1.0F - (float) inSlot.getDamage() / inSlot.getMaxDamage();
+				factor *= 1.0F - ((float) inSlot.getDamage() / inSlot.getMaxDamage());
 			}
 			final int count = (int) Math.ceil(factor * outStack.getCount());
 
-			if (container != ItemStack.EMPTY && inSlot.getCount() != container.getCount()) {
+			if ((container != ItemStack.EMPTY) && (inSlot.getCount() != container.getCount())) {
 				return false;
 			}
 
 			if (outSlot.isEmpty()) {
 				return true;
 			} else if (outSlot.getItem() == outStack.getItem()) {
-				return outSlot.getCount() <= outSlot.getMaxCount() - count;
+				return outSlot.getCount() <= (outSlot.getMaxCount() - count);
 			} else {
 				return false;
 			}
@@ -144,7 +144,7 @@ public class BlockEntityCalcinator extends BlockEntity
 
 	@Override
 	public boolean canExtract(final int slot, final ItemStack stack, final Direction dir) {
-		if (dir == Direction.DOWN && slot == 0) {
+		if ((dir == Direction.DOWN) && (slot == 0)) {
 			return TagFactory.ITEM.create(ArtOfAlchemy.id("containers")).contains(stack.getItem());
 		} else {
 			return true;
@@ -170,7 +170,7 @@ public class BlockEntityCalcinator extends BlockEntity
 
 		float factor = this.getYield() * recipe.getFactor();
 		if (inSlot.isDamageable()) {
-			factor *= 1.0F - (float) inSlot.getDamage() / inSlot.getMaxDamage();
+			factor *= 1.0F - ((float) inSlot.getDamage() / inSlot.getMaxDamage());
 		}
 		final int count = AoAHelper.stochasticRound(factor * outStack.getCount());
 
@@ -303,7 +303,7 @@ public class BlockEntityCalcinator extends BlockEntity
 					}
 				}
 
-				if (!craftable && this.progress != 0) {
+				if (!craftable && (this.progress != 0)) {
 					this.progress = 0;
 				}
 			} else if (this.progress != 0) {

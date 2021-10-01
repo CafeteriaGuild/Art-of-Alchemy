@@ -43,7 +43,7 @@ public class AoAHandlers {
 	public static ScreenHandlerType<HandlerJournal> JOURNAL;
 
 	public static void addBigOutput(final WGridPanel panel, final WItemSlot slot) {
-		panel.add(slot, 6 * AoAHandlers.BASIS + 7 + 4, 2 * AoAHandlers.BASIS + 4);
+		panel.add(slot, (6 * AoAHandlers.BASIS) + 7 + 4, (2 * AoAHandlers.BASIS) + 4);
 	}
 
 	public static void addCentralProgressBar(final WGridPanel panel, final Identifier type) {
@@ -58,15 +58,15 @@ public class AoAHandlers {
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png"), type, progressId, maxProgressId,
 				Direction.RIGHT
 			),
-			3 * AoAHandlers.BASIS + 7,
-			2 * AoAHandlers.BASIS + 4,
+			(3 * AoAHandlers.BASIS) + 7,
+			(2 * AoAHandlers.BASIS) + 4,
 			3 * AoAHandlers.BASIS,
 			AoAHandlers.BASIS
 		);
 	}
 
 	public static void addInventory(final WGridPanel panel, final SyncedGuiDescription gui) {
-		panel.add(gui.createPlayerInventoryPanel(), AoAHandlers.OFFSET, 5 * AoAHandlers.BASIS - AoAHandlers.OFFSET);
+		panel.add(gui.createPlayerInventoryPanel(), AoAHandlers.OFFSET, (5 * AoAHandlers.BASIS) - AoAHandlers.OFFSET);
 	}
 
 	private static <T extends ScreenHandler> ScreenHandlerRegistry.ExtendedClientHandlerFactory<T> defaultFactory(
@@ -90,7 +90,7 @@ public class AoAHandlers {
 			AoAHandlers.OFFSET,
 			AoAHandlers.OFFSET,
 			9 * AoAHandlers.BASIS,
-			5 * AoAHandlers.BASIS - AoAHandlers.OFFSET
+			(5 * AoAHandlers.BASIS) - AoAHandlers.OFFSET
 		);
 	}
 

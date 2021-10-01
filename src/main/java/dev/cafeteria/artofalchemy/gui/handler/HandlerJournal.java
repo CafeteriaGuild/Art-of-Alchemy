@@ -39,7 +39,7 @@ public class HandlerJournal extends SyncedGuiDescription {
 	Inventory inventory = new SimpleInventory(1) {
 		@Override
 		public boolean isValid(final int slot, final ItemStack stack) {
-			return stack.getItem() instanceof AbstractItemFormula && !(stack.getItem() instanceof ItemJournal);
+			return (stack.getItem() instanceof AbstractItemFormula) && !(stack.getItem() instanceof ItemJournal);
 		}
 	};
 
@@ -85,7 +85,7 @@ public class HandlerJournal extends SyncedGuiDescription {
 			this.searchBar,
 			AoAHandlers.BASIS + 8,
 			AoAHandlers.BASIS - 4,
-			6 * AoAHandlers.BASIS + 12,
+			(6 * AoAHandlers.BASIS) + 12,
 			AoAHandlers.BASIS - 6
 		);
 
@@ -93,21 +93,21 @@ public class HandlerJournal extends SyncedGuiDescription {
 		panel.add(
 			new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/rune_bg.png")),
 			4,
-			2 * AoAHandlers.BASIS + 10,
+			(2 * AoAHandlers.BASIS) + 10,
 			9 * AoAHandlers.BASIS,
 			5 * AoAHandlers.BASIS
 		);
 
 		this.formulaList = new WFormulaList(this.journal, hand);
 		this.formulaList.refresh();
-		panel.add(this.formulaList, 0, 2 * AoAHandlers.BASIS, 9 * AoAHandlers.BASIS + 8, 6 * AoAHandlers.BASIS - 2);
+		panel.add(this.formulaList, 0, 2 * AoAHandlers.BASIS, (9 * AoAHandlers.BASIS) + 8, (6 * AoAHandlers.BASIS) - 2);
 
 		this.clearButton = new WButton(new LiteralText("❌"));
 		this.clearButton.setAlignment(HorizontalAlignment.CENTER);
 		this.clearButton.setParent(panel);
 		panel.add(
 			this.clearButton,
-			8 * AoAHandlers.BASIS + 6,
+			(8 * AoAHandlers.BASIS) + 6,
 			AoAHandlers.BASIS - 4,
 			AoAHandlers.BASIS + 2,
 			AoAHandlers.BASIS + 2
@@ -131,9 +131,9 @@ public class HandlerJournal extends SyncedGuiDescription {
 	public void onSlotClick(
 		final int slotNumber, final int button, final SlotActionType action, final PlayerEntity player
 	) {
-		if (slotNumber >= 0 && slotNumber < this.slots.size()) {
+		if ((slotNumber >= 0) && (slotNumber < this.slots.size())) {
 			final Slot slot = this.getSlot(slotNumber);
-			if (slot != null && slot.getStack().getItem() instanceof ItemJournal) {
+			if ((slot != null) && (slot.getStack().getItem() instanceof ItemJournal)) {
 				return;
 			}
 		}
@@ -158,7 +158,8 @@ public class HandlerJournal extends SyncedGuiDescription {
 	public void tryAddPage() {
 		final ItemStack stack = this.inventory.getStack(0);
 		if (
-			stack.getItem() instanceof AbstractItemFormula && ItemJournal.addFormula(this.journal, AoAHelper.getTarget(stack))
+			(stack.getItem() instanceof AbstractItemFormula)
+				&& ItemJournal.addFormula(this.journal, AoAHelper.getTarget(stack))
 		) {
 			stack.decrement(1);
 			this.inventory.markDirty();

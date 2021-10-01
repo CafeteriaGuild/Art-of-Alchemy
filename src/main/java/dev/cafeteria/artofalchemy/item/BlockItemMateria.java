@@ -28,7 +28,7 @@ public class BlockItemMateria extends BlockItem {
 
 	@Override
 	public boolean hasGlint(final ItemStack stack) {
-		return stack.hasEnchantments() || this.getTier() >= 6;
+		return stack.hasEnchantments() || (this.getTier() >= 6);
 	}
 
 }

@@ -125,7 +125,7 @@ public class BlockEntitySynthesizer extends BlockEntity
 		final ItemStack outSlot = this.items.get(1);
 		final ItemStack targetSlot = this.items.get(2);
 
-		if (recipe == null || targetSlot.isEmpty()) {
+		if ((recipe == null) || targetSlot.isEmpty()) {
 			return this.updateStatus(2);
 		} else if (recipe.getTier() > this.getMaxTier()) {
 			return this.updateStatus(6);
@@ -141,7 +141,7 @@ public class BlockEntitySynthesizer extends BlockEntity
 
 			final Item target = AoAHelper.getTarget(targetSlot);
 
-			if (!materia.test(inSlot) || inSlot.getCount() < cost) {
+			if (!materia.test(inSlot) || (inSlot.getCount() < cost)) {
 				return this.updateStatus(3);
 			}
 
@@ -161,7 +161,7 @@ public class BlockEntitySynthesizer extends BlockEntity
 				}
 			} else {
 				this.maxProgress = (int) Math.sqrt(essentia.getCount() / this.getSpeedMod());
-				if (this.maxProgress < 2 / this.getSpeedMod()) {
+				if (this.maxProgress < (2 / this.getSpeedMod())) {
 					this.maxProgress = (int) (2 / this.getSpeedMod());
 				}
 				if (outSlot.isEmpty()) {
@@ -214,7 +214,7 @@ public class BlockEntitySynthesizer extends BlockEntity
 
 		final Item target = AoAHelper.getTarget(targetSlot);
 
-		if (container != Ingredient.EMPTY || outSlot.isEmpty()) {
+		if ((container != Ingredient.EMPTY) || outSlot.isEmpty()) {
 			this.items.set(1, new ItemStack(target));
 		} else {
 			outSlot.increment(1);
@@ -282,7 +282,7 @@ public class BlockEntitySynthesizer extends BlockEntity
 	public EssentiaStack getRequirements() {
 		final RecipeSynthesis recipe = this.world.getRecipeManager().getFirstMatch(AoARecipes.SYNTHESIS, this, this.world)
 			.orElse(null);
-		if (recipe == null || this.items.get(2).isEmpty()) {
+		if ((recipe == null) || this.items.get(2).isEmpty()) {
 			return new EssentiaStack();
 		} else {
 			return recipe.getEssentia();

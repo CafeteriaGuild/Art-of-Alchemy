@@ -130,10 +130,10 @@ public class ModelPipe implements UnbakedModel, BakedModel, FabricBakedModel {
 			final float spriteMaxV = sprite.getMaxV();
 			final float pxU = (spriteMaxU - spriteMinU) / 16.0f;
 			final float pxV = (spriteMaxV - spriteMinV) / 16.0f;
-			this.minU = spriteMinU + pxU * sxMinU;
-			this.maxU = spriteMinU + pxU * sxMaxU;
-			this.minV = spriteMinV + pxV * sxMinV;
-			this.maxV = spriteMinV + pxV * sxMaxV;
+			this.minU = spriteMinU + (pxU * sxMinU);
+			this.maxU = spriteMinU + (pxU * sxMaxU);
+			this.minV = spriteMinV + (pxV * sxMinV);
+			this.maxV = spriteMinV + (pxV * sxMaxV);
 		}
 
 		public void emit(final QuadEmitter emitter) {

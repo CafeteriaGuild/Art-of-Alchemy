@@ -42,44 +42,44 @@ public class HandlerAnalyzer extends SyncedGuiDescription {
 		// Paper Icon
 		panel.add(
 			new WSprite(new Identifier("minecraft", "textures/item/paper.png")),
-			2 * AoAHandlers.BASIS + 7 + 1,
-			2 * AoAHandlers.BASIS + 4 + 1,
+			(2 * AoAHandlers.BASIS) + 7 + 1,
+			(2 * AoAHandlers.BASIS) + 4 + 1,
 			16,
 			16
 		);
 
 		// Paper Slot
-		panel.add(WItemSlot.of(this.blockInventory, 0), 2 * AoAHandlers.BASIS + 7, 2 * AoAHandlers.BASIS + 4);
+		panel.add(WItemSlot.of(this.blockInventory, 0), (2 * AoAHandlers.BASIS) + 7, (2 * AoAHandlers.BASIS) + 4);
 
 		// Ink Icon
 		panel.add(
 			new WSprite(new Identifier("minecraft", "textures/item/ink_sac.png")),
-			4 * AoAHandlers.BASIS + 7 + 1,
+			(4 * AoAHandlers.BASIS) + 7 + 1,
 			AoAHandlers.BASIS + 1,
 			16,
 			16
 		);
 
 		// Ink Slot
-		panel.add(WItemSlot.of(this.blockInventory, 1), 4 * AoAHandlers.BASIS + 7, AoAHandlers.BASIS);
+		panel.add(WItemSlot.of(this.blockInventory, 1), (4 * AoAHandlers.BASIS) + 7, AoAHandlers.BASIS);
 
 		// Target Icon
 		panel.add(
 			new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png")),
-			4 * AoAHandlers.BASIS + 7 + 1,
-			3 * AoAHandlers.BASIS + 8 + 1,
+			(4 * AoAHandlers.BASIS) + 7 + 1,
+			(3 * AoAHandlers.BASIS) + 8 + 1,
 			AoAHandlers.BASIS,
 			AoAHandlers.BASIS
 		);
 
 		// Target Slot
-		panel.add(WItemSlot.of(this.blockInventory, 2), 4 * AoAHandlers.BASIS + 7, 3 * AoAHandlers.BASIS + 8);
+		panel.add(WItemSlot.of(this.blockInventory, 2), (4 * AoAHandlers.BASIS) + 7, (3 * AoAHandlers.BASIS) + 8);
 
 		// Progress Bar
 		panel.add(
 			new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_off.png")),
-			3 * AoAHandlers.BASIS + 7,
-			2 * AoAHandlers.BASIS + 4,
+			(3 * AoAHandlers.BASIS) + 7,
+			(2 * AoAHandlers.BASIS) + 4,
 			3 * AoAHandlers.BASIS,
 			AoAHandlers.BASIS
 		);
@@ -112,8 +112,8 @@ public class HandlerAnalyzer extends SyncedGuiDescription {
 	public void updateRecipe() {
 		if (!this.world.isClient) {
 			if (
-				this.blockInventory.getStack(0).getItem() == Items.PAPER
-					&& this.blockInventory.getStack(1).getItem() == Items.INK_SAC
+				(this.blockInventory.getStack(0).getItem() == Items.PAPER)
+					&& (this.blockInventory.getStack(1).getItem() == Items.INK_SAC)
 					&& !this.blockInventory.getStack(2).isEmpty()
 			) {
 				final ItemStack formula = new ItemStack(AoAItems.ALCHEMY_FORMULA);

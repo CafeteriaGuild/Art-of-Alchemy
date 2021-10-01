@@ -151,7 +151,7 @@ public class EssentiaNetwork {
 			this.dirty = false;
 		}
 
-		if (this.world.getTime() < this.lastTicked + 5) {
+		if (this.world.getTime() < (this.lastTicked + 5)) {
 			return;
 		}
 		this.lastTicked = this.world.getTime();
@@ -186,7 +186,7 @@ public class EssentiaNetwork {
 	public void transfer(final NetworkNode from, final NetworkNode to) {
 		final BlockEntity fromBE = from.getBlockEntity();
 		final BlockEntity toBE = to.getBlockEntity();
-		if (fromBE instanceof HasEssentia && toBE instanceof HasEssentia) {
+		if ((fromBE instanceof HasEssentia) && (toBE instanceof HasEssentia)) {
 			for (int i = 0; i < ((HasEssentia) fromBE).getNumContainers(); i++) {
 				EssentiaContainer fromContainer;
 				if (from.getDirection().isPresent()) {

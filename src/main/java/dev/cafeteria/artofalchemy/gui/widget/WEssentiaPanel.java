@@ -57,7 +57,7 @@ public class WEssentiaPanel extends WListPanel<Essentia, WEssentiaSubPanel> {
 		for (final Essentia key : essentiaSet) {
 			int value;
 			if (this.required.getOrDefault(key, 0) > 0) {
-				value = 10000 + this.required.get(key) - this.container.getCount(key);
+				value = (10000 + this.required.get(key)) - this.container.getCount(key);
 			} else {
 				value = this.container.getCount(key);
 			}

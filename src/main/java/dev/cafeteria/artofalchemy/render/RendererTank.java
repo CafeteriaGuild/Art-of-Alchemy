@@ -50,7 +50,7 @@ public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 		state.getProperties();
 		final EssentiaContainer container = blockEntity.getContainer();
 
-		if (container != null && !blockEntity.getContainer().isEmpty()) {
+		if ((container != null) && !blockEntity.getContainer().isEmpty()) {
 			final World world = blockEntity.getWorld();
 			final boolean connectedTop = world.getBlockState(blockEntity.getPos().up()).getBlock() == AoABlocks.TANK;
 			final boolean connectedBottom = world.getBlockState(blockEntity.getPos().down()).getBlock() == AoABlocks.TANK;
@@ -69,8 +69,8 @@ public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 			float midV = maxV;
 
 			if (!container.isInfinite() && !container.hasUnlimitedCapacity()) {
-				midY = minY + (maxY - minY) * container.getCount() / container.getCapacity();
-				midV = minV + (maxV - minV) * container.getCount() / container.getCapacity();
+				midY = minY + (((maxY - minY) * container.getCount()) / container.getCapacity());
+				midV = minV + (((maxV - minV) * container.getCount()) / container.getCapacity());
 			}
 
 			final Vec3i color = AoAHelper.integerColor(blockEntity.getContainer().getColor());
@@ -128,7 +128,7 @@ public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 
 			boolean renderBottom = true;
 			final BlockEntity topBE = world.getBlockEntity(blockEntity.getPos().up());
-			if (topBE instanceof BlockEntityTank && !((BlockEntityTank) topBE).getContainer().isEmpty()) {
+			if ((topBE instanceof BlockEntityTank) && !((BlockEntityTank) topBE).getContainer().isEmpty()) {
 				renderBottom = false;
 			}
 			if (renderBottom) {

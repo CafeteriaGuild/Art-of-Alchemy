@@ -129,7 +129,7 @@ public class BlockDissolver extends BlockWithEntity {
 
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDissolver dissolver) {
-			if (inHand.getItem() == AoAItems.ALKAHEST_BUCKET && dissolver.addAlkahest(1000)) {
+			if ((inHand.getItem() == AoAItems.ALKAHEST_BUCKET) && dissolver.addAlkahest(1000)) {
 				if (!player.getAbilities().creativeMode) {
 					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
 				}

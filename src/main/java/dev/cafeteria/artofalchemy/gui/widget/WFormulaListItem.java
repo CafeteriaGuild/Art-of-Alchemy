@@ -46,7 +46,7 @@ public class WFormulaListItem extends WPlainPanel {
 			this.setButton = new WButton(new LiteralText("✔"));
 			this.setButton.setAlignment(HorizontalAlignment.CENTER);
 			this.setButton.setParent(this);
-			this.add(this.setButton, 8 * AoAHandlers.BASIS - 8, -4, AoAHandlers.BASIS + 2, AoAHandlers.BASIS + 2);
+			this.add(this.setButton, (8 * AoAHandlers.BASIS) - 8, -4, AoAHandlers.BASIS + 2, AoAHandlers.BASIS + 2);
 			this.setButton.setOnClick(
 				() -> AoAClientNetworking.sendJournalSelectPacket(Registry.ITEM.getId(WFormulaListItem.this.formula), hand)
 			);

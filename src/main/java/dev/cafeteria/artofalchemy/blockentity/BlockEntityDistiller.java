@@ -223,7 +223,7 @@ public class BlockEntityDistiller extends BlockEntity
 	private boolean hasAzoth() {
 		final ItemStack azothSlot = this.items.get(BlockEntityDistiller.SLOT_AZOTH);
 		return azothSlot.getItem().equals(AoAItems.AZOTH)
-			&& azothSlot.getCount() >= BlockEntityDistiller.DISTILL_AZOTH_COST;
+			&& (azothSlot.getCount() >= BlockEntityDistiller.DISTILL_AZOTH_COST);
 	}
 
 	private boolean hasEnoughEssentia() {
@@ -248,7 +248,7 @@ public class BlockEntityDistiller extends BlockEntity
 	}
 
 	private boolean isFull() {
-		return this.alkahest > this.tankSize - BlockEntityDistiller.DISTILL_GAIN;
+		return this.alkahest > (this.tankSize - BlockEntityDistiller.DISTILL_GAIN);
 	}
 
 	@Override

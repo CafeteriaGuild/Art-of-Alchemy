@@ -96,7 +96,7 @@ public class EssentiaContainer {
 	public boolean canAcceptIgnoreIO(final EssentiaStack query) {
 		if (this.whitelistEnabled) {
 			for (final Essentia key : query.keySet()) {
-				if (query.getOrDefault(key, 0) != 0 && !this.whitelisted(key)) {
+				if ((query.getOrDefault(key, 0) != 0) && !this.whitelisted(key)) {
 					return false;
 				}
 			}
@@ -104,7 +104,7 @@ public class EssentiaContainer {
 		if (this.capacity == null) {
 			return true;
 		} else {
-			return this.getCount() + query.getCount() <= this.capacity;
+			return (this.getCount() + query.getCount()) <= this.capacity;
 		}
 	}
 
@@ -119,7 +119,7 @@ public class EssentiaContainer {
 	public boolean canProvideIgnoreIO(final EssentiaStack query) {
 		if (this.whitelistEnabled) {
 			for (final Essentia key : query.keySet()) {
-				if (query.getOrDefault(key, 0) != 0 && !this.whitelisted(key)) {
+				if ((query.getOrDefault(key, 0) != 0) && !this.whitelisted(key)) {
 					return false;
 				}
 			}
@@ -296,7 +296,7 @@ public class EssentiaContainer {
 	// Push as much as possible of this container's contents to another, returning
 	// the essentia transferred
 	public EssentiaStack pushContents(final EssentiaContainer other, final boolean force) {
-		if (other.hasUnlimitedCapacity() || other.getFreeCapacity() >= this.getCount()) {
+		if (other.hasUnlimitedCapacity() || (other.getFreeCapacity() >= this.getCount())) {
 			return this.pushStack(other, this.contents, force);
 		} else {
 			return this.pushStack(

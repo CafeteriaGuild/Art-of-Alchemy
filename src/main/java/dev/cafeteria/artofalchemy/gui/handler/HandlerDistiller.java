@@ -47,10 +47,10 @@ public class HandlerDistiller extends SyncedGuiDescription {
 		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"));
 
 		// Azoth Slot
-		panel.add(WItemSlot.of(this.blockInventory, 0), AoAHandlers.BASIS * 2, AoAHandlers.BASIS * 1 + 3);
+		panel.add(WItemSlot.of(this.blockInventory, 0), AoAHandlers.BASIS * 2, (AoAHandlers.BASIS * 1) + 3);
 
 		// Fuel Slot
-		panel.add(WItemSlot.of(this.blockInventory, 1), AoAHandlers.BASIS * 2, AoAHandlers.BASIS * 3 + 3 + 2);
+		panel.add(WItemSlot.of(this.blockInventory, 1), AoAHandlers.BASIS * 2, (AoAHandlers.BASIS * 3) + 3 + 2);
 
 		// Fuel Indicator
 		panel.add(
@@ -58,8 +58,8 @@ public class HandlerDistiller extends SyncedGuiDescription {
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_off.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_on.png"), 2, 3, Direction.UP
 			),
-			AoAHandlers.BASIS * 2 + 2,
-			AoAHandlers.BASIS * 2 + 3 + 2,
+			(AoAHandlers.BASIS * 2) + 2,
+			(AoAHandlers.BASIS * 2) + 3 + 2,
 			16,
 			16
 		);
@@ -79,7 +79,7 @@ public class HandlerDistiller extends SyncedGuiDescription {
 		alkahestTankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
 		panel.add(
 			alkahestTankBar,
-			AoAHandlers.PANEL_WIDTH - AoAHandlers.BASIS * 3,
+			AoAHandlers.PANEL_WIDTH - (AoAHandlers.BASIS * 3),
 			AoAHandlers.BASIS + 3,
 			AoAHandlers.BASIS * 2,
 			AoAHandlers.BASIS * 3

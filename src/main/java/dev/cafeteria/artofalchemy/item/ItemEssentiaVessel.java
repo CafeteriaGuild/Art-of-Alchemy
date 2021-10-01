@@ -73,12 +73,12 @@ public class ItemEssentiaVessel extends Item {
 		int transferred = 0;
 
 		if (be instanceof final HasEssentia target) {
-			for (int i = 0; i < target.getNumContainers() && transferred == 0; i++) {
+			for (int i = 0; (i < target.getNumContainers()) && (transferred == 0); i++) {
 				final EssentiaContainer other = target.getContainer(i);
 				final int pushed = container.pushContents(other).getCount();
 				transferred -= pushed;
 			}
-			for (int i = 0; i < target.getNumContainers() && transferred == 0; i++) {
+			for (int i = 0; (i < target.getNumContainers()) && (transferred == 0); i++) {
 				final EssentiaContainer other = target.getContainer(i);
 				final int pulled = container.pullContents(other, container.isInput()).getCount();
 				transferred += pulled;
@@ -141,7 +141,7 @@ public class ItemEssentiaVessel extends Item {
 			}
 
 		} else if (container.hasUnlimitedCapacity()) {
-			if (container.isWhitelistEnabled() && container.getWhitelist().size() == 1) {
+			if (container.isWhitelistEnabled() && (container.getWhitelist().size() == 1)) {
 				for (final Essentia essentia : container.getWhitelist()) {
 					tooltip.add(
 						new TranslatableText(prefix + "single_unlim", essentia.getName(), container.getCount(essentia))
@@ -153,7 +153,7 @@ public class ItemEssentiaVessel extends Item {
 			} else {
 				tooltip.add(new TranslatableText(prefix + "mixed_unlim", container.getCount()).formatted(Formatting.AQUA));
 				for (final Essentia essentia : container.getContents().sortedList()) {
-					if (container.getCount(essentia) != 0 && container.whitelisted(essentia)) {
+					if ((container.getCount(essentia) != 0) && container.whitelisted(essentia)) {
 						tooltip.add(
 							new TranslatableText(prefix + "component", essentia.getName(), container.getCount(essentia))
 								.formatted(Formatting.GOLD)
@@ -162,7 +162,7 @@ public class ItemEssentiaVessel extends Item {
 				}
 			}
 
-		} else if (container.isWhitelistEnabled() && container.getWhitelist().size() == 1) {
+		} else if (container.isWhitelistEnabled() && (container.getWhitelist().size() == 1)) {
 			for (final Essentia essentia : container.getWhitelist()) {
 				tooltip.add(
 					new TranslatableText(
@@ -177,7 +177,7 @@ public class ItemEssentiaVessel extends Item {
 				new TranslatableText(prefix + "mixed", container.getCount(), container.getCapacity()).formatted(Formatting.AQUA)
 			);
 			for (final Essentia essentia : container.getContents().sortedList()) {
-				if (container.getCount(essentia) != 0 && container.whitelisted(essentia)) {
+				if ((container.getCount(essentia) != 0) && container.whitelisted(essentia)) {
 					tooltip.add(
 						new TranslatableText(prefix + "component", essentia.getName(), container.getCount(essentia))
 							.formatted(Formatting.GOLD)

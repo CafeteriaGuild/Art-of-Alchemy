@@ -70,7 +70,7 @@ public class ItemJournal extends AbstractItemFormula {
 
 	public static Item getFormula(final ItemStack stack) {
 		final NbtCompound tag = stack.getNbt();
-		if (tag != null && tag.contains("selected")) {
+		if ((tag != null) && tag.contains("selected")) {
 			final Identifier id = new Identifier(tag.getString("selected"));
 			return Registry.ITEM.get(id);
 		} else {
@@ -106,7 +106,7 @@ public class ItemJournal extends AbstractItemFormula {
 	}
 
 	public static boolean setFormula(final ItemStack stack, final Identifier formula) {
-		if (ItemJournal.hasFormula(stack, formula) || formula == Registry.ITEM.getId(Items.AIR)) {
+		if (ItemJournal.hasFormula(stack, formula) || (formula == Registry.ITEM.getId(Items.AIR))) {
 			final NbtCompound tag = stack.getOrCreateNbt();
 			tag.put("selected", NbtString.of(formula.toString()));
 			stack.setNbt(tag);

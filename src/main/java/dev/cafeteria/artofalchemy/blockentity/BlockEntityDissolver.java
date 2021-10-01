@@ -132,24 +132,24 @@ public class BlockEntityDissolver extends BlockEntity
 	private boolean canCraft(final RecipeDissolution recipe) {
 		final ItemStack inSlot = this.items.get(0);
 
-		if (recipe == null || inSlot.isEmpty()) {
+		if ((recipe == null) || inSlot.isEmpty()) {
 			return this.updateStatus(1);
 		} else {
 			final ItemStack container = recipe.getContainer();
 			final EssentiaStack results = recipe.getEssentia();
 
 			this.maxProgress = (int) Math.sqrt(results.getCount() / this.getSpeedMod());
-			if (this.maxProgress < 2 / this.getSpeedMod()) {
+			if (this.maxProgress < (2 / this.getSpeedMod())) {
 				this.maxProgress = (int) (2 / this.getSpeedMod());
 			}
 
-			if (container != ItemStack.EMPTY && inSlot.getCount() != container.getCount()) {
+			if ((container != ItemStack.EMPTY) && (inSlot.getCount() != container.getCount())) {
 				return this.updateStatus(1);
 			}
 
 			float factor = this.getEfficiency() * recipe.getFactor();
 			if (inSlot.isDamageable()) {
-				factor *= 1.0 - (float) inSlot.getDamage() / inSlot.getMaxDamage();
+				factor *= 1.0 - ((float) inSlot.getDamage() / inSlot.getMaxDamage());
 			}
 			results.multiply(factor);
 
@@ -190,7 +190,7 @@ public class BlockEntityDissolver extends BlockEntity
 
 		float factor = this.getEfficiency() * recipe.getFactor();
 		if (inSlot.isDamageable()) {
-			factor *= 1.0 - (float) inSlot.getDamage() / inSlot.getMaxDamage();
+			factor *= 1.0 - ((float) inSlot.getDamage() / inSlot.getMaxDamage());
 		}
 		results.multiplyStochastic(factor);
 
@@ -299,7 +299,7 @@ public class BlockEntityDissolver extends BlockEntity
 
 	@Override
 	public boolean setAlkahest(final int amount) {
-		if (amount >= 0 && amount <= this.maxAlkahest) {
+		if ((amount >= 0) && (amount <= this.maxAlkahest)) {
 			this.alkahest = amount;
 			this.world
 				.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockDissolver.FILLED, this.alkahest > 0));

@@ -71,8 +71,8 @@ public class BlockEntityTank extends BlockEntity
 	@Override
 	public void tick(final World world, final BlockPos pos, final BlockState state, final BlockEntityTank blockEntity) {
 		if (
-			!this.essentia.isEmpty() && world.getBlockState(pos).getBlock() == AoABlocks.TANK
-				&& world.getBlockState(pos.down()).getBlock() == AoABlocks.TANK
+			!this.essentia.isEmpty() && (world.getBlockState(pos).getBlock() == AoABlocks.TANK)
+				&& (world.getBlockState(pos.down()).getBlock() == AoABlocks.TANK)
 		) {
 			final BlockEntity other = world.getBlockEntity(pos.down());
 			if (other instanceof BlockEntityTank) {

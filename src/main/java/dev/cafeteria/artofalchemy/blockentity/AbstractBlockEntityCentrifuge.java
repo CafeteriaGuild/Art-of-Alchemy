@@ -44,8 +44,8 @@ abstract public class AbstractBlockEntityCentrifuge extends BlockEntity
 		if (horiz == -1) {
 			return this.input;
 		} else {
-			horiz = (horiz - this.world.getBlockState(this.pos).get(AbstractBlockEntityCentrifuge.FACING).getHorizontal() + 4)
-				% 4;
+			horiz = ((horiz - this.world.getBlockState(this.pos).get(AbstractBlockEntityCentrifuge.FACING).getHorizontal())
+				+ 4) % 4;
 			return this.outputs[horiz];
 		}
 	}
@@ -54,7 +54,7 @@ abstract public class AbstractBlockEntityCentrifuge extends BlockEntity
 	public EssentiaContainer getContainer(final int id) {
 		if (id == 0) {
 			return this.input;
-		} else if (id > 0 && id <= this.getNumContainers()) {
+		} else if ((id > 0) && (id <= this.getNumContainers())) {
 			return this.outputs[id - 1];
 		} else {
 			return null;

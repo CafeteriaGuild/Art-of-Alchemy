@@ -27,7 +27,7 @@ public class ItemMateria extends Item {
 
 	@Override
 	public boolean hasGlint(final ItemStack stack) {
-		return stack.hasEnchantments() || this.getTier() >= 6;
+		return stack.hasEnchantments() || (this.getTier() >= 6);
 	}
 
 }

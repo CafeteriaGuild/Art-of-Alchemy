@@ -14,11 +14,11 @@ public class AoAHelper {
 		final int r = (int) (color.getX() * 0xFF);
 		final int g = (int) (color.getY() * 0xFF);
 		final int b = (int) (color.getZ() * 0xFF);
-		return r << 16 | g << 8 | b;
+		return (r << 16) | (g << 8) | b;
 	}
 
 	public static int combineColor(final Vec3i color) {
-		return color.getX() << 16 | color.getY() << 8 | color.getZ();
+		return (color.getX() << 16) | (color.getY() << 8) | color.getZ();
 	}
 
 	public static Vec3d decimalColor(final int color) {

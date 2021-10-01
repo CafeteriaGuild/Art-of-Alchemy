@@ -107,7 +107,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 	public boolean faceOpen(final World world, final BlockPos pos, final Direction dir) {
 		if (world.getBlockState(pos).getBlock() == this) {
 			final IOFace face = this.getFace(world, pos, dir);
-			return face == IOFace.NONE || face == IOFace.CONNECT;
+			return (face == IOFace.NONE) || (face == IOFace.CONNECT);
 		} else {
 			return false;
 		}
@@ -147,7 +147,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		for (final Direction dir : Direction.values()) {
 			final BlockPos neighbour = pos.offset(dir);
 			final BlockEntity be = world.getBlockEntity(neighbour);
-			if (be instanceof final BlockEntityPipe bep && bep.getFace(dir.getOpposite()) == IOFace.CONNECT) {
+			if (be instanceof final BlockEntityPipe bep && (bep.getFace(dir.getOpposite()) == IOFace.CONNECT)) {
 				connections.add(neighbour);
 			}
 		}
@@ -223,7 +223,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 	public boolean isConnected(final World world, final BlockPos pos, final Direction dir) {
 		final Map<Direction, IOFace> theseFaces = this.getFaces(world, pos);
 		final Map<Direction, IOFace> otherFaces = this.getFaces(world, pos.offset(dir));
-		return theseFaces.get(dir) == IOFace.CONNECT && otherFaces.get(dir.getOpposite()) == IOFace.CONNECT;
+		return (theseFaces.get(dir) == IOFace.CONNECT) && (otherFaces.get(dir.getOpposite()) == IOFace.CONNECT);
 	}
 
 	@Override
@@ -273,7 +273,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		final BlockState state, final World world, final BlockPos pos, final BlockState newState, final boolean notify
 	) {
 		super.onStateReplaced(state, world, pos, newState, notify);
-		if (!world.isClient() && newState.getBlock() != this) {
+		if (!world.isClient() && (newState.getBlock() != this)) {
 			EssentiaNetworker.get((ServerWorld) world).remove(pos, this.getConnectionsBlockless(world, pos));
 		}
 	}

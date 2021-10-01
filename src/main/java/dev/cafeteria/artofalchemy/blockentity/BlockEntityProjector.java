@@ -114,19 +114,19 @@ public class BlockEntityProjector extends BlockEntity
 		final ItemStack inSlot = this.items.get(0);
 		final ItemStack outSlot = this.items.get(1);
 
-		if (recipe == null || inSlot.isEmpty()) {
+		if ((recipe == null) || inSlot.isEmpty()) {
 			return false;
 		} else {
 			final ItemStack outStack = recipe.getOutput();
 			final int alkCost = recipe.getAlkahest();
 			final int itemCost = recipe.getCost();
 
-			if (this.alkahest < alkCost || inSlot.getCount() < itemCost) {
+			if ((this.alkahest < alkCost) || (inSlot.getCount() < itemCost)) {
 				return false;
 			} else if (outSlot.isEmpty()) {
 				return true;
 			} else if (outSlot.getItem() == outStack.getItem()) {
-				return outSlot.getCount() <= outSlot.getMaxCount() - outStack.getCount();
+				return outSlot.getCount() <= (outSlot.getMaxCount() - outStack.getCount());
 			} else {
 				return false;
 			}
@@ -234,7 +234,7 @@ public class BlockEntityProjector extends BlockEntity
 
 	@Override
 	public boolean setAlkahest(final int amount) {
-		if (amount >= 0 && amount <= this.maxAlkahest) {
+		if ((amount >= 0) && (amount <= this.maxAlkahest)) {
 			this.alkahest = amount;
 			this.markDirty();
 			return true;

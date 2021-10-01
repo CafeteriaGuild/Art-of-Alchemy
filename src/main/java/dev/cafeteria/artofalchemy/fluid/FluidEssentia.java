@@ -140,7 +140,7 @@ abstract class FluidEssentia extends FlowableFluid {
 
 	@Override
 	public boolean matchesType(final Fluid fluid) {
-		return fluid == this.getStill() || fluid == this.getFlowing();
+		return (fluid == this.getStill()) || (fluid == this.getFlowing());
 	}
 
 	@Override

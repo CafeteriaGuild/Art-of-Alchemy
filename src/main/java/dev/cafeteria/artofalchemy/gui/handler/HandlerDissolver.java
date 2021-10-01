@@ -48,14 +48,14 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_magenta.png"), 2, 3);
 
 		// Item Input
-		panel.add(WItemSlot.of(this.blockInventory, 0), 2 * AoAHandlers.BASIS + 7, 2 * AoAHandlers.BASIS + 4);
+		panel.add(WItemSlot.of(this.blockInventory, 0), (2 * AoAHandlers.BASIS) + 7, (2 * AoAHandlers.BASIS) + 4);
 
 		final WBar tankBar = new WBar(
 			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_empty.png"),
 			new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/tank_full.png"), 0, 1, Direction.UP
 		);
 		tankBar.withTooltip("gui." + ArtOfAlchemy.MOD_ID + ".alkahest_tooltip");
-		panel.add(tankBar, 0, AoAHandlers.BASIS, 2 * AoAHandlers.BASIS, 3 * AoAHandlers.BASIS + 6);
+		panel.add(tankBar, 0, AoAHandlers.BASIS, 2 * AoAHandlers.BASIS, (3 * AoAHandlers.BASIS) + 6);
 
 		// KG: Unsure if we should keep alerts. I can see cause for adding them to help
 		// new players. A manual would achieve this too. They tend to look a little out
@@ -73,7 +73,7 @@ public class HandlerDissolver extends SyncedGuiDescription {
 		this.essentiaPanel = new WEssentiaPanel(HandlerDissolver.getEssentia(ctx));
 		panel.add(
 			this.essentiaPanel,
-			6 * AoAHandlers.BASIS - 1,
+			(6 * AoAHandlers.BASIS) - 1,
 			AoAHandlers.BASIS - AoAHandlers.OFFSET,
 			3 * AoAHandlers.BASIS,
 			4 * AoAHandlers.BASIS

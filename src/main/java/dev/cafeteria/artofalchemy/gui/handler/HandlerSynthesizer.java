@@ -60,19 +60,19 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 		AoAHandlers.addBigOutput(panel, WItemSlot.outputOf(this.blockInventory, 1));
 
 		// Input Slot
-		panel.add(WItemSlot.of(this.blockInventory, 0), 4 * AoAHandlers.BASIS + 7, AoAHandlers.BASIS);
+		panel.add(WItemSlot.of(this.blockInventory, 0), (4 * AoAHandlers.BASIS) + 7, AoAHandlers.BASIS);
 
 		// Target Icon
 		panel.add(
 			new WSprite(new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/target.png")),
-			4 * AoAHandlers.BASIS + 7 + 1,
-			3 * AoAHandlers.BASIS + 8 + 1,
+			(4 * AoAHandlers.BASIS) + 7 + 1,
+			(3 * AoAHandlers.BASIS) + 8 + 1,
 			AoAHandlers.BASIS,
 			AoAHandlers.BASIS
 		);
 
 		// Target Slot
-		panel.add(WItemSlot.of(this.blockInventory, 2), 4 * AoAHandlers.BASIS + 7, 3 * AoAHandlers.BASIS + 8);
+		panel.add(WItemSlot.of(this.blockInventory, 2), (4 * AoAHandlers.BASIS) + 7, (3 * AoAHandlers.BASIS) + 8);
 
 		// KG: Unsure if we should keep alerts. I can see cause for adding them to help
 		// new players. A manual would achieve this too. They tend to look a little out

@@ -128,7 +128,7 @@ public class BlockDistiller extends BlockWithEntity {
 
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDistiller distiller) {
-			if (inHand.getItem() == Items.BUCKET && distiller.withdrawAlkahest(1000)) {
+			if ((inHand.getItem() == Items.BUCKET) && distiller.withdrawAlkahest(1000)) {
 				if (!player.getAbilities().creativeMode) {
 					inHand.decrement(1);
 					player.giveItemStack(new ItemStack(AoAItems.ALKAHEST_BUCKET));

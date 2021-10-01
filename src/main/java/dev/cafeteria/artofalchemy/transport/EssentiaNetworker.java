@@ -92,7 +92,7 @@ public class EssentiaNetworker extends PersistentState {
 	public Optional<EssentiaNetwork> getNetwork(final BlockPos pos) {
 		{
 			final EssentiaNetwork network = this.cache.get(pos);
-			if (network != null && network.contains(pos)) {
+			if ((network != null) && network.contains(pos)) {
 				return Optional.of(network);
 			}
 		}
@@ -132,7 +132,7 @@ public class EssentiaNetworker extends PersistentState {
 	public void readNbt(final NbtCompound tag) {
 		final NbtList networkList = tag.getList("networks", NbtType.LIST);
 		for (final NbtElement networkTag : networkList) {
-			if (networkTag instanceof NbtList && ((NbtList) networkTag).size() > 0) {
+			if ((networkTag instanceof NbtList) && (((NbtList) networkTag).size() > 0)) {
 				this.networks.add(new EssentiaNetwork(this.world, (NbtList) networkTag));
 			}
 		}
@@ -186,7 +186,7 @@ public class EssentiaNetworker extends PersistentState {
 		this.getNetwork(pos).ifPresent(network -> {
 			EssentiaNetworker.this.cache.remove(pos);
 			network.remove(pos);
-			if (network.getSize() == 0 || connections.size() > 1) {
+			if ((network.getSize() == 0) || (connections.size() > 1)) {
 				for (final BlockPos netPos : network.getPositions()) {
 					EssentiaNetworker.this.orphans.add(netPos.toImmutable());
 					EssentiaNetworker.this.cache.remove(netPos);

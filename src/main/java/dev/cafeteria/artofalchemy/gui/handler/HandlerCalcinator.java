@@ -26,10 +26,10 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 		AoAHandlers.addBigOutput(panel, WItemSlot.outputOf(this.blockInventory, 2));
 
 		// Input
-		panel.add(WItemSlot.of(this.blockInventory, 0), 2 * AoAHandlers.BASIS + 4, AoAHandlers.BASIS + 4);
+		panel.add(WItemSlot.of(this.blockInventory, 0), (2 * AoAHandlers.BASIS) + 4, AoAHandlers.BASIS + 4);
 
 		// Fuel
-		panel.add(WItemSlot.of(this.blockInventory, 1), 2 * AoAHandlers.BASIS + 4, 3 * AoAHandlers.BASIS + 4);
+		panel.add(WItemSlot.of(this.blockInventory, 1), (2 * AoAHandlers.BASIS) + 4, (3 * AoAHandlers.BASIS) + 4);
 
 		// Fuel Bar
 		panel.add(
@@ -37,8 +37,8 @@ public class HandlerCalcinator extends SyncedGuiDescription {
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_off.png"),
 				new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/fire_on.png"), 0, 1, Direction.UP
 			),
-			2 * AoAHandlers.BASIS + 4 + 1 + 2,
-			2 * AoAHandlers.BASIS + 4 + 2,
+			(2 * AoAHandlers.BASIS) + 4 + 1 + 2,
+			(2 * AoAHandlers.BASIS) + 4 + 2,
 			AoAHandlers.BASIS - 4,
 			AoAHandlers.BASIS - 4
 		);
