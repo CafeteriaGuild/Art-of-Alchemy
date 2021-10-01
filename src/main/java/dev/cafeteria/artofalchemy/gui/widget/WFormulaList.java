@@ -15,11 +15,9 @@ import net.minecraft.util.registry.Registry;
 public class WFormulaList extends WListPanel<Item, WFormulaListItem> {
 
 	protected ItemStack journal;
-	private final Hand hand;
 
 	public WFormulaList(final ItemStack journal, final Hand hand) {
 		super(ItemJournal.getEntries(journal), () -> new WFormulaListItem(journal, hand), null);
-		this.hand = hand;
 		this.cellHeight = AoAHandlers.BASIS;
 		this.journal = journal;
 		this.configurator = (formula, listItem) -> {

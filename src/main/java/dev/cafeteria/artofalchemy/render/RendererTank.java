@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy.render;
 
-import java.util.Collection;
-
 import dev.cafeteria.artofalchemy.block.AoABlocks;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityTank;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
@@ -17,7 +15,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3i;
@@ -50,7 +47,7 @@ public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 		final Sprite sprite = this.client.getBlockRenderManager().getModel(AoABlocks.ALKAHEST.getDefaultState())
 			.getSprite();
 		final BlockState state = blockEntity.getWorld().getBlockState(blockEntity.getPos());
-		final Collection<Property<?>> properties = state.getProperties();
+		state.getProperties();
 		final EssentiaContainer container = blockEntity.getContainer();
 
 		if (container != null && !blockEntity.getContainer().isEmpty()) {

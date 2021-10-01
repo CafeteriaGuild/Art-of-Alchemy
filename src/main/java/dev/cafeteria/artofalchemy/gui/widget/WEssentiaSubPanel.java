@@ -52,7 +52,6 @@ public class WEssentiaSubPanel extends WPlainPanel {
 	private static final Identifier SYMBOLS_EMPTY = new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/symbols/empty.png");
 	private Essentia essentia = null;
 	private Integer amount = 0;
-	private Integer required = 0;
 	private final WSprite bg = new EssentiaSprite(ArtOfAlchemy.id("textures/gui/essentia_banner.png"));
 	private final WSprite sprite = new EssentiaSprite(WEssentiaSubPanel.SYMBOLS_EMPTY);
 
@@ -112,7 +111,6 @@ public class WEssentiaSubPanel extends WPlainPanel {
 
 	public void setEssentia(final Essentia essentia, final Integer amount, final Integer required) {
 		this.setEssentia(essentia, amount);
-		this.required = required;
 		if (required > 0) {
 			if (amount < required) {
 				this.amtLabel.setColor(0xAA0000, 0xFF5555);

@@ -21,12 +21,9 @@ import net.minecraft.util.registry.Registry;
 
 public class WFormulaListItem extends WPlainPanel {
 
-	private final ItemStack journal;
 	private Item formula = Items.AIR;
 	private final WItemScalable itemDisplay;
 	private final WLabel formulaLabel;
-	private final Hand hand;
-	// private final WLabel typeLabel;
 	private WButton setButton;
 
 	public WFormulaListItem(final ItemStack journal, final Hand hand) {
@@ -34,9 +31,6 @@ public class WFormulaListItem extends WPlainPanel {
 	}
 
 	public WFormulaListItem(final ItemStack journal, final Item formula, final Hand hand) {
-		this.journal = journal;
-		this.hand = hand;
-
 		final List<ItemStack> itemStackList = new ArrayList<>();
 		itemStackList.add(new ItemStack(formula));
 		this.itemDisplay = new WItemScalable(itemStackList);

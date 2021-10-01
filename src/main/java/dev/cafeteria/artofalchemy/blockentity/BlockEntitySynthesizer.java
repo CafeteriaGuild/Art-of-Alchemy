@@ -342,7 +342,7 @@ public class BlockEntitySynthesizer extends BlockEntity
 		boolean dirty = false;
 
 		if (!world.isClient()) {
-			final ItemStack inSlot = this.items.get(0);
+			this.items.get(0);
 			final ItemStack targetSlot = this.items.get(2);
 			boolean isWorking = false;
 
