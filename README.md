@@ -2,13 +2,12 @@
 <p align="center">
 	<!-- TODO: Mod Banner Here -->
 	<br />
-	<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img title="Requires Fabric API" height="50" src="https://i.imgur.com/Ol1Tcf8.png"></a>
+	<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img title="Requires Fabric API" height="50" src="https://i.imgur.com/Ol1Tcf8.png" /></a>
 	<br />
-	<a href="https://discord.gg/G4PjhEf"><img title="Cafeteria Guild Discord" src="https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2"></a>
+	<a href="https://discord.gg/G4PjhEf"><img title="Cafeteria Guild Discord" height="60" src="https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2" /></a>
 </p>
 
 ---
-
 
 ## The World of Alchemy
 At the heart of alchemy is the practice of transmutation. The ability to transmute substances into other, more useful substances is a valuable skill for any would-be crafter, and it starts with understanding the world around us. Our world is fundamentally made of two things: materia and essentia.
@@ -33,15 +32,14 @@ The basic versions of these machines only extract half of the theoretical yield 
 
 ---
 
-### Note
+## Note
 The mod is currently in a transition phase, the wiki is currently down and the repository is a fork.
 These things will be fixed soon and numerous additions and fixes are (hopefully) incoming.
 
 For now the wiki can be found [here](https://github.com/CumulusMC/Art-of-Alchemy/wiki).
 
----
 
-### Acknowledgements
+## Acknowledgements
 This mod is originally the wonderful work of the late [SynthRose](https://github.com/SynthRose).
 
 Unfortunately Rose is no longer able to contribute to the project but the work lives on.
@@ -50,11 +48,11 @@ Originally continued by [CumulusMC](https://github.com/CumulusMC), we have now t
 
 If you feel there is anything you can add to the project please submit it in [the repository](https://github.com/CafeteriaGuild/Art-of-Alchemy) or, get in touch on the [discord](https://discord.gg/G4PjhEf).
 
-Used Libraries:
+### Used Libraries
 - [LibGUI](https://www.curseforge.com/minecraft/mc-mods/libgui)
 - [Cloth Config](https://github.com/shedaniel/cloth-config)
 
 
-<center>
-	[![Cafeteria Guild Discord](https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2)](https://discord.gg/G4PjhEf)
-</center>
+<p align="center">
+	<a href="https://discord.gg/G4PjhEf"><img title="Cafeteria Guild Discord" src="https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2" /></a>
+</p>
