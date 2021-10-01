@@ -1,21 +1,14 @@
-# Art Of Alchemy
-
+<h1 align="center">Art of Alchemy</h1>
 <p align="center">
+	<!-- TODO: Mod Banner Here -->
+	<br />
 	<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img title="Requires Fabric API" height="50" src="https://i.imgur.com/Ol1Tcf8.png"></a>
+	<br />
+	<a href="https://discord.gg/G4PjhEf"><img title="Cafeteria Guild Discord" src="https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2"></a>
 </p>
 
-<p align="center">Art of Alchemy requires <a href="https://fabricmc.net/use/">Fabric Loader</a> but it does not require Fabric API.</p>
+---
 
-For more information on Art of Alchemy join the [Cafeteria Guild discord](https://discord.gg/G4PjhEf), or check out the [wiki (TODO)](https://github.com/Cumulus-Mods/Art-of-Alchemy/wiki).
-
-## Mod Requirements & Acknowledgments
-To use the latest version of this mod, you will need:
-
-* Minecraft 1.17.1
-* The [Fabric](https://fabricmc.net/) mod loader
-* The [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
-
-This project uses CottonMC's [LibGUI](https://www.curseforge.com/minecraft/mc-mods/libgui) library. You do not need to install it seperately to play the mod.
 
 ## The World of Alchemy
 At the heart of alchemy is the practice of transmutation. The ability to transmute substances into other, more useful substances is a valuable skill for any would-be crafter, and it starts with understanding the world around us. Our world is fundamentally made of two things: materia and essentia.
@@ -57,5 +50,11 @@ Originally continued by [CumulusMC](https://github.com/CumulusMC), we have now t
 
 If you feel there is anything you can add to the project please submit it in [the repository](https://github.com/CafeteriaGuild/Art-of-Alchemy) or, get in touch on the [discord](https://discord.gg/G4PjhEf).
 
+Used Libraries:
+- [LibGUI](https://www.curseforge.com/minecraft/mc-mods/libgui)
+- [Cloth Config](https://github.com/shedaniel/cloth-config)
 
-[![Cafeteria Guild Discord](https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2)](https://discord.gg/G4PjhEf)
+
+<center>
+	[![Cafeteria Guild Discord](https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2)](https://discord.gg/G4PjhEf)
+</center>
