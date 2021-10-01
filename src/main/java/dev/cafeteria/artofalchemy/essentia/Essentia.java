@@ -7,16 +7,16 @@ public class Essentia {
 
 	private final int color;
 
-	public Essentia(int color) {
+	public Essentia(final int color) {
 		this.color = color;
 	}
 
 	public int getColor() {
-		return color;
+		return this.color;
 	}
 
 	public TranslatableText getName() {
-		Identifier id = RegistryEssentia.INSTANCE.getId(this);
+		final Identifier id = RegistryEssentia.INSTANCE.getId(this);
 		return new TranslatableText("essentia." + id.getNamespace() + "." + id.getPath());
 	}
 

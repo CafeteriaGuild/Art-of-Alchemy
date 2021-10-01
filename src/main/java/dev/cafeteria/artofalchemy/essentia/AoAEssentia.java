@@ -1,7 +1,6 @@
 package dev.cafeteria.artofalchemy.essentia;
 
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
-
 import net.minecraft.util.registry.Registry;
 
 public class AoAEssentia {
@@ -20,24 +19,24 @@ public class AoAEssentia {
 	public static final Essentia PLUTO = new Essentia(0x185665);
 	public static final Essentia VOID = new Essentia(0x5E1CD9);
 
-	public static void registerEssentia() {
-		register("mercury", MERCURY);
-		register("venus", VENUS);
-		register("tellus", TELLUS);
-		register("mars", MARS);
-		register("jupiter", JUPITER);
-		register("saturn", SATURN);
-		register("uranus", URANUS);
-		register("neptune", NEPTUNE);
-		register("apollo", APOLLO);
-		register("diana", DIANA);
-		register("ceres", CERES);
-		register("pluto", PLUTO);
-		register("void", VOID);
+	public static Essentia register(final String name, final Essentia essentia) {
+		return Registry.register(RegistryEssentia.INSTANCE, ArtOfAlchemy.id(name), essentia);
 	}
 
-	public static Essentia register(String name, Essentia essentia) {
-		return Registry.register(RegistryEssentia.INSTANCE, ArtOfAlchemy.id(name), essentia);
+	public static void registerEssentia() {
+		AoAEssentia.register("mercury", AoAEssentia.MERCURY);
+		AoAEssentia.register("venus", AoAEssentia.VENUS);
+		AoAEssentia.register("tellus", AoAEssentia.TELLUS);
+		AoAEssentia.register("mars", AoAEssentia.MARS);
+		AoAEssentia.register("jupiter", AoAEssentia.JUPITER);
+		AoAEssentia.register("saturn", AoAEssentia.SATURN);
+		AoAEssentia.register("uranus", AoAEssentia.URANUS);
+		AoAEssentia.register("neptune", AoAEssentia.NEPTUNE);
+		AoAEssentia.register("apollo", AoAEssentia.APOLLO);
+		AoAEssentia.register("diana", AoAEssentia.DIANA);
+		AoAEssentia.register("ceres", AoAEssentia.CERES);
+		AoAEssentia.register("pluto", AoAEssentia.PLUTO);
+		AoAEssentia.register("void", AoAEssentia.VOID);
 	}
 
 }

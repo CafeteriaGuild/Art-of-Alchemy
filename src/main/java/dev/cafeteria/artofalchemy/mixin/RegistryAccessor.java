@@ -15,7 +15,9 @@ import net.minecraft.util.registry.RegistryKey;
 @Mixin(Registry.class)
 public interface RegistryAccessor {
 	@Invoker("create")
-	static <T, R extends MutableRegistry<T>> R create(RegistryKey<Registry<T>> key, R registry, Supplier<T> defaultEntry, Lifecycle lifecycle) {
+	static <T, R extends MutableRegistry<T>> R create(
+		final RegistryKey<Registry<T>> key, final R registry, final Supplier<T> defaultEntry, final Lifecycle lifecycle
+	) {
 		throw new AssertionError("mixin dummy");
 	}
 }

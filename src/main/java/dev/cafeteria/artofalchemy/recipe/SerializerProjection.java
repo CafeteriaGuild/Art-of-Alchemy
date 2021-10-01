@@ -13,27 +13,27 @@ import net.minecraft.util.JsonHelper;
 public class SerializerProjection implements RecipeSerializer<RecipeProjection> {
 
 	@Override
-	public RecipeProjection read(Identifier id, JsonObject json) {
-		String group = JsonHelper.getString(json, "group", "");
-		Ingredient input = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
-		int cost = JsonHelper.getInt(json, "cost", 1);
-		ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
-		int alkahest = JsonHelper.getInt(json, "alkahest", 0);
+	public RecipeProjection read(final Identifier id, final JsonObject json) {
+		final String group = JsonHelper.getString(json, "group", "");
+		final Ingredient input = Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"));
+		final int cost = JsonHelper.getInt(json, "cost", 1);
+		final ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
+		final int alkahest = JsonHelper.getInt(json, "alkahest", 0);
 		return new RecipeProjection(id, group, input, cost, output, alkahest);
 	}
 
 	@Override
-	public RecipeProjection read(Identifier id, PacketByteBuf buf) {
-		String group = buf.readString(32767);
-		Ingredient input = Ingredient.fromPacket(buf);
-		int cost = buf.readVarInt();
-		ItemStack output = buf.readItemStack();
-		int alkahest = buf.readVarInt();
+	public RecipeProjection read(final Identifier id, final PacketByteBuf buf) {
+		final String group = buf.readString(32767);
+		final Ingredient input = Ingredient.fromPacket(buf);
+		final int cost = buf.readVarInt();
+		final ItemStack output = buf.readItemStack();
+		final int alkahest = buf.readVarInt();
 		return new RecipeProjection(id, group, input, cost, output, alkahest);
 	}
 
 	@Override
-	public void write(PacketByteBuf buf, RecipeProjection recipe) {
+	public void write(final PacketByteBuf buf, final RecipeProjection recipe) {
 		buf.writeString(recipe.group);
 		recipe.input.write(buf);
 		buf.writeVarInt(recipe.cost);

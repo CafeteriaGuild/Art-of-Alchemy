@@ -1,16 +1,17 @@
 package dev.cafeteria.artofalchemy.gui.widget;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import dev.cafeteria.artofalchemy.essentia.Essentia;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
 import dev.cafeteria.artofalchemy.essentia.EssentiaStack;
-
 import io.github.cottonmc.cotton.gui.widget.WListPanel;
 import io.github.cottonmc.cotton.gui.widget.data.InputResult;
 import net.fabricmc.api.EnvType;
@@ -21,84 +22,97 @@ public class WEssentiaPanel extends WListPanel<Essentia, WEssentiaSubPanel> {
 	protected EssentiaContainer container;
 	protected EssentiaStack required = new EssentiaStack();
 
-	public WEssentiaPanel(EssentiaContainer container) {
-		super(new ArrayList<>(), null, null);
-		this.container = container;
-		this.supplier = WEssentiaSubPanel::new;
-		this.configurator = null;
-		updateEssentia(container);
-	}
-
-	public WEssentiaPanel(EssentiaContainer container, EssentiaStack required) {
-		super(new ArrayList<>(), null, null);
-		this.container = container;
-		this.required = required;
-		this.supplier = WEssentiaSubPanel::new;
-		this.configurator = null;
-		updateEssentia(container, required);
-	}
-
 	public WEssentiaPanel() {
 		this(new EssentiaContainer());
 	}
 
-	public void updateEssentia(EssentiaContainer container) {
+	public WEssentiaPanel(final EssentiaContainer container) {
+		super(new ArrayList<>(), null, null);
 		this.container = container;
-		this.configurator = (Essentia essentia, WEssentiaSubPanel panel) -> panel.setEssentia(essentia, container.getCount(essentia));
-		rebuildList();
-		reconfigure();
-		this.layout();
+		this.supplier = WEssentiaSubPanel::new;
+		this.configurator = null;
+		this.updateEssentia(container);
 	}
 
-	public void updateEssentia(EssentiaContainer container, EssentiaStack required) {
+	public WEssentiaPanel(final EssentiaContainer container, final EssentiaStack required) {
+		super(new ArrayList<>(), null, null);
 		this.container = container;
 		this.required = required;
-		this.configurator = (Essentia essentia, WEssentiaSubPanel panel) -> panel.setEssentia(essentia, container.getCount(essentia),
-				required.getOrDefault(essentia, 0));
-		rebuildList();
-		reconfigure();
-		this.layout();
+		this.supplier = WEssentiaSubPanel::new;
+		this.configurator = null;
+		this.updateEssentia(container, required);
+	}
+
+	@Environment(EnvType.CLIENT)
+	@Override
+	public InputResult onMouseScroll(final int x, final int y, final double amount) {
+		// Pass this as a fake event to the scrollbar for centralized scroll handling
+		this.scrollBar.onMouseScroll(-1, -1, amount);
+		return InputResult.PROCESSED;
 	}
 
 	protected void rebuildList() {
-		Set<Essentia> essentiaSet = new HashSet<>();
-		essentiaSet.addAll(container.getContents().keySet());
-		essentiaSet.addAll(required.keySet());
+		final Set<Essentia> essentiaSet = new HashSet<>(this.container.getContents().keySet());
+		essentiaSet.addAll(this.required.keySet());
 
-		Map<Essentia, Integer> sortOrder = new HashMap<>();
-		for (Essentia key : essentiaSet) {
+		final Map<Essentia, Integer> sortOrder = new HashMap<>();
+		for (final Essentia key : essentiaSet) {
 			int value;
-			if (required.getOrDefault(key, 0) > 0) {
-				value = 10000 + (required.get(key)) - container.getCount(key);
+			if (this.required.getOrDefault(key, 0) > 0) {
+				value = 10000 + this.required.get(key) - this.container.getCount(key);
 			} else {
-				value = container.getCount(key);
+				value = this.container.getCount(key);
 			}
 			if (value != 0) {
 				sortOrder.put(key, value);
 			}
 		}
 
-		data.clear();
-		data.addAll(sortOrder.keySet());
-		data.sort((key1, key2) -> sortOrder.get(key2) - sortOrder.get(key1));
+		this.data.clear();
+		this.data.addAll(sortOrder.keySet());
+		this.data.sort(new Comparator<Essentia>() {
+			@Override
+			public int compare(final Essentia key1, final Essentia key2) {
+				return sortOrder.get(key2) - sortOrder.get(key1);
+			}
+		});
 
-		if (data.isEmpty()) {
-			data.add(null);
+		if (this.data.isEmpty()) {
+			this.data.add(null);
 		}
 	}
 
 	protected void reconfigure() {
-		for (Entry<Essentia, WEssentiaSubPanel> entry : configured.entrySet()) {
-			configurator.accept(entry.getKey(), entry.getValue());
+		for (final Entry<Essentia, WEssentiaSubPanel> entry : this.configured.entrySet()) {
+			this.configurator.accept(entry.getKey(), entry.getValue());
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
-	@Override
-	public InputResult onMouseScroll(int x, int y, double amount) {
-		// Pass this as a fake event to the scrollbar for centralized scroll handling
-		this.scrollBar.onMouseScroll(-1, -1, amount);
-		return InputResult.PROCESSED;
+	public void updateEssentia(final EssentiaContainer container) {
+		this.container = container;
+		this.configurator = new BiConsumer<Essentia, WEssentiaSubPanel>() {
+			@Override
+			public void accept(final Essentia essentia, final WEssentiaSubPanel panel) {
+				panel.setEssentia(essentia, container.getCount(essentia));
+			}
+		};
+		this.rebuildList();
+		this.reconfigure();
+		this.layout();
+	}
+
+	public void updateEssentia(final EssentiaContainer container, final EssentiaStack required) {
+		this.container = container;
+		this.required = required;
+		this.configurator = new BiConsumer<Essentia, WEssentiaSubPanel>() {
+			@Override
+			public void accept(final Essentia essentia, final WEssentiaSubPanel panel) {
+				panel.setEssentia(essentia, container.getCount(essentia), required.getOrDefault(essentia, 0));
+			}
+		};
+		this.rebuildList();
+		this.reconfigure();
+		this.layout();
 	}
 
 }

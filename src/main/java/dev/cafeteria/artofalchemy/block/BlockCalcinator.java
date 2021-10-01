@@ -1,8 +1,9 @@
 package dev.cafeteria.artofalchemy.block;
 
+import java.util.function.ToIntFunction;
+
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityCalcinator;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -34,58 +35,72 @@ public class BlockCalcinator extends BlockWithEntity {
 
 	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = Properties.LIT;
-	public static final Settings SETTINGS = Settings
-			.of(Material.STONE)
-			.strength(5.0f, 6.0f)
-			.luminance((state) -> state.get(LIT) ? 15 : 0)
-			.nonOpaque();
+	public static final Settings SETTINGS = Settings.of(Material.STONE).strength(5.0f, 6.0f)
+		.luminance(new ToIntFunction<BlockState>() {
+			@Override
+			public int applyAsInt(final BlockState state) {
+				return state.get(BlockCalcinator.LIT) ? 15 : 0;
+			}
+		}).nonOpaque();
 
 	public static Identifier getId() {
 		return Registry.BLOCK.getId(AoABlocks.CALCINATOR);
 	}
 
 	public BlockCalcinator() {
-		this(SETTINGS);
+		this(BlockCalcinator.SETTINGS);
 	}
 
-	protected BlockCalcinator(Settings settings) {
+	protected BlockCalcinator(final Settings settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(LIT, false));
+		this.setDefaultState(
+			this.getDefaultState().with(BlockCalcinator.FACING, Direction.NORTH).with(BlockCalcinator.LIT, false)
+		);
 	}
 
 	@Override
-	protected void appendProperties(Builder<Block, BlockState> builder) {
-		builder.add(FACING).add(LIT);
+	protected void appendProperties(final Builder<Block, BlockState> builder) {
+		builder.add(BlockCalcinator.FACING).add(BlockCalcinator.LIT);
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return super.getPlacementState(ctx).with(FACING, ctx.getPlayerFacing().getOpposite());
-	}
-
-	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockHitResult hit) {
-
-		if (!world.isClient) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof BlockEntityCalcinator) {
-				player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
-			}
-		}
-
-		return ActionResult.SUCCESS;
-	}
-
-	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity createBlockEntity(final BlockPos pos, final BlockState state) {
 		return new BlockEntityCalcinator(pos, state);
 	}
 
 	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+	public BlockState getPlacementState(final ItemPlacementContext ctx) {
+		return super.getPlacementState(ctx).with(BlockCalcinator.FACING, ctx.getPlayerFacing().getOpposite());
+	}
+
+	@Override
+	public BlockRenderType getRenderType(final BlockState state) {
+		return BlockRenderType.MODEL;
+	}
+
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+		final World world, final BlockState state, final BlockEntityType<T> type
+	) {
+		return BlockWithEntity.checkType(type, AoABlockEntities.CALCINATOR, new BlockEntityTicker<BlockEntity>() {
+			@Override
+			public void tick(final World world2, final BlockPos pos, final BlockState state2, final BlockEntity entity) {
+				((BlockEntityCalcinator) entity).tick(world2, pos, state2, (BlockEntityCalcinator) entity);
+			}
+		});
+	}
+
+	@Override
+	public BlockState mirror(final BlockState state, final BlockMirror mirror) {
+		return state.rotate(mirror.getRotation(state.get(BlockCalcinator.FACING)));
+	}
+
+	@Override
+	public void onStateReplaced(
+		final BlockState state, final World world, final BlockPos pos, final BlockState newState, final boolean moved
+	) {
 		if (state.getBlock() != newState.getBlock()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
+			final BlockEntity blockEntity = world.getBlockEntity(pos);
 			if (blockEntity instanceof BlockEntityCalcinator) {
 				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
 			}
@@ -95,22 +110,23 @@ public class BlockCalcinator extends BlockWithEntity {
 	}
 
 	@Override
-	public BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(FACING, rotation.rotate(state.get(FACING)));
+	public ActionResult onUse(
+		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
+		final BlockHitResult hit
+	) {
+
+		if (!world.isClient) {
+			final BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof BlockEntityCalcinator) {
+				player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
+			}
+		}
+
+		return ActionResult.SUCCESS;
 	}
 
 	@Override
-	public BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.rotate(mirror.getRotation(state.get(FACING)));
-	}
-
-	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
-	}
-
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, AoABlockEntities.CALCINATOR, (world2, pos, state2, entity) -> ((BlockEntityCalcinator) entity).tick(world2, pos, state2, (BlockEntityCalcinator) entity));
+	public BlockState rotate(final BlockState state, final BlockRotation rotation) {
+		return state.with(BlockCalcinator.FACING, rotation.rotate(state.get(BlockCalcinator.FACING)));
 	}
 }

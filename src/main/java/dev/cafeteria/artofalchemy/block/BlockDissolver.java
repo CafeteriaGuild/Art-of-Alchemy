@@ -1,9 +1,10 @@
 package dev.cafeteria.artofalchemy.block;
 
+import java.util.function.ToIntFunction;
+
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityDissolver;
 import dev.cafeteria.artofalchemy.item.AoAItems;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -36,54 +37,114 @@ public class BlockDissolver extends BlockWithEntity {
 
 	public static final BooleanProperty FILLED = BooleanProperty.of("filled");
 	public static final BooleanProperty LIT = Properties.LIT;
-	public static final Settings SETTINGS = Settings
-			.of(Material.STONE)
-			.strength(5.0f, 6.0f)
-			.luminance((state) -> state.get(LIT) ? 15 : 0)
-			.nonOpaque();
+	public static final Settings SETTINGS = Settings.of(Material.STONE).strength(5.0f, 6.0f)
+		.luminance(new ToIntFunction<BlockState>() {
+			@Override
+			public int applyAsInt(final BlockState state) {
+				return state.get(BlockDissolver.LIT) ? 15 : 0;
+			}
+		}).nonOpaque();
 
 	public static Identifier getId() {
 		return Registry.BLOCK.getId(AoABlocks.DISSOLVER);
 	}
 
 	public BlockDissolver() {
-		this(SETTINGS);
+		this(BlockDissolver.SETTINGS);
 	}
 
-	protected BlockDissolver(Settings settings) {
+	protected BlockDissolver(final Settings settings) {
 		super(settings);
-		setDefaultState(getDefaultState().with(FILLED, false).with(LIT, false));
+		this.setDefaultState(this.getDefaultState().with(BlockDissolver.FILLED, false).with(BlockDissolver.LIT, false));
 	}
 
 	@Override
-	protected void appendProperties(Builder<Block, BlockState> builder) {
-		builder.add(FILLED).add(LIT);
+	protected void appendProperties(final Builder<Block, BlockState> builder) {
+		builder.add(BlockDissolver.FILLED).add(BlockDissolver.LIT);
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
+	public BlockEntity createBlockEntity(final BlockPos pos, final BlockState state) {
+		return new BlockEntityDissolver(pos, state);
+	}
+
+	@Override
+	public int getComparatorOutput(final BlockState state, final World world, final BlockPos pos) {
+		final BlockEntity be = world.getBlockEntity(pos);
+		if (be instanceof BlockEntityDissolver) {
+			final int capacity = ((BlockEntityDissolver) be).getTankSize();
+			final int filled = ((BlockEntityDissolver) be).getAlkahest();
+			final double fillLevel = (double) filled / capacity;
+			if (fillLevel == 0.0) {
+				return 0;
+			} else {
+				return 1 + (int) (fillLevel * 14);
+			}
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public BlockState getPlacementState(final ItemPlacementContext ctx) {
 		return super.getPlacementState(ctx);
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockHitResult hit) {
+	public BlockRenderType getRenderType(final BlockState state) {
+		return BlockRenderType.MODEL;
+	}
 
-		ItemStack inHand = player.getStackInHand(hand);
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+		final World world, final BlockState state, final BlockEntityType<T> type
+	) {
+		return BlockWithEntity.checkType(type, AoABlockEntities.DISSOLVER, new BlockEntityTicker<BlockEntity>() {
+			@Override
+			public void tick(final World world2, final BlockPos pos, final BlockState state2, final BlockEntity entity) {
+				((BlockEntityDissolver) entity).tick(world2, pos, state2, (BlockEntityDissolver) entity);
+			}
+		});
+	}
 
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof BlockEntityDissolver) {
-			BlockEntityDissolver dissolver = (BlockEntityDissolver) blockEntity;
+	@Override
+	public boolean hasComparatorOutput(final BlockState state) {
+		return true;
+	}
+
+	@Override
+	public void onStateReplaced(
+		final BlockState state, final World world, final BlockPos pos, final BlockState newState, final boolean moved
+	) {
+		if (state.getBlock() != newState.getBlock()) {
+			final BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof BlockEntityDissolver) {
+				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+			}
+
+			super.onStateReplaced(state, world, pos, newState, moved);
+		}
+	}
+
+	@Override
+	public ActionResult onUse(
+		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
+		final BlockHitResult hit
+	) {
+
+		final ItemStack inHand = player.getStackInHand(hand);
+
+		final BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof final BlockEntityDissolver dissolver) {
 			if (inHand.getItem() == AoAItems.ALKAHEST_BUCKET && dissolver.addAlkahest(1000)) {
 				if (!player.getAbilities().creativeMode) {
 					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
 				}
-				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY,
-						SoundCategory.BLOCKS, 1.0F, 1.0F);
+				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
 				return ActionResult.SUCCESS;
 			} else if (inHand.getItem() == AoAItems.ESSENTIA_VESSEL) {
-				ItemUsageContext itemContext = new ItemUsageContext(player, hand, hit);
-				ActionResult itemResult = inHand.useOnBlock(itemContext);
+				final ItemUsageContext itemContext = new ItemUsageContext(player, hand, hit);
+				final ActionResult itemResult = inHand.useOnBlock(itemContext);
 				if (itemResult != ActionResult.PASS) {
 					return itemResult;
 				}
@@ -96,55 +157,6 @@ public class BlockDissolver extends BlockWithEntity {
 			return ActionResult.PASS;
 		}
 
-	}
-
-	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new BlockEntityDissolver(pos, state);
-	}
-
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (state.getBlock() != newState.getBlock()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof BlockEntityDissolver) {
-				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
-			}
-
-			super.onStateReplaced(state, world, pos, newState, moved);
-		}
-	}
-
-	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.MODEL;
-	}
-
-	@Override
-	public boolean hasComparatorOutput(BlockState state) {
-		return true;
-	}
-
-	@Override
-	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof BlockEntityDissolver) {
-			int capacity = ((BlockEntityDissolver) be).getTankSize();
-			int filled = ((BlockEntityDissolver) be).getAlkahest();
-			double fillLevel = (double) filled / capacity;
-			if (fillLevel == 0.0) {
-				return 0;
-			} else {
-				return 1 + (int) (fillLevel * 14);
-			}
-		} else {
-			return 0;
-		}
-	}
-
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, AoABlockEntities.DISSOLVER, (world2, pos, state2, entity) -> ((BlockEntityDissolver) entity).tick(world2, pos, state2, (BlockEntityDissolver) entity));
 	}
 
 }

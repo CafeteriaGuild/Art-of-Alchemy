@@ -19,29 +19,32 @@ import net.minecraft.world.World;
 
 public class ItemAlchemyFormula extends AbstractItemFormula {
 
-	public ItemAlchemyFormula(Settings settings) {
-		super(settings);
-	}
-
-	public static Item getFormula(ItemStack stack) {
-		NbtCompound tag = stack.hasNbt() ? stack.getNbt() : new NbtCompound();
+	public static Item getFormula(final ItemStack stack) {
+		final NbtCompound tag = stack.hasNbt() ? stack.getNbt() : new NbtCompound();
 		if (tag.contains("formula")) {
-			Identifier id = new Identifier(tag.getString("formula"));
+			final Identifier id = new Identifier(tag.getString("formula"));
 			return Registry.ITEM.get(id);
 		} else {
 			return Items.AIR;
 		}
 	}
 
-	public static void setFormula(ItemStack stack, Item formula) {
-		NbtCompound tag = stack.getOrCreateNbt();
+	public static void setFormula(final ItemStack stack, final Item formula) {
+		final NbtCompound tag = stack.getOrCreateNbt();
 		tag.put("formula", NbtString.of(Registry.ITEM.getId(formula).toString()));
+	}
+
+	public ItemAlchemyFormula(final Settings settings) {
+		super(settings);
 	}
 
 	@Environment(EnvType.CLIENT)
 	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext ctx) {
-		tooltip.add(new TranslatableText(getFormula(stack).getTranslationKey()).formatted(Formatting.GRAY));
+	public void appendTooltip(
+		final ItemStack stack, final World world, final List<Text> tooltip, final TooltipContext ctx
+	) {
+		tooltip
+			.add(new TranslatableText(ItemAlchemyFormula.getFormula(stack).getTranslationKey()).formatted(Formatting.GRAY));
 		super.appendTooltip(stack, world, tooltip, ctx);
 	}
 

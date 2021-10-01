@@ -1,5 +1,7 @@
 package dev.cafeteria.artofalchemy;
 
+import java.util.function.Supplier;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,12 +18,12 @@ import dev.cafeteria.artofalchemy.recipe.AoARecipes;
 import dev.cafeteria.artofalchemy.transport.EssentiaNetworker;
 import dev.cafeteria.artofalchemy.util.AoALoot;
 import dev.cafeteria.artofalchemy.util.AoATags;
-
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.EndWorldTick;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
@@ -32,15 +34,31 @@ public class ArtOfAlchemy implements ModInitializer {
 	public static final String MOD_ID = "artofalchemy";
 	public static final String MOD_NAME = "Art of Alchemy";
 
-	public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
+	public static final Logger LOGGER = LogManager.getLogger(ArtOfAlchemy.MOD_NAME);
 
-	public static final ItemGroup ALCHEMY_GROUP = FabricItemGroupBuilder.create(id("alchemy"))
-			.icon(() -> new ItemStack(AoAItems.MYSTERIOUS_SIGIL)).build();
+	public static final ItemGroup ALCHEMY_GROUP = FabricItemGroupBuilder.create(ArtOfAlchemy.id("alchemy"))
+		.icon(new Supplier<ItemStack>() {
+			@Override
+			public ItemStack get() {
+				return new ItemStack(AoAItems.MYSTERIOUS_SIGIL);
+			}
+		}).build();
+
+	public static Identifier id(final String name) {
+		return new Identifier(ArtOfAlchemy.MOD_ID, name);
+	}
+
+	public static void log(final Level level, final String message) {
+		ArtOfAlchemy.LOGGER.log(level, message);
+	}
 
 	@Override
 	public void onInitialize() {
-		log(Level.INFO, "Humankind cannot gain anything without first giving something in return. "
-				+ "To obtain, something of equal value must be lost.");
+		ArtOfAlchemy.log(
+			Level.INFO,
+			"Humankind cannot gain anything without first giving something in return. "
+				+ "To obtain, something of equal value must be lost."
+		);
 
 		AoATags.init();
 		AutoConfig.register(AoAConfig.class, GsonConfigSerializer::new);
@@ -54,19 +72,14 @@ public class ArtOfAlchemy implements ModInitializer {
 		AoADispenserBehavior.registerDispenserBehavior();
 		AoANetworking.initializeNetworking();
 		AoALoot.initialize();
-		ServerTickEvents.END_WORLD_TICK.register((world) -> {
-			if (!world.isClient()) {
-				EssentiaNetworker.get((ServerWorld) world).tick();
+		ServerTickEvents.END_WORLD_TICK.register(new EndWorldTick() {
+			@Override
+			public void onEndTick(final ServerWorld world) {
+				if (!world.isClient()) {
+					EssentiaNetworker.get(world).tick();
+				}
 			}
 		});
-	}
-
-	public static Identifier id(String name) {
-		return new Identifier(MOD_ID, name);
-	}
-
-	public static void log(Level level, String message){
-		LOGGER.log(level, message);
 	}
 
 }

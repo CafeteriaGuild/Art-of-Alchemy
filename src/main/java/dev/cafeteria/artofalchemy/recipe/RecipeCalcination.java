@@ -1,7 +1,6 @@
 package dev.cafeteria.artofalchemy.recipe;
 
 import dev.cafeteria.artofalchemy.block.AoABlocks;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.inventory.Inventory;
@@ -22,7 +21,10 @@ public class RecipeCalcination implements Recipe<Inventory> {
 	protected final float factor;
 	protected final ItemStack container;
 
-	public RecipeCalcination(Identifier id, String group, Ingredient input, ItemStack output, float factor, ItemStack container) {
+	public RecipeCalcination(
+		final Identifier id, final String group, final Ingredient input, final ItemStack output, final float factor,
+		final ItemStack container
+	) {
 		this.id = id;
 		this.group = group;
 		this.input = input;
@@ -31,45 +33,55 @@ public class RecipeCalcination implements Recipe<Inventory> {
 		this.container = container;
 	}
 
-	public RecipeCalcination(Identifier id, String group, Ingredient input, ItemStack output, ItemStack container) {
+	public RecipeCalcination(
+		final Identifier id, final String group, final Ingredient input, final ItemStack output, final ItemStack container
+	) {
 		this(id, group, input, output, 1.0f, container);
 	}
 
 	@Override
-	public boolean matches(Inventory inv, World world) {
-		return input.test(inv.getStack(0));
+	public ItemStack craft(final Inventory inv) {
+		return this.output.copy();
 	}
 
 	@Override
-	public ItemStack craft(Inventory inv) {
-		return output.copy();
-	}
-
-	public Ingredient getInput() {
-		return input;
+	@Environment(EnvType.CLIENT)
+	public ItemStack createIcon() {
+		return new ItemStack(AoABlocks.CALCINATOR);
 	}
 
 	@Override
-	public ItemStack getOutput() {
-		return output;
+	@Environment(EnvType.CLIENT)
+	public boolean fits(final int width, final int height) {
+		return true;
+	}
+
+	public ItemStack getContainer() {
+		return this.container;
+	}
+
+	public float getFactor() {
+		return this.factor;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public String getGroup() {
+		return this.group;
 	}
 
 	@Override
 	public Identifier getId() {
-		return id;
+		return this.id;
 	}
 
-	public float getFactor() {
-		return factor;
-	}
-
-	public ItemStack getContainer() {
-		return container;
+	public Ingredient getInput() {
+		return this.input;
 	}
 
 	@Override
-	public RecipeType<?> getType() {
-		return AoARecipes.CALCINATION;
+	public ItemStack getOutput() {
+		return this.output;
 	}
 
 	@Override
@@ -78,21 +90,13 @@ public class RecipeCalcination implements Recipe<Inventory> {
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public boolean fits(int width, int height) {
-		return true;
+	public RecipeType<?> getType() {
+		return AoARecipes.CALCINATION;
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public String getGroup() {
-		return group;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public ItemStack createIcon() {
-		return new ItemStack(AoABlocks.CALCINATOR);
+	public boolean matches(final Inventory inv, final World world) {
+		return this.input.test(inv.getStack(0));
 	}
 
 }

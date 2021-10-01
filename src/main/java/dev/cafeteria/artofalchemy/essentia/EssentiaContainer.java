@@ -12,28 +12,39 @@ import net.minecraft.util.Identifier;
 
 public class EssentiaContainer {
 
+	public static EssentiaContainer of(final ItemStack item) {
+		EssentiaContainer container;
+		if (item.hasNbt() && item.getNbt().contains("contents")) {
+			container = new EssentiaContainer(item.getNbt().getCompound("contents"));
+		} else {
+			container = null;
+		}
+		return container;
+	}
+
 	private final EssentiaStack contents = new EssentiaStack();
 	private final Set<Essentia> whitelist = new HashSet<>();
 	private Integer capacity = 0;
 	private boolean input = true;
 	private boolean output = true;
 	private boolean infinite = false;
+
 	private boolean whitelistEnabled = false;
 
 	public EssentiaContainer() {
 	}
 
-	public EssentiaContainer(NbtCompound tag) {
+	public EssentiaContainer(final NbtCompound tag) {
 		if (tag != null) {
 			if (tag.contains("essentia")) {
-				NbtCompound essentiaTag = tag.getCompound("essentia");
+				final NbtCompound essentiaTag = tag.getCompound("essentia");
 				this.setContents(new EssentiaStack(essentiaTag));
 			}
 			if (tag.contains("whitelist")) {
-				whitelistEnabled = true;
-				NbtList list = tag.getList("whitelist", 8);
+				this.whitelistEnabled = true;
+				final NbtList list = tag.getList("whitelist", 8);
 				for (int i = 0; i < list.size(); i++) {
-					Identifier id = new Identifier(list.getString(i));
+					final Identifier id = new Identifier(list.getString(i));
 					this.whitelist(RegistryEssentia.INSTANCE.get(id));
 				}
 			}
@@ -60,131 +71,87 @@ public class EssentiaContainer {
 		}
 	}
 
-	public static EssentiaContainer of(ItemStack item) {
-		EssentiaContainer container;
-		if (item.hasNbt() && item.getNbt().contains("contents")) {
-			container = new EssentiaContainer(item.getNbt().getCompound("contents"));
+	public boolean addEssentia(final EssentiaStack stack) {
+		if (this.canAcceptIgnoreIO(stack)) {
+			this.contents.add(stack);
+			return true;
 		} else {
-			container = null;
+			return false;
 		}
-		return container;
 	}
 
-	public ItemStack in(ItemStack item) {
-		NbtCompound tag;
-		if (item.hasNbt()) {
-			tag = item.getNbt();
+	public EssentiaContainer blacklist(final Essentia essentia) {
+		this.whitelist.remove(essentia);
+		return this;
+	}
+
+	public boolean canAccept(final EssentiaStack query) {
+		if (!this.input) {
+			return false;
 		} else {
-			tag = new NbtCompound();
+			return this.canAcceptIgnoreIO(query);
 		}
-		tag.put("contents", writeNbt());
-		item.setNbt(tag);
-		return item;
 	}
 
-	public EssentiaStack getContents() {
-		return contents;
-	}
-
-	public EssentiaContainer setContents(EssentiaStack essentia) {
-		this.contents.clear();
-		if (essentia != null) {
-			this.contents.putAll(essentia);
+	public boolean canAcceptIgnoreIO(final EssentiaStack query) {
+		if (this.whitelistEnabled) {
+			for (final Essentia key : query.keySet()) {
+				if (query.getOrDefault(key, 0) != 0 && !this.whitelisted(key)) {
+					return false;
+				}
+			}
 		}
-		return this;
-	}
-
-	public Set<Essentia> getWhitelist() {
-		return whitelist;
-	}
-
-	public EssentiaContainer setWhitelist(Set<Essentia> whitelist) {
-		this.whitelist.clear();
-		if (whitelist != null) {
-			this.whitelist.addAll(whitelist);
-		}
-		return this;
-	}
-
-	public Integer getCapacity() {
-		return capacity;
-	}
-
-	public Integer getFreeCapacity() {
-		if (hasUnlimitedCapacity()) {
-			return null;
+		if (this.capacity == null) {
+			return true;
 		} else {
-			return getCapacity() - getCount();
+			return this.getCount() + query.getCount() <= this.capacity;
 		}
 	}
 
-	public EssentiaContainer setCapacity(int capacity) {
-		this.capacity = capacity;
-		return this;
+	public boolean canProvide(final EssentiaStack query) {
+		if (!this.output) {
+			return false;
+		} else {
+			return this.canProvideIgnoreIO(query);
+		}
 	}
 
-	public EssentiaContainer setUnlimitedCapacity() {
-		this.capacity = null;
-		return this;
+	public boolean canProvideIgnoreIO(final EssentiaStack query) {
+		if (this.whitelistEnabled) {
+			for (final Essentia key : query.keySet()) {
+				if (query.getOrDefault(key, 0) != 0 && !this.whitelisted(key)) {
+					return false;
+				}
+			}
+		}
+		if (this.infinite) {
+			return true;
+		} else {
+			return this.contains(query);
+		}
 	}
 
-	public boolean hasUnlimitedCapacity() {
-		return this.capacity == null;
+	public boolean contains(final EssentiaStack query) {
+		return this.contents.contains(query);
 	}
 
-	public boolean isInput() {
-		return input;
+	public boolean emptyContents() {
+		if (!this.isEmpty()) {
+			this.contents.clear();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	public EssentiaContainer setInput(boolean input) {
-		this.input = input;
-		return this;
-	}
-
-	public boolean isOutput() {
-		return output;
-	}
-
-	public EssentiaContainer setOutput(boolean output) {
-		this.output = output;
-		return this;
-	}
-
-	public boolean isInfinite() {
-		return infinite;
-	}
-
-	public EssentiaContainer setInfinite(boolean infinite) {
-		this.infinite = infinite;
-		return this;
-	}
-
-	public boolean isWhitelistEnabled() {
-		return whitelistEnabled;
-	}
-
-	public EssentiaContainer setWhitelistEnabled(boolean whitelistEnabled) {
-		this.whitelistEnabled = whitelistEnabled;
-		return this;
-	}
-
-	public EssentiaContainer whitelist(Essentia essentia) {
-		whitelist.add(essentia);
-		return this;
-	}
-
-	public EssentiaContainer blacklist(Essentia essentia) {
-		whitelist.remove(essentia);
-		return this;
-	}
-
-	// Clears any essentia in violation of the whitelist; returns true if any essentia was deleted
+	// Clears any essentia in violation of the whitelist; returns true if any
+	// essentia was deleted
 	public boolean enforceWhitelist() {
-		if (whitelistEnabled) {
+		if (this.whitelistEnabled) {
 			boolean removed = false;
-			for (Essentia key : contents.keySet()) {
-				if (!whitelist.contains(key)) {
-					contents.remove(key);
+			for (final Essentia key : this.contents.keySet()) {
+				if (!this.whitelist.contains(key)) {
+					this.contents.remove(key);
 					removed = true;
 				}
 			}
@@ -194,20 +161,60 @@ public class EssentiaContainer {
 		}
 	}
 
-	public int getCount(Essentia essentia) {
+	public Integer getCapacity() {
+		return this.capacity;
+	}
+
+	public int getColor() {
+		return this.getContents().getColor();
+	}
+
+	public EssentiaStack getContents() {
+		return this.contents;
+	}
+
+	public int getCount() {
+		return this.contents.getCount();
+	}
+
+	public int getCount(final Essentia essentia) {
 		if (essentia != null) {
-			return contents.getOrDefault(essentia, 0);
+			return this.contents.getOrDefault(essentia, 0);
 		} else {
 			return 0;
 		}
 	}
 
-	public int getCount() {
-		return contents.getCount();
+	public Integer getFreeCapacity() {
+		if (this.hasUnlimitedCapacity()) {
+			return null;
+		} else {
+			return this.getCapacity() - this.getCount();
+		}
+	}
+
+	public Set<Essentia> getWhitelist() {
+		return this.whitelist;
+	}
+
+	public boolean hasUnlimitedCapacity() {
+		return this.capacity == null;
+	}
+
+	public ItemStack in(final ItemStack item) {
+		NbtCompound tag;
+		if (item.hasNbt()) {
+			tag = item.getNbt();
+		} else {
+			tag = new NbtCompound();
+		}
+		tag.put("contents", this.writeNbt());
+		item.setNbt(tag);
+		return item;
 	}
 
 	public boolean isEmpty() {
-		for (int amount : contents.values()) {
+		for (final int amount : this.contents.values()) {
 			if (amount != 0) {
 				return false;
 			}
@@ -216,96 +223,99 @@ public class EssentiaContainer {
 	}
 
 	public boolean isFull() {
-		if (capacity != null) {
-			return getCount() >= capacity;
+		if (this.capacity != null) {
+			return this.getCount() >= this.capacity;
 		} else {
 			return false;
 		}
 	}
 
-	public boolean contains(EssentiaStack query) {
-		return contents.contains(query);
+	public boolean isInfinite() {
+		return this.infinite;
 	}
 
-	public boolean emptyContents() {
-		if (!isEmpty()) {
-			this.contents.clear();
-			return true;
+	public boolean isInput() {
+		return this.input;
+	}
+
+	public boolean isOutput() {
+		return this.output;
+	}
+
+	public boolean isWhitelistEnabled() {
+		return this.whitelistEnabled;
+	}
+
+	public void mixPushContents(final EssentiaContainer other) {
+		if (!this.output || !other.input) {
+			return;
+		}
+		final EssentiaContainer mixed = new EssentiaContainer().setUnlimitedCapacity();
+		this.pushContents(mixed, true);
+		other.pushContents(mixed, true);
+		mixed.pushContents(other, true);
+		mixed.pushContents(this, true);
+	}
+
+	public EssentiaStack pullContents(final EssentiaContainer other) {
+		return this.pullContents(other, false);
+	}
+
+	// Pull as much as possible of another container's contents, returning the
+	// essentia transferred
+	public EssentiaStack pullContents(final EssentiaContainer other, final boolean force) {
+		return other.pushContents(this, force);
+	}
+
+	// Pull the entire contents of another container, failing if any essentia
+	// couldn't transfer
+	public boolean pullEntireContents(final EssentiaContainer other) {
+		return this.pullEntireStack(other, other.contents);
+	}
+
+	// Pull an entire stack from another container, failing if any essentia couldn't
+	// transfer
+	public boolean pullEntireStack(final EssentiaContainer other, final EssentiaStack stack) {
+		return other.pushEntireStack(this, stack);
+	}
+
+	public EssentiaStack pullStack(final EssentiaContainer other, final EssentiaStack stack) {
+		return this.pullStack(other, stack, false);
+	}
+
+	// Pull as much as possible of a stack from another container, returning the
+	// essentia transferred
+	public EssentiaStack pullStack(final EssentiaContainer other, final EssentiaStack stack, final boolean force) {
+		return other.pushStack(this, stack, force);
+	}
+
+	public EssentiaStack pushContents(final EssentiaContainer other) {
+		return this.pushContents(other, false);
+	}
+
+	// Push as much as possible of this container's contents to another, returning
+	// the essentia transferred
+	public EssentiaStack pushContents(final EssentiaContainer other, final boolean force) {
+		if (other.hasUnlimitedCapacity() || other.getFreeCapacity() >= this.getCount()) {
+			return this.pushStack(other, this.contents, force);
 		} else {
-			return false;
+			return this.pushStack(
+				other,
+				EssentiaStack.multiplyCeil(this.contents, (float) other.getFreeCapacity() / this.getCount()),
+				force
+			);
 		}
 	}
 
-	public boolean whitelisted(Essentia essentia) {
-		return (!whitelistEnabled || whitelist.contains(essentia));
+	// Push the entire contents of this container, failing if any essentia couldn't
+	// transfer
+	public boolean pushEntireContents(final EssentiaContainer other) {
+		return this.pushEntireStack(other, this.contents);
 	}
 
-	public boolean canAcceptIgnoreIO(EssentiaStack query) {
-		if (whitelistEnabled) {
-			for (Essentia key : query.keySet()) {
-				if (query.getOrDefault(key, 0) != 0 && !whitelisted(key)) {
-					return false;
-				}
-			}
-		}
-		if (capacity == null) {
-			return true;
-		} else {
-			return (this.getCount() + query.getCount()) <= capacity;
-		}
-	}
-
-	public boolean canAccept(EssentiaStack query) {
-		if (!input) {
-			return false;
-		} else {
-			return canAcceptIgnoreIO(query);
-		}
-	}
-
-	public boolean canProvideIgnoreIO(EssentiaStack query) {
-		if (whitelistEnabled) {
-			for (Essentia key : query.keySet()) {
-				if (query.getOrDefault(key, 0) != 0 && !whitelisted(key)) {
-					return false;
-				}
-			}
-		}
-		if (infinite) {
-			return true;
-		} else {
-			return contains(query);
-		}
-	}
-
-	public boolean canProvide(EssentiaStack query) {
-		if (!output) {
-			return false;
-		} else {
-			return canProvideIgnoreIO(query);
-		}
-	}
-
-	public boolean addEssentia(EssentiaStack stack) {
-		if (canAcceptIgnoreIO(stack)) {
-			contents.add(stack);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean subtractEssentia(EssentiaStack stack) {
-		if (canProvideIgnoreIO(stack)) {
-			contents.subtract(stack);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	// Push an entire stack to another container, failing if any essentia couldn't transfer
-	public boolean pushEntireStack(EssentiaContainer other, EssentiaStack stack) {
+	// Push an entire stack to another container, failing if any essentia couldn't
+	// transfer
+	public boolean pushEntireStack(final EssentiaContainer other, final EssentiaStack stack) {
 		if (this.canProvide(stack) && other.canAccept(stack)) {
 			if (!this.infinite) {
 				this.contents.subtract(stack);
@@ -319,30 +329,20 @@ public class EssentiaContainer {
 		}
 	}
 
-	// Pull an entire stack from another container, failing if any essentia couldn't transfer
-	public boolean pullEntireStack(EssentiaContainer other, EssentiaStack stack) {
-		return other.pushEntireStack(this, stack);
+	public EssentiaStack pushStack(final EssentiaContainer other, final EssentiaStack stack) {
+		return this.pushStack(other, stack, false);
 	}
 
-	// Push the entire contents of this container, failing if any essentia couldn't transfer
-	public boolean pushEntireContents(EssentiaContainer other) {
-		return pushEntireStack(other, this.contents);
-	}
-
-	// Pull the entire contents of another container, failing if any essentia couldn't transfer
-	public boolean pullEntireContents(EssentiaContainer other) {
-		return pullEntireStack(other, other.contents);
-	}
-
-	// Push as much as possible of a stack to another container, returning the essentia transferred
-	public EssentiaStack pushStack(EssentiaContainer other, EssentiaStack stack, boolean force) {
+	// Push as much as possible of a stack to another container, returning the
+	// essentia transferred
+	public EssentiaStack pushStack(final EssentiaContainer other, final EssentiaStack stack, final boolean force) {
 		if (!force && (!this.output || !other.input)) {
 			return new EssentiaStack();
 		} else {
-			EssentiaStack transferred = new EssentiaStack();
-			for (Entry<Essentia, Integer> entry : stack.entrySet()) {
-				Essentia key = entry.getKey();
-				int value = entry.getValue();
+			final EssentiaStack transferred = new EssentiaStack();
+			for (final Entry<Essentia, Integer> entry : stack.entrySet()) {
+				final Essentia key = entry.getKey();
+				final int value = entry.getValue();
 				if (this.whitelisted(key) && other.whitelisted(key)) {
 					int transferAmt = value;
 					if (other.capacity != null) {
@@ -362,73 +362,87 @@ public class EssentiaContainer {
 		}
 	}
 
-	// Pull as much as possible of a stack from another container, returning the essentia transferred
-	public EssentiaStack pullStack(EssentiaContainer other, EssentiaStack stack, boolean force) {
-		return other.pushStack(this, stack, force);
+	public EssentiaContainer setCapacity(final int capacity) {
+		this.capacity = capacity;
+		return this;
 	}
 
-	// Push as much as possible of this container's contents to another, returning the essentia transferred
-	public EssentiaStack pushContents(EssentiaContainer other, boolean force) {
-		if (other.hasUnlimitedCapacity() || other.getFreeCapacity() >= this.getCount()) {
-			return pushStack(other, this.contents, force);
+	public EssentiaContainer setContents(final EssentiaStack essentia) {
+		this.contents.clear();
+		if (essentia != null) {
+			this.contents.putAll(essentia);
+		}
+		return this;
+	}
+
+	public EssentiaContainer setInfinite(final boolean infinite) {
+		this.infinite = infinite;
+		return this;
+	}
+
+	public EssentiaContainer setInput(final boolean input) {
+		this.input = input;
+		return this;
+	}
+
+	public EssentiaContainer setOutput(final boolean output) {
+		this.output = output;
+		return this;
+	}
+
+	public EssentiaContainer setUnlimitedCapacity() {
+		this.capacity = null;
+		return this;
+	}
+
+	public EssentiaContainer setWhitelist(final Set<Essentia> whitelist) {
+		this.whitelist.clear();
+		if (whitelist != null) {
+			this.whitelist.addAll(whitelist);
+		}
+		return this;
+	}
+
+	public EssentiaContainer setWhitelistEnabled(final boolean whitelistEnabled) {
+		this.whitelistEnabled = whitelistEnabled;
+		return this;
+	}
+
+	public boolean subtractEssentia(final EssentiaStack stack) {
+		if (this.canProvideIgnoreIO(stack)) {
+			this.contents.subtract(stack);
+			return true;
 		} else {
-			return pushStack(other, EssentiaStack.multiplyCeil(this.contents, (float) other.getFreeCapacity() / this.getCount()) , force);
+			return false;
 		}
 	}
 
-	// Pull as much as possible of another container's contents, returning the essentia transferred
-	public EssentiaStack pullContents(EssentiaContainer other, boolean force) {
-		return other.pushContents(this, force);
+	public EssentiaContainer whitelist(final Essentia essentia) {
+		this.whitelist.add(essentia);
+		return this;
 	}
 
-	public EssentiaStack pushStack(EssentiaContainer other, EssentiaStack stack) {
-		return pushStack(other, stack, false);
-	}
-
-	public EssentiaStack pullStack(EssentiaContainer other, EssentiaStack stack) {
-		return pullStack(other, stack, false);
-	}
-
-	public EssentiaStack pushContents(EssentiaContainer other) {
-		return pushContents(other, false);
-	}
-
-	public EssentiaStack pullContents(EssentiaContainer other) {
-		return pullContents(other, false);
-	}
-
-	public void mixPushContents(EssentiaContainer other) {
-		if (!this.output || !other.input) {
-			return;
-		}
-		EssentiaContainer mixed = new EssentiaContainer().setUnlimitedCapacity();
-		this.pushContents(mixed, true);
-		other.pushContents(mixed, true);
-		mixed.pushContents(other, true);
-		mixed.pushContents(this, true);
-	}
-
-	public int getColor() {
-		return getContents().getColor();
+	public boolean whitelisted(final Essentia essentia) {
+		return !this.whitelistEnabled || this.whitelist.contains(essentia);
 	}
 
 	public NbtCompound writeNbt() {
-		NbtCompound tag = new NbtCompound();
-		tag.put("essentia", getContents().toTag());
-		NbtList list = new NbtList();
-		for (Essentia essentia : getWhitelist()) {
+		final NbtCompound tag = new NbtCompound();
+		tag.put("essentia", this.getContents().toTag());
+		final NbtList list = new NbtList();
+		for (final Essentia essentia : this.getWhitelist()) {
 			list.add(NbtString.of(RegistryEssentia.INSTANCE.getId(essentia).toString()));
 		}
 		tag.put("whitelist", list);
-		tag.putBoolean("whitelist_enabled", isWhitelistEnabled());
-		tag.putBoolean("infinite", isInfinite());
-		if (capacity == null) {
+		tag.putBoolean("whitelist_enabled", this.isWhitelistEnabled());
+		tag.putBoolean("infinite", this.isInfinite());
+		if (this.capacity == null) {
 			tag.putString("capacity", "unlimited");
 		} else {
-			tag.putInt("capacity", getCapacity());
+			tag.putInt("capacity", this.getCapacity());
 		}
-		tag.putBoolean("input", isInput());
-		tag.putBoolean("output", isOutput());
+		tag.putBoolean("input", this.isInput());
+		tag.putBoolean("output", this.isOutput());
 		return tag;
 	}
 

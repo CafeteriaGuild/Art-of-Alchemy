@@ -10,57 +10,56 @@ import net.minecraft.world.World;
 
 public class NetworkNode {
 
-	private World world;
-	private NetworkNode.Type type;
-	private BlockPos pos;
-	private Direction dir;
+	public enum Type implements StringIdentifiable {
+		PULL, PUSH, PASSIVE;
 
-	public NetworkNode(World world, Type type, BlockPos pos, Direction dir) {
+		private final String string;
+
+		Type() {
+			this.string = this.toString().toLowerCase();
+		}
+
+		@Override
+		public String asString() {
+			return this.string;
+		}
+	}
+
+	private final World world;
+	private final NetworkNode.Type type;
+	private final BlockPos pos;
+
+	private final Direction dir;
+
+	public NetworkNode(final World world, final Type type, final BlockPos pos) {
+		this(world, type, pos, null);
+	}
+
+	public NetworkNode(final World world, final Type type, final BlockPos pos, final Direction dir) {
 		this.world = world;
 		this.type = type;
 		this.pos = pos;
 		this.dir = dir;
 	}
 
-	public NetworkNode(World world, Type type, BlockPos pos) {
-		this(world, type, pos, null);
-	}
-
-	public NetworkNode.Type getType() {
-		return type;
-	}
-
-	public BlockPos getPos() {
-		return pos;
+	public BlockEntity getBlockEntity() {
+		if (this.dir != null) {
+			return this.world.getBlockEntity(this.pos.offset(this.dir));
+		} else {
+			return this.world.getBlockEntity(this.pos);
+		}
 	}
 
 	public Optional<Direction> getDirection() {
-		return Optional.of(dir);
+		return Optional.of(this.dir);
 	}
 
-	public BlockEntity getBlockEntity() {
-		if (dir != null) {
-			return world.getBlockEntity(pos.offset(dir));
-		} else {
-			return world.getBlockEntity(pos);
-		}
+	public BlockPos getPos() {
+		return this.pos;
 	}
 
-	public enum Type implements StringIdentifiable {
-		PULL,
-		PUSH,
-		PASSIVE;
-
-		private final String string;
-
-		Type() {
-			this.string = toString().toLowerCase();
-		}
-
-		@Override
-		public String asString() {
-			return string;
-		}
+	public NetworkNode.Type getType() {
+		return this.type;
 	}
 
 }

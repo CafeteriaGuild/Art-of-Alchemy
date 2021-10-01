@@ -6,11 +6,12 @@ import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
 import dev.cafeteria.artofalchemy.essentia.EssentiaStack;
 import dev.cafeteria.artofalchemy.gui.screen.EssentiaScreen;
 import dev.cafeteria.artofalchemy.gui.screen.ScreenJournal;
-
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.network.PacketConsumer;
+import net.fabricmc.fabric.api.network.PacketContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -29,69 +30,89 @@ public class AoAClientNetworking {
 
 	@Environment(EnvType.CLIENT)
 	public static void initializeClientNetworking() {
-		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.ESSENTIA_PACKET,
-				(ctx, data) -> {
-					int essentiaId = data.readInt();
-					NbtCompound tag = data.readNbt();
-					BlockPos pos = data.readBlockPos();
-					ctx.getTaskQueue().execute(() -> {
-						EssentiaContainer container = new EssentiaContainer(tag);
-						MinecraftClient client = MinecraftClient.getInstance();
-						Screen screen = client.currentScreen;
+		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.ESSENTIA_PACKET, new PacketConsumer() {
+			@Override
+			public void accept(final PacketContext ctx, final PacketByteBuf data) {
+				final int essentiaId = data.readInt();
+				final NbtCompound tag = data.readNbt();
+				final BlockPos pos = data.readBlockPos();
+				ctx.getTaskQueue().execute(new Runnable() {
+					@Override
+					public void run() {
+						final EssentiaContainer container = new EssentiaContainer(tag);
+						final MinecraftClient client = MinecraftClient.getInstance();
+						final Screen screen = client.currentScreen;
 						if (screen instanceof EssentiaScreen) {
 							((EssentiaScreen) screen).updateEssentia(essentiaId, container, pos);
 						}
-					});
+					}
 				});
+			}
+		});
 
-		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.ESSENTIA_PACKET_REQ,
-				(ctx, data) -> {
-					int essentiaId = data.readInt();
-					NbtCompound essentiaTag = data.readNbt();
-					NbtCompound requiredTag = data.readNbt();
-					BlockPos pos = data.readBlockPos();
-					ctx.getTaskQueue().execute(() -> {
-						EssentiaContainer container = new EssentiaContainer(essentiaTag);
-						EssentiaStack required = new EssentiaStack(requiredTag);
-						MinecraftClient client = MinecraftClient.getInstance();
-						Screen screen = client.currentScreen;
+		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.ESSENTIA_PACKET_REQ, new PacketConsumer() {
+			@Override
+			public void accept(final PacketContext ctx, final PacketByteBuf data) {
+				final int essentiaId = data.readInt();
+				final NbtCompound essentiaTag = data.readNbt();
+				final NbtCompound requiredTag = data.readNbt();
+				final BlockPos pos = data.readBlockPos();
+				ctx.getTaskQueue().execute(new Runnable() {
+					@Override
+					public void run() {
+						final EssentiaContainer container = new EssentiaContainer(essentiaTag);
+						final EssentiaStack required = new EssentiaStack(requiredTag);
+						final MinecraftClient client = MinecraftClient.getInstance();
+						final Screen screen = client.currentScreen;
 						if (screen instanceof EssentiaScreen) {
 							((EssentiaScreen) screen).updateEssentia(essentiaId, container, required, pos);
 						}
-					});
+					}
 				});
+			}
+		});
 
-		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.JOURNAL_REFRESH_PACKET,
-				(ctx, data) -> {
-					ItemStack journal = data.readItemStack();
-					ctx.getTaskQueue().execute(() -> {
-						MinecraftClient client = MinecraftClient.getInstance();
-						Screen screen = client.currentScreen;
+		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.JOURNAL_REFRESH_PACKET, new PacketConsumer() {
+			@Override
+			public void accept(final PacketContext ctx, final PacketByteBuf data) {
+				final ItemStack journal = data.readItemStack();
+				ctx.getTaskQueue().execute(new Runnable() {
+					@Override
+					public void run() {
+						final MinecraftClient client = MinecraftClient.getInstance();
+						final Screen screen = client.currentScreen;
 						if (screen instanceof ScreenJournal) {
 							((ScreenJournal) screen).refresh(journal);
 						}
-					});
+					}
 				});
+			}
+		});
 
-		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.PIPE_FACE_UPDATE,
-				(ctx, data) -> {
-					Direction dir = data.readEnumConstant(Direction.class);
-					BlockEntityPipe.IOFace face = data.readEnumConstant(BlockEntityPipe.IOFace.class);
-					BlockPos pos = data.readBlockPos();
-					ctx.getTaskQueue().execute(() -> {
-						MinecraftClient client = MinecraftClient.getInstance();
-						World world = client.world;
-						BlockEntity be = world.getBlockEntity(pos);
+		ClientSidePacketRegistry.INSTANCE.register(AoANetworking.PIPE_FACE_UPDATE, new PacketConsumer() {
+			@Override
+			public void accept(final PacketContext ctx, final PacketByteBuf data) {
+				final Direction dir = data.readEnumConstant(Direction.class);
+				final BlockEntityPipe.IOFace face = data.readEnumConstant(BlockEntityPipe.IOFace.class);
+				final BlockPos pos = data.readBlockPos();
+				ctx.getTaskQueue().execute(new Runnable() {
+					@Override
+					public void run() {
+						final MinecraftClient client = MinecraftClient.getInstance();
+						final World world = client.world;
+						final BlockEntity be = world.getBlockEntity(pos);
 						if (be instanceof BlockEntityPipe) {
 							((BlockEntityPipe) be).setFace(dir, face);
 							BlockPipe.scheduleChunkRebuild(world, pos);
 						}
-					});
+					}
 				});
+			}
+		});
 	}
 
-	public static void sendJournalSelectPacket(Identifier id, Hand hand) {
-		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+	public static void sendJournalSelectPacket(final Identifier id, final Hand hand) {
+		final PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
 		data.writeIdentifier(id);
 		data.writeEnumConstant(hand);
 		ClientSidePacketRegistry.INSTANCE.sendToServer(AoANetworking.JOURNAL_SELECT_PACKET, data);
