@@ -45,7 +45,6 @@ import net.minecraft.world.World;
 public class BlockPipe extends Block implements NetworkElement, BlockEntityProvider {
 
 	private static VoxelShape boundingBox = VoxelShapes.cuboid(0.25, 0.25, 0.25, 0.75, 0.75, 0.75);
-	private HashSet<NetworkNode> nodes;
 
 	public static void scheduleChunkRebuild(final World world, final BlockPos pos) {
 		if (world.isClient()) {
@@ -53,6 +52,8 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 			client.worldRenderer.updateBlock(world, pos, null, null, 0);
 		}
 	}
+
+	private HashSet<NetworkNode> nodes;
 
 	public BlockPipe() {
 		super(
@@ -176,10 +177,10 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		for (final Direction dir : faces.keySet()) {
 			final IOFace face = faces.get(dir);
 			if (face.isNode()) {
-				nodes.add(new NetworkNode(world, face.getType(), pos, dir));
+				this.nodes.add(new NetworkNode(world, face.getType(), pos, dir));
 			}
 		}
-		return nodes;
+		return this.nodes;
 	}
 
 	@Override

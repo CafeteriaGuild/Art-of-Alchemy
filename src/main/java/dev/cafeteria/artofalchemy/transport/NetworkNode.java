@@ -41,16 +41,13 @@ public class NetworkNode {
 		this.type = type;
 		this.pos = pos;
 		this.dir = dir;
-		updateBlockEntity();
+		this.updateBlockEntity();
 	}
 
 	public void checkBlockEntity() {
-		if (this.blockEntity == null || this.blockEntity.isRemoved())
+		if ((this.blockEntity == null) || this.blockEntity.isRemoved()) {
 			this.updateBlockEntity();
-	}
-
-	public void updateBlockEntity() {
-		this.blockEntity = this.world.getBlockEntity(this.dir == null ? this.pos : this.pos.offset(this.dir));
+		}
 	}
 
 	public BlockEntity getBlockEntity() {
@@ -67,6 +64,10 @@ public class NetworkNode {
 
 	public NetworkNode.Type getType() {
 		return this.type;
+	}
+
+	public void updateBlockEntity() {
+		this.blockEntity = this.world.getBlockEntity(this.dir == null ? this.pos : this.pos.offset(this.dir));
 	}
 
 }

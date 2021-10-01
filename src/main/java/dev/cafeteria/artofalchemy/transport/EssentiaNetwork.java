@@ -155,9 +155,9 @@ public class EssentiaNetwork {
 			return;
 		}
 		this.lastTicked = this.world.getTime();
-		this.nodes.forEach(node -> node.checkBlockEntity()); // KG: This should be run as irregularly as possible. Ideally
-																													// node would listen for nearby updates and update on demand
-																													// there.
+		this.nodes.forEach(NetworkNode::checkBlockEntity); // KG: This should be run as irregularly as possible. Ideally
+																												// node would listen for nearby updates and update on demand
+																												// there.
 
 		for (final NetworkNode pusher : this.pushers) {
 			for (final NetworkNode puller : this.pullers) {
@@ -189,8 +189,7 @@ public class EssentiaNetwork {
 	public void transfer(final NetworkNode from, final NetworkNode to) {
 		final BlockEntity fromBE = from.getBlockEntity();
 		final BlockEntity toBE = to.getBlockEntity();
-		if ((fromBE instanceof HasEssentia) && (toBE instanceof HasEssentia)) {
-			final HasEssentia fromEssenceBE = (HasEssentia) fromBE;
+		if ((fromBE instanceof HasEssentia fromEssenceBE) && (toBE instanceof HasEssentia)) {
 			final HasEssentia toEssenceBE = (HasEssentia) toBE;
 			for (int i = 0; i < fromEssenceBE.getNumContainers(); i++) {
 				EssentiaContainer fromContainer;
