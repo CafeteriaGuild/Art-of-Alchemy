@@ -22,7 +22,8 @@ public class HandlerProjector extends SyncedGuiDescription {
 		final WGridPanel panel = AoAHandlers.makePanel(this);
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.projection_altar"));
 		AoAHandlers.addInventory(panel, this);
-		AoAHandlers.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_green.png"));
+		AoAHandlers
+			.addCentralProgressBar(panel, new Identifier(ArtOfAlchemy.MOD_ID, "textures/gui/progress_green.png"), 2, 3);
 		AoAHandlers.addBigOutput(panel, WItemSlot.outputOf(this.blockInventory, 1));
 
 		// Input Slot

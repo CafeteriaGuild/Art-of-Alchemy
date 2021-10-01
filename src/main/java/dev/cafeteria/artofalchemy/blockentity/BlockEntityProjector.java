@@ -252,7 +252,6 @@ public class BlockEntityProjector extends BlockEntity
 	public void tick(
 		final World world, final BlockPos pos, final BlockState state, final BlockEntityProjector blockEntity
 	) {
-		boolean dirty = false;
 
 		if (!world.isClient()) {
 			final ItemStack inSlot = this.items.get(0);
@@ -276,7 +275,6 @@ public class BlockEntityProjector extends BlockEntity
 					if (this.progress >= this.maxProgress) {
 						this.progress -= this.maxProgress;
 						this.doCraft(recipe);
-						dirty = true;
 					}
 				}
 			}
@@ -290,10 +288,7 @@ public class BlockEntityProjector extends BlockEntity
 					world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, false));
 				}
 			}
-		}
-
-		if (dirty) {
-			this.markDirty();
+			this.sync();
 		}
 	}
 
