@@ -2,7 +2,6 @@ package dev.cafeteria.artofalchemy.fluid;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.essentia.Essentia;
@@ -32,15 +31,11 @@ public class AoAFluids {
 
 		// Register essentia fluids; add-on essentia fluids will be registered to THEIR
 		// namespace
-		RegistryEssentia.INSTANCE.forEach(new BiConsumer<Essentia, Identifier>() {
-			@Override
-			public void accept(final Essentia essentia, final Identifier id) {
-				final Identifier stillId = new Identifier(id.getNamespace(), "essentia_" + id.getPath());
-				final Identifier flowId = new Identifier(id.getNamespace(), "flowing_essentia_" + id.getPath());
-				AoAFluids.ESSENTIA_FLUIDS.put(essentia, AoAFluids.register(stillId, new FluidEssentia.Still(essentia)));
-				AoAFluids.ESSENTIA_FLUIDS_FLOWING
-					.put(essentia, AoAFluids.register(flowId, new FluidEssentia.Flowing(essentia)));
-			}
+		RegistryEssentia.INSTANCE.forEach((essentia, id) -> {
+			final Identifier stillId = new Identifier(id.getNamespace(), "essentia_" + id.getPath());
+			final Identifier flowId = new Identifier(id.getNamespace(), "flowing_essentia_" + id.getPath());
+			AoAFluids.ESSENTIA_FLUIDS.put(essentia, AoAFluids.register(stillId, new FluidEssentia.Still(essentia)));
+			AoAFluids.ESSENTIA_FLUIDS_FLOWING.put(essentia, AoAFluids.register(flowId, new FluidEssentia.Flowing(essentia)));
 		});
 	}
 

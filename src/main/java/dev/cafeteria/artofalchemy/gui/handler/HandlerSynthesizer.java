@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy.gui.handler;
 
-import java.util.function.BiFunction;
-
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntitySynthesizer;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
@@ -18,34 +16,27 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class HandlerSynthesizer extends SyncedGuiDescription {
 
 	private static EssentiaContainer getEssentia(final ScreenHandlerContext ctx) {
-		return ctx.get(new BiFunction<World, BlockPos, EssentiaContainer>() {
-			@Override
-			public EssentiaContainer apply(final World world, final BlockPos pos) {
-				final BlockEntity be = world.getBlockEntity(pos);
-				if (be instanceof HasEssentia) {
-					return ((HasEssentia) be).getContainer(0);
-				} else {
-					return new EssentiaContainer();
-				}
+		return ctx.get((world, pos) -> {
+			final BlockEntity be = world.getBlockEntity(pos);
+			if (be instanceof HasEssentia) {
+				return ((HasEssentia) be).getContainer(0);
+			} else {
+				return new EssentiaContainer();
 			}
 		}, new EssentiaContainer());
 	}
 
 	private static EssentiaStack getRequirements(final ScreenHandlerContext ctx) {
-		return ctx.get(new BiFunction<World, BlockPos, EssentiaStack>() {
-			@Override
-			public EssentiaStack apply(final World world, final BlockPos pos) {
-				final BlockEntity be = world.getBlockEntity(pos);
-				if (be instanceof BlockEntitySynthesizer) {
-					return ((BlockEntitySynthesizer) be).getRequirements();
-				} else {
-					return new EssentiaStack();
-				}
+		return ctx.get((world, pos) -> {
+			final BlockEntity be = world.getBlockEntity(pos);
+			if (be instanceof BlockEntitySynthesizer) {
+				return ((BlockEntitySynthesizer) be).getRequirements();
+			} else {
+				return new EssentiaStack();
 			}
 		}, new EssentiaStack());
 	}
@@ -60,12 +51,7 @@ public class HandlerSynthesizer extends SyncedGuiDescription {
 			SyncedGuiDescription.getBlockPropertyDelegate(ctx)
 		);
 
-		this.pos = ctx.get(new BiFunction<World, BlockPos, BlockPos>() {
-			@Override
-			public BlockPos apply(final World world, final BlockPos pos) {
-				return pos;
-			}
-		}, null);
+		this.pos = ctx.get((world, pos) -> pos, null);
 
 		final WGridPanel panel = AoAHandlers.makePanel(this);
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.synthesis_table"));

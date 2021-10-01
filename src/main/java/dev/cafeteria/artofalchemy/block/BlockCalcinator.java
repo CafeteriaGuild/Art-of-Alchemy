@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy.block;
 
-import java.util.function.ToIntFunction;
-
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityCalcinator;
 import net.minecraft.block.Block;
@@ -36,12 +34,7 @@ public class BlockCalcinator extends BlockWithEntity {
 	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = Properties.LIT;
 	public static final Settings SETTINGS = Settings.of(Material.STONE).strength(5.0f, 6.0f)
-		.luminance(new ToIntFunction<BlockState>() {
-			@Override
-			public int applyAsInt(final BlockState state) {
-				return state.get(BlockCalcinator.LIT) ? 15 : 0;
-			}
-		}).nonOpaque();
+		.luminance(state -> state.get(BlockCalcinator.LIT) ? 15 : 0).nonOpaque();
 
 	public static Identifier getId() {
 		return Registry.BLOCK.getId(AoABlocks.CALCINATOR);
@@ -82,12 +75,12 @@ public class BlockCalcinator extends BlockWithEntity {
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
 		final World world, final BlockState state, final BlockEntityType<T> type
 	) {
-		return BlockWithEntity.checkType(type, AoABlockEntities.CALCINATOR, new BlockEntityTicker<BlockEntity>() {
-			@Override
-			public void tick(final World world2, final BlockPos pos, final BlockState state2, final BlockEntity entity) {
-				((BlockEntityCalcinator) entity).tick(world2, pos, state2, (BlockEntityCalcinator) entity);
-			}
-		});
+		return BlockWithEntity.checkType(
+			type,
+			AoABlockEntities.CALCINATOR,
+			(world2, pos, state2, entity) -> ((BlockEntityCalcinator) entity)
+				.tick(world2, pos, state2, (BlockEntityCalcinator) entity)
+		);
 	}
 
 	@Override

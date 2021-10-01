@@ -1,16 +1,11 @@
 package dev.cafeteria.artofalchemy.essentia;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -27,12 +22,8 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 		final EssentiaStack outStack = new EssentiaStack();
 		final Set<Essentia> union = new HashSet<>(stack1.keySet());
 		union.addAll(stack2.keySet());
-		union.forEach(new Consumer<Essentia>() {
-			@Override
-			public void accept(final Essentia essentia) {
-				outStack.put(essentia, stack1.getOrDefault(essentia, 0) + stack2.getOrDefault(essentia, 0));
-			}
-		});
+		union
+			.forEach(essentia -> outStack.put(essentia, stack1.getOrDefault(essentia, 0) + stack2.getOrDefault(essentia, 0)));
 		return outStack;
 	}
 
@@ -40,12 +31,7 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 	// things.
 	public static EssentiaStack multiply(final EssentiaStack inStack, final double scalar) {
 		final EssentiaStack outStack = new EssentiaStack();
-		inStack.forEach(new BiConsumer<Essentia, Integer>() {
-			@Override
-			public void accept(final Essentia essentia, final Integer amount) {
-				outStack.put(essentia, (int) (amount * scalar));
-			}
-		});
+		inStack.forEach((essentia, amount) -> outStack.put(essentia, (int) (amount * scalar)));
 		return outStack;
 	}
 
@@ -53,12 +39,7 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 	// things.
 	public static EssentiaStack multiply(final EssentiaStack inStack, final int scalar) {
 		final EssentiaStack outStack = new EssentiaStack();
-		inStack.forEach(new BiConsumer<Essentia, Integer>() {
-			@Override
-			public void accept(final Essentia essentia, final Integer amount) {
-				outStack.put(essentia, amount * scalar);
-			}
-		});
+		inStack.forEach((essentia, amount) -> outStack.put(essentia, amount * scalar));
 		return outStack;
 	}
 
@@ -66,12 +47,7 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 	// things.
 	public static EssentiaStack multiplyCeil(final EssentiaStack inStack, final double scalar) {
 		final EssentiaStack outStack = new EssentiaStack();
-		inStack.forEach(new BiConsumer<Essentia, Integer>() {
-			@Override
-			public void accept(final Essentia essentia, final Integer amount) {
-				outStack.put(essentia, (int) Math.ceil(amount * scalar));
-			}
-		});
+		inStack.forEach((essentia, amount) -> outStack.put(essentia, (int) Math.ceil(amount * scalar)));
 		return outStack;
 	}
 
@@ -80,12 +56,9 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 		final EssentiaStack outStack = new EssentiaStack();
 		final Set<Essentia> union = stack1.keySet();
 		union.addAll(stack2.keySet());
-		union.forEach(new Consumer<Essentia>() {
-			@Override
-			public void accept(final Essentia essentia) {
-				final int amount = Math.min(0, stack1.getOrDefault(essentia, 0) - stack2.getOrDefault(essentia, 0));
-				outStack.put(essentia, amount);
-			}
+		union.forEach(essentia -> {
+			final int amount = Math.min(0, stack1.getOrDefault(essentia, 0) - stack2.getOrDefault(essentia, 0));
+			outStack.put(essentia, amount);
 		});
 		return outStack;
 	}
@@ -94,28 +67,22 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 	}
 
 	public EssentiaStack(final JsonObject obj) {
-		obj.entrySet().forEach(new Consumer<Entry<String, JsonElement>>() {
-			@Override
-			public void accept(final Entry<String, JsonElement> entry) {
-				final Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(entry.getKey()));
-				if (essentia != null) {
-					EssentiaStack.this.put(essentia, entry.getValue().getAsInt());
-				} else {
-					throw new JsonSyntaxException("Unknown essentia '" + entry.getKey() + "'");
-				}
+		obj.entrySet().forEach(entry -> {
+			final Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(entry.getKey()));
+			if (essentia != null) {
+				EssentiaStack.this.put(essentia, entry.getValue().getAsInt());
+			} else {
+				throw new JsonSyntaxException("Unknown essentia '" + entry.getKey() + "'");
 			}
 		});
 	}
 
 	public EssentiaStack(final NbtCompound tag) {
 		if (tag != null) {
-			tag.getKeys().forEach(new Consumer<String>() {
-				@Override
-				public void accept(final String key) {
-					final Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(key));
-					if (essentia != null) {
-						EssentiaStack.this.put(essentia, tag.getInt(key));
-					}
+			tag.getKeys().forEach(key -> {
+				final Essentia essentia = RegistryEssentia.INSTANCE.get(new Identifier(key));
+				if (essentia != null) {
+					EssentiaStack.this.put(essentia, tag.getInt(key));
 				}
 			});
 		}
@@ -164,12 +131,7 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 	}
 
 	public void multiply(final double scalar) {
-		this.forEach(new BiConsumer<Essentia, Integer>() {
-			@Override
-			public void accept(final Essentia essentia, final Integer __) {
-				EssentiaStack.this.multiply(essentia, scalar);
-			}
-		});
+		this.forEach((essentia, __) -> EssentiaStack.this.multiply(essentia, scalar));
 	}
 
 	public void multiply(final Essentia essentia, final double scalar) {
@@ -184,21 +146,11 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 
 	// Mutating scalar multiplication. Can go negative - try not to break things.
 	public void multiply(final int scalar) {
-		this.forEach(new BiConsumer<Essentia, Integer>() {
-			@Override
-			public void accept(final Essentia essentia, final Integer __) {
-				EssentiaStack.this.multiply(essentia, scalar);
-			}
-		});
+		this.forEach((essentia, __) -> EssentiaStack.this.multiply(essentia, scalar));
 	}
 
 	public void multiplyStochastic(final double scalar) {
-		this.replaceAll(new BiFunction<Essentia, Integer, Integer>() {
-			@Override
-			public Integer apply(final Essentia __, final Integer value) {
-				return AoAHelper.stochasticRound(value * scalar);
-			}
-		});
+		this.replaceAll((__, value) -> AoAHelper.stochasticRound(value * scalar));
 	}
 
 	public List<Essentia> sortedList() {
@@ -208,12 +160,7 @@ public class EssentiaStack extends HashMap<Essentia, Integer> {
 				list.add(key);
 			}
 		}
-		list.sort(new Comparator<Essentia>() {
-			@Override
-			public int compare(final Essentia item1, final Essentia item2) {
-				return EssentiaStack.this.get(item2) - EssentiaStack.this.get(item1);
-			}
-		});
+		list.sort((item1, item2) -> EssentiaStack.this.get(item2) - EssentiaStack.this.get(item1));
 		return list;
 	}
 

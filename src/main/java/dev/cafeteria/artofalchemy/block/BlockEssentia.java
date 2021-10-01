@@ -1,7 +1,6 @@
 package dev.cafeteria.artofalchemy.block;
 
 import java.util.Random;
-import java.util.function.ToIntFunction;
 
 import dev.cafeteria.artofalchemy.essentia.Essentia;
 import dev.cafeteria.artofalchemy.fluid.AoAFluids;
@@ -18,12 +17,7 @@ import net.minecraft.world.World;
 
 public class BlockEssentia extends FluidBlock {
 
-	public static final Settings SETTINGS = Settings.copy(Blocks.WATER).luminance(new ToIntFunction<BlockState>() {
-		@Override
-		public int applyAsInt(final BlockState state) {
-			return 9;
-		}
-	});
+	public static final Settings SETTINGS = Settings.copy(Blocks.WATER).luminance(state -> 9);
 	protected static Essentia essentia;
 
 	public BlockEssentia(final Essentia essentia) {

@@ -1,13 +1,11 @@
 package dev.cafeteria.artofalchemy.gui.widget;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.BiConsumer;
 
 import dev.cafeteria.artofalchemy.essentia.Essentia;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
@@ -70,12 +68,7 @@ public class WEssentiaPanel extends WListPanel<Essentia, WEssentiaSubPanel> {
 
 		this.data.clear();
 		this.data.addAll(sortOrder.keySet());
-		this.data.sort(new Comparator<Essentia>() {
-			@Override
-			public int compare(final Essentia key1, final Essentia key2) {
-				return sortOrder.get(key2) - sortOrder.get(key1);
-			}
-		});
+		this.data.sort((key1, key2) -> sortOrder.get(key2) - sortOrder.get(key1));
 
 		if (this.data.isEmpty()) {
 			this.data.add(null);
@@ -90,12 +83,7 @@ public class WEssentiaPanel extends WListPanel<Essentia, WEssentiaSubPanel> {
 
 	public void updateEssentia(final EssentiaContainer container) {
 		this.container = container;
-		this.configurator = new BiConsumer<Essentia, WEssentiaSubPanel>() {
-			@Override
-			public void accept(final Essentia essentia, final WEssentiaSubPanel panel) {
-				panel.setEssentia(essentia, container.getCount(essentia));
-			}
-		};
+		this.configurator = (essentia, panel) -> panel.setEssentia(essentia, container.getCount(essentia));
 		this.rebuildList();
 		this.reconfigure();
 		this.layout();
@@ -104,12 +92,8 @@ public class WEssentiaPanel extends WListPanel<Essentia, WEssentiaSubPanel> {
 	public void updateEssentia(final EssentiaContainer container, final EssentiaStack required) {
 		this.container = container;
 		this.required = required;
-		this.configurator = new BiConsumer<Essentia, WEssentiaSubPanel>() {
-			@Override
-			public void accept(final Essentia essentia, final WEssentiaSubPanel panel) {
-				panel.setEssentia(essentia, container.getCount(essentia), required.getOrDefault(essentia, 0));
-			}
-		};
+		this.configurator = (essentia, panel) -> panel
+			.setEssentia(essentia, container.getCount(essentia), required.getOrDefault(essentia, 0));
 		this.rebuildList();
 		this.reconfigure();
 		this.layout();

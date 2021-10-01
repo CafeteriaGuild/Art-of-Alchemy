@@ -2,7 +2,6 @@ package dev.cafeteria.artofalchemy.item;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityPipe;
@@ -87,16 +86,13 @@ public class AoAItems {
 
 		// Register essentia buckets; add-on essentia buckets will be registered to
 		// THEIR namespace
-		RegistryEssentia.INSTANCE.forEach(new BiConsumer<Essentia, Identifier>() {
-			@Override
-			public void accept(final Essentia essentia, final Identifier id) {
-				final Identifier itemId = new Identifier(id.getNamespace(), "essentia_bucket_" + id.getPath());
-				AoAItems.ESSENTIA_BUCKETS.put(
-					essentia,
-					AoAItems
-						.register(itemId, new BucketItem(AoAFluids.ESSENTIA_FLUIDS.get(essentia), AoAItems.defaults().maxCount(1)))
-				);
-			}
+		RegistryEssentia.INSTANCE.forEach((essentia, id) -> {
+			final Identifier itemId = new Identifier(id.getNamespace(), "essentia_bucket_" + id.getPath());
+			AoAItems.ESSENTIA_BUCKETS.put(
+				essentia,
+				AoAItems
+					.register(itemId, new BucketItem(AoAFluids.ESSENTIA_FLUIDS.get(essentia), AoAItems.defaults().maxCount(1)))
+			);
 		});
 
 	}

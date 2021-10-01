@@ -3,8 +3,6 @@ package dev.cafeteria.artofalchemy.gui.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
-
 import dev.cafeteria.artofalchemy.gui.handler.AoAHandlers;
 import dev.cafeteria.artofalchemy.item.ItemJournal;
 import dev.cafeteria.artofalchemy.network.AoAClientNetworking;
@@ -55,12 +53,9 @@ public class WFormulaListItem extends WPlainPanel {
 			this.setButton.setAlignment(HorizontalAlignment.CENTER);
 			this.setButton.setParent(this);
 			this.add(this.setButton, 8 * AoAHandlers.BASIS - 8, -4, AoAHandlers.BASIS + 2, AoAHandlers.BASIS + 2);
-			this.setButton.setOnClick(new @Nullable Runnable() {
-				@Override
-				public void run() {
-					AoAClientNetworking.sendJournalSelectPacket(Registry.ITEM.getId(WFormulaListItem.this.formula), hand);
-				}
-			});
+			this.setButton.setOnClick(
+				() -> AoAClientNetworking.sendJournalSelectPacket(Registry.ITEM.getId(WFormulaListItem.this.formula), hand)
+			);
 		}
 
 		this.refresh(journal, formula);

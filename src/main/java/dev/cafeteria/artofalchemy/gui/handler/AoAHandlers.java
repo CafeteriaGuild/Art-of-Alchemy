@@ -19,9 +19,7 @@ import io.github.cottonmc.cotton.gui.widget.WLabel;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry.ExtendedClientHandlerFactory;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
@@ -74,18 +72,13 @@ public class AoAHandlers {
 	private static <T extends ScreenHandler> ScreenHandlerRegistry.ExtendedClientHandlerFactory<T> defaultFactory(
 		final Class<T> klass
 	) {
-		return new ExtendedClientHandlerFactory<T>() {
-			@Override
-			public T create(final int syncId, final PlayerInventory inventory, final PacketByteBuf buf) {
-				try {
-					return klass.getDeclaredConstructor(int.class, PlayerInventory.class, ScreenHandlerContext.class)
-						.newInstance(syncId, inventory, ScreenHandlerContext.create(inventory.player.world, buf.readBlockPos()));
-				} catch (
-					NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e
-				) {
-					e.printStackTrace();
-					return null;
-				}
+		return (syncId, inventory, buf) -> {
+			try {
+				return klass.getDeclaredConstructor(int.class, PlayerInventory.class, ScreenHandlerContext.class)
+					.newInstance(syncId, inventory, ScreenHandlerContext.create(inventory.player.world, buf.readBlockPos()));
+			} catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+				e.printStackTrace();
+				return null;
 			}
 		};
 	}
@@ -129,19 +122,15 @@ public class AoAHandlers {
 			.registerExtended(BlockSynthesizer.getId(), AoAHandlers.defaultFactory(HandlerSynthesizer.class));
 		AoAHandlers.PROJECTOR = ScreenHandlerRegistry
 			.registerExtended(BlockProjector.getId(), AoAHandlers.defaultFactory(HandlerProjector.class));
-		AoAHandlers.ANALYZER = ScreenHandlerRegistry
-			.registerExtended(BlockAnalyzer.getId(), new ExtendedClientHandlerFactory<HandlerAnalyzer>() {
-				@Override
-				public HandlerAnalyzer create(final int syncId, final PlayerInventory inventory, final PacketByteBuf buf) {
-					return new HandlerAnalyzer(syncId, inventory, ScreenHandlerContext.EMPTY);
-				}
-			});
-		AoAHandlers.JOURNAL = ScreenHandlerRegistry
-			.registerExtended(ItemJournal.getId(), new ExtendedClientHandlerFactory<HandlerJournal>() {
-				@Override
-				public HandlerJournal create(final int syncId, final PlayerInventory inventory, final PacketByteBuf buf) {
-					return new HandlerJournal(syncId, inventory, ScreenHandlerContext.EMPTY, buf.readEnumConstant(Hand.class));
-				}
-			});
+		AoAHandlers.ANALYZER = ScreenHandlerRegistry.registerExtended(
+			BlockAnalyzer.getId(),
+			(syncId, inventory, buf) -> new HandlerAnalyzer(syncId, inventory, ScreenHandlerContext.EMPTY)
+		);
+		AoAHandlers.JOURNAL = ScreenHandlerRegistry.registerExtended(
+			ItemJournal.getId(),
+			(
+				syncId, inventory, buf
+			) -> new HandlerJournal(syncId, inventory, ScreenHandlerContext.EMPTY, buf.readEnumConstant(Hand.class))
+		);
 	}
 }

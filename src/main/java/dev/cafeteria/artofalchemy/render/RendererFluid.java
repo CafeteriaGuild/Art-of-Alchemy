@@ -40,17 +40,10 @@ public class RendererFluid {
 		final Identifier stillTexture = new Identifier(texture.getNamespace(), "block/" + texture.getPath() + "_still");
 		final Identifier flowTexture = new Identifier(texture.getNamespace(), "block/" + texture.getPath() + "_flow");
 
-		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
-			.register(new ClientSpriteRegistryCallback() {
-				@Override
-				public void registerSprites(
-					final SpriteAtlasTexture atlas,
-					final net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback.Registry registry
-				) {
-					registry.register(stillTexture);
-					registry.register(flowTexture);
-				}
-			});
+		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register((atlas, registry) -> {
+			registry.register(stillTexture);
+			registry.register(flowTexture);
+		});
 
 		final Identifier fluidId = Registry.FLUID.getId(still);
 		final Identifier listenerId = new Identifier(fluidId.getNamespace(), fluidId.getPath() + "_reload_listener");

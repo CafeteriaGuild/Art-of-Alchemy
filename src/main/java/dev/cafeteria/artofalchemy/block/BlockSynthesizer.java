@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy.block;
 
-import java.util.function.ToIntFunction;
-
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntitySynthesizer;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
@@ -35,12 +33,7 @@ public class BlockSynthesizer extends BlockWithEntity {
 
 	public static final BooleanProperty LIT = Properties.LIT;
 	public static final Settings SETTINGS = Settings.of(Material.STONE).strength(5.0f, 6.0f)
-		.luminance(new ToIntFunction<BlockState>() {
-			@Override
-			public int applyAsInt(final BlockState state) {
-				return state.get(BlockSynthesizer.LIT) ? 15 : 0;
-			}
-		}).nonOpaque();
+		.luminance(state -> state.get(BlockSynthesizer.LIT) ? 15 : 0).nonOpaque();
 
 	public static Identifier getId() {
 		return Registry.BLOCK.getId(AoABlocks.SYNTHESIZER);
@@ -95,12 +88,12 @@ public class BlockSynthesizer extends BlockWithEntity {
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
 		final World world, final BlockState state, final BlockEntityType<T> type
 	) {
-		return BlockWithEntity.checkType(type, AoABlockEntities.SYNTHESIZER, new BlockEntityTicker<BlockEntity>() {
-			@Override
-			public void tick(final World world2, final BlockPos pos, final BlockState state2, final BlockEntity entity) {
-				((BlockEntitySynthesizer) entity).tick(world2, pos, state2, (BlockEntitySynthesizer) entity);
-			}
-		});
+		return BlockWithEntity.checkType(
+			type,
+			AoABlockEntities.SYNTHESIZER,
+			(world2, pos, state2, entity) -> ((BlockEntitySynthesizer) entity)
+				.tick(world2, pos, state2, (BlockEntitySynthesizer) entity)
+		);
 	}
 
 	@Override

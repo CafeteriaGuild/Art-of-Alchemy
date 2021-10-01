@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy.block;
 
-import java.util.function.ToIntFunction;
-
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityProjector;
 import dev.cafeteria.artofalchemy.item.AoAItems;
@@ -37,12 +35,7 @@ public class BlockProjector extends BlockWithEntity {
 
 	public static final BooleanProperty LIT = Properties.LIT;
 	public static final Settings SETTINGS = Settings.of(Material.METAL).sounds(BlockSoundGroup.METAL).strength(5.0f, 6.0f)
-		.luminance(new ToIntFunction<BlockState>() {
-			@Override
-			public int applyAsInt(final BlockState state) {
-				return state.get(BlockProjector.LIT) ? 15 : 0;
-			}
-		}).nonOpaque();
+		.luminance(state -> state.get(BlockProjector.LIT) ? 15 : 0).nonOpaque();
 
 	public static Identifier getId() {
 		return Registry.BLOCK.getId(AoABlocks.PROJECTOR);
@@ -98,12 +91,10 @@ public class BlockProjector extends BlockWithEntity {
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
 		final World world, final BlockState state, final BlockEntityType<T> type
 	) {
-		return type == AoABlockEntities.PROJECTOR ? new BlockEntityTicker<T>() {
-			@Override
-			public void tick(final World world2, final BlockPos pos, final BlockState state2, final T entity) {
-				((BlockEntityProjector) entity).tick(world2, pos, state2, (BlockEntityProjector) entity);
-			}
-		} : null;
+		return type == AoABlockEntities.PROJECTOR
+			? (world2, pos, state2, entity) -> ((BlockEntityProjector) entity)
+				.tick(world2, pos, state2, (BlockEntityProjector) entity)
+			: null;
 	}
 
 	@Override

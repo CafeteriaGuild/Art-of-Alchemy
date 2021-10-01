@@ -18,12 +18,7 @@ public interface ImplementedInventory extends Inventory {
 	 * Creates an inventory from the item list.
 	 */
 	static ImplementedInventory of(final DefaultedList<ItemStack> items) {
-		return new ImplementedInventory() {
-			@Override
-			public DefaultedList<ItemStack> getItems() {
-				return items;
-			}
-		};
+		return () -> items;
 	}
 
 	/**

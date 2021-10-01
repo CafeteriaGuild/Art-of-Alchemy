@@ -20,7 +20,8 @@ public abstract class MixinClientRecipeBook {
 	private static void getGroupForRecipe(final Recipe<?> recipe, final CallbackInfoReturnable<RecipeBookGroup> cir) {
 		final RecipeType<?> type = recipe.getType();
 		if (
-			type == AoARecipes.SYNTHESIS || type == AoARecipes.CALCINATION || type == AoARecipes.DISSOLUTION
+			type == AoARecipes.SYNTHESIS || type == AoARecipes.CALCINATION
+				|| type == AoARecipes.DISSOLUTION
 				|| type == AoARecipes.PROJECTION
 		) {
 			cir.setReturnValue(RecipeBookGroup.UNKNOWN);

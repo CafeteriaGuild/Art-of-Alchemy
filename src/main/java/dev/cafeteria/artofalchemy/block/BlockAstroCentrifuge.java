@@ -19,11 +19,9 @@ public class BlockAstroCentrifuge extends AbstractBlockCentrifuge {
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
 		final World world, final BlockState state, final BlockEntityType<T> type
 	) {
-		return type == AoABlockEntities.ASTRO_CENTRIFUGE ? new BlockEntityTicker<T>() {
-			@Override
-			public void tick(final World world2, final BlockPos pos, final BlockState state2, final T entity) {
-				((BlockEntityAstroCentrifuge) entity).tick(world2, pos, state2, (BlockEntityAstroCentrifuge) entity);
-			}
-		} : null;
+		return type == AoABlockEntities.ASTRO_CENTRIFUGE
+			? (world2, pos, state2, entity) -> ((BlockEntityAstroCentrifuge) entity)
+				.tick(world2, pos, state2, (BlockEntityAstroCentrifuge) entity)
+			: null;
 	}
 }

@@ -97,12 +97,9 @@ public class BlockTank extends Block implements BlockEntityProvider {
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
 		final World world, final BlockState state, final BlockEntityType<T> type
 	) {
-		return type == AoABlockEntities.TANK ? new BlockEntityTicker<T>() {
-			@Override
-			public void tick(final World world2, final BlockPos pos, final BlockState state2, final T entity) {
-				((BlockEntityTank) entity).tick(world2, pos, state2, (BlockEntityTank) entity);
-			}
-		} : null;
+		return type == AoABlockEntities.TANK
+			? (world2, pos, state2, entity) -> ((BlockEntityTank) entity).tick(world2, pos, state2, (BlockEntityTank) entity)
+			: null;
 	}
 
 	@Override

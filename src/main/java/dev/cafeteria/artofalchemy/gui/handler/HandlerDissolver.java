@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy.gui.handler;
 
-import java.util.function.BiFunction;
-
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
 import dev.cafeteria.artofalchemy.gui.widget.WEssentiaPanel;
@@ -17,20 +15,16 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class HandlerDissolver extends SyncedGuiDescription {
 
 	private static EssentiaContainer getEssentia(final ScreenHandlerContext ctx) {
-		return ctx.get(new BiFunction<World, BlockPos, EssentiaContainer>() {
-			@Override
-			public EssentiaContainer apply(final World world, final BlockPos pos) {
-				final BlockEntity be = world.getBlockEntity(pos);
-				if (be instanceof HasEssentia) {
-					return ((HasEssentia) be).getContainer(0);
-				} else {
-					return new EssentiaContainer();
-				}
+		return ctx.get((world, pos) -> {
+			final BlockEntity be = world.getBlockEntity(pos);
+			if (be instanceof HasEssentia) {
+				return ((HasEssentia) be).getContainer(0);
+			} else {
+				return new EssentiaContainer();
 			}
 		}, new EssentiaContainer());
 	}
@@ -45,12 +39,7 @@ public class HandlerDissolver extends SyncedGuiDescription {
 			SyncedGuiDescription.getBlockPropertyDelegate(ctx)
 		);
 
-		this.pos = ctx.get(new BiFunction<World, BlockPos, BlockPos>() {
-			@Override
-			public BlockPos apply(final World world, final BlockPos pos) {
-				return pos;
-			}
-		}, null);
+		this.pos = ctx.get((world, pos) -> pos, null);
 
 		final WGridPanel panel = AoAHandlers.makePanel(this);
 		AoAHandlers.makeTitle(panel, new TranslatableText("block.artofalchemy.dissolution_chamber"));

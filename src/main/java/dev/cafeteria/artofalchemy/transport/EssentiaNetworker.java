@@ -5,9 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import org.apache.logging.log4j.Level;
 
@@ -33,17 +30,11 @@ public class EssentiaNetworker extends PersistentState {
 	}
 
 	public static EssentiaNetworker get(final ServerWorld world) {
-		return world.getPersistentStateManager().getOrCreate(new Function<NbtCompound, EssentiaNetworker>() {
-			@Override
-			public EssentiaNetworker apply(final NbtCompound tag) {
-				return EssentiaNetworker.fromNbt(world, tag);
-			}
-		}, new Supplier<EssentiaNetworker>() {
-			@Override
-			public EssentiaNetworker get() {
-				return new EssentiaNetworker(world);
-			}
-		}, EssentiaNetworker.getName(world.getDimension()));
+		return world.getPersistentStateManager().getOrCreate(
+			tag -> EssentiaNetworker.fromNbt(world, tag),
+			() -> new EssentiaNetworker(world),
+			EssentiaNetworker.getName(world.getDimension())
+		);
 	}
 
 	public static String getName(final DimensionType dimension) {
@@ -192,20 +183,17 @@ public class EssentiaNetworker extends PersistentState {
 
 	public void remove(final BlockPos pos, final Set<BlockPos> connections) {
 		this.processed++;
-		this.getNetwork(pos).ifPresent(new Consumer<EssentiaNetwork>() {
-			@Override
-			public void accept(final EssentiaNetwork network) {
-				EssentiaNetworker.this.cache.remove(pos);
-				network.remove(pos);
-				if (network.getSize() == 0 || connections.size() > 1) {
-					for (final BlockPos netPos : network.getPositions()) {
-						EssentiaNetworker.this.orphans.add(netPos.toImmutable());
-						EssentiaNetworker.this.cache.remove(netPos);
-					}
-					EssentiaNetworker.this.networks.remove(network);
+		this.getNetwork(pos).ifPresent(network -> {
+			EssentiaNetworker.this.cache.remove(pos);
+			network.remove(pos);
+			if (network.getSize() == 0 || connections.size() > 1) {
+				for (final BlockPos netPos : network.getPositions()) {
+					EssentiaNetworker.this.orphans.add(netPos.toImmutable());
+					EssentiaNetworker.this.cache.remove(netPos);
 				}
-				EssentiaNetworker.this.markDirty();
+				EssentiaNetworker.this.networks.remove(network);
 			}
+			EssentiaNetworker.this.markDirty();
 		});
 	}
 

@@ -147,7 +147,7 @@ public class BlockPipe extends Block implements NetworkElement, BlockEntityProvi
 		for (final Direction dir : Direction.values()) {
 			final BlockPos neighbour = pos.offset(dir);
 			final BlockEntity be = world.getBlockEntity(neighbour);
-			if ((be instanceof final BlockEntityPipe bep) && (bep.getFace(dir.getOpposite()) == IOFace.CONNECT)) {
+			if (be instanceof final BlockEntityPipe bep && bep.getFace(dir.getOpposite()) == IOFace.CONNECT) {
 				connections.add(neighbour);
 			}
 		}

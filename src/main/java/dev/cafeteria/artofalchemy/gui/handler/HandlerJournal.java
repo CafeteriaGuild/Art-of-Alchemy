@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy.gui.handler;
 
-import org.jetbrains.annotations.Nullable;
-
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.gui.widget.WFormulaList;
 import dev.cafeteria.artofalchemy.item.AbstractItemFormula;
@@ -114,12 +112,8 @@ public class HandlerJournal extends SyncedGuiDescription {
 			AoAHandlers.BASIS + 2,
 			AoAHandlers.BASIS + 2
 		);
-		this.clearButton.setOnClick(new @Nullable Runnable() {
-			@Override
-			public void run() {
-				AoAClientNetworking.sendJournalSelectPacket(Registry.ITEM.getId(Items.AIR), hand);
-			}
-		});
+		this.clearButton
+			.setOnClick(() -> AoAClientNetworking.sendJournalSelectPacket(Registry.ITEM.getId(Items.AIR), hand));
 		this.clearButton.setEnabled(ItemJournal.getFormula(this.journal) != Items.AIR);
 
 		panel.add(this.createPlayerInventoryPanel(), AoAHandlers.OFFSET, 8 * AoAHandlers.BASIS);

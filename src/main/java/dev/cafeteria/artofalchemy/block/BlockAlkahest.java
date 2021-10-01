@@ -1,7 +1,6 @@
 package dev.cafeteria.artofalchemy.block;
 
 import java.util.Random;
-import java.util.function.ToIntFunction;
 
 import dev.cafeteria.artofalchemy.fluid.AoAFluids;
 import net.fabricmc.api.EnvType;
@@ -17,12 +16,7 @@ import net.minecraft.world.World;
 
 public class BlockAlkahest extends FluidBlock {
 
-	public static final Settings SETTINGS = Settings.copy(Blocks.WATER).luminance(new ToIntFunction<BlockState>() {
-		@Override
-		public int applyAsInt(final BlockState state) {
-			return 9;
-		}
-	});
+	public static final Settings SETTINGS = Settings.copy(Blocks.WATER).luminance(state -> 9);
 
 	public BlockAlkahest() {
 		super(AoAFluids.ALKAHEST, BlockAlkahest.SETTINGS);

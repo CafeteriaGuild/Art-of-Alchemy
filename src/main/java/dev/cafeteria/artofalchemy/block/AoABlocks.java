@@ -2,7 +2,6 @@ package dev.cafeteria.artofalchemy.block;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.essentia.Essentia;
@@ -68,12 +67,9 @@ public class AoABlocks {
 
 		// Register essentia fluid blocks; add-on essentia fluids will be registered to
 		// THEIR namespace
-		RegistryEssentia.INSTANCE.forEach(new BiConsumer<Essentia, Identifier>() {
-			@Override
-			public void accept(final Essentia essentia, final Identifier id) {
-				final Identifier blockId = new Identifier(id.getNamespace(), "essentia_" + id.getPath());
-				AoABlocks.ESSENTIA.put(essentia, AoABlocks.registerItemless(blockId, new BlockEssentia(essentia)));
-			}
+		RegistryEssentia.INSTANCE.forEach((essentia, id) -> {
+			final Identifier blockId = new Identifier(id.getNamespace(), "essentia_" + id.getPath());
+			AoABlocks.ESSENTIA.put(essentia, AoABlocks.registerItemless(blockId, new BlockEssentia(essentia)));
 		});
 	}
 

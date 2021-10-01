@@ -1,7 +1,5 @@
 package dev.cafeteria.artofalchemy;
 
-import java.util.function.Supplier;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,10 +21,8 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.EndWorldTick;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 
 public class ArtOfAlchemy implements ModInitializer {
@@ -37,12 +33,7 @@ public class ArtOfAlchemy implements ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger(ArtOfAlchemy.MOD_NAME);
 
 	public static final ItemGroup ALCHEMY_GROUP = FabricItemGroupBuilder.create(ArtOfAlchemy.id("alchemy"))
-		.icon(new Supplier<ItemStack>() {
-			@Override
-			public ItemStack get() {
-				return new ItemStack(AoAItems.MYSTERIOUS_SIGIL);
-			}
-		}).build();
+		.icon(() -> new ItemStack(AoAItems.MYSTERIOUS_SIGIL)).build();
 
 	public static Identifier id(final String name) {
 		return new Identifier(ArtOfAlchemy.MOD_ID, name);
@@ -72,12 +63,9 @@ public class ArtOfAlchemy implements ModInitializer {
 		AoADispenserBehavior.registerDispenserBehavior();
 		AoANetworking.initializeNetworking();
 		AoALoot.initialize();
-		ServerTickEvents.END_WORLD_TICK.register(new EndWorldTick() {
-			@Override
-			public void onEndTick(final ServerWorld world) {
-				if (!world.isClient()) {
-					EssentiaNetworker.get(world).tick();
-				}
+		ServerTickEvents.END_WORLD_TICK.register(world -> {
+			if (!world.isClient()) {
+				EssentiaNetworker.get(world).tick();
 			}
 		});
 	}

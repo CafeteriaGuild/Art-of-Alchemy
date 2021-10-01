@@ -113,7 +113,8 @@ public class HandlerAnalyzer extends SyncedGuiDescription {
 		if (!this.world.isClient) {
 			if (
 				this.blockInventory.getStack(0).getItem() == Items.PAPER
-					&& this.blockInventory.getStack(1).getItem() == Items.INK_SAC && !this.blockInventory.getStack(2).isEmpty()
+					&& this.blockInventory.getStack(1).getItem() == Items.INK_SAC
+					&& !this.blockInventory.getStack(2).isEmpty()
 			) {
 				final ItemStack formula = new ItemStack(AoAItems.ALCHEMY_FORMULA);
 				ItemAlchemyFormula.setFormula(formula, AoAHelper.getTarget(this.blockInventory.getStack(2)));

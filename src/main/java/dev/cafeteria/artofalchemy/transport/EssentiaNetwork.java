@@ -3,7 +3,6 @@ package dev.cafeteria.artofalchemy.transport;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
 import net.minecraft.block.Block;
@@ -140,30 +139,10 @@ public class EssentiaNetwork {
 	}
 
 	public void removeNodes(final BlockPos pos) {
-		this.nodes.removeIf(new Predicate<NetworkNode>() {
-			@Override
-			public boolean test(final NetworkNode node) {
-				return node.getPos().equals(pos);
-			}
-		});
-		this.pullers.removeIf(new Predicate<NetworkNode>() {
-			@Override
-			public boolean test(final NetworkNode node) {
-				return node.getPos().equals(pos);
-			}
-		});
-		this.pushers.removeIf(new Predicate<NetworkNode>() {
-			@Override
-			public boolean test(final NetworkNode node) {
-				return node.getPos().equals(pos);
-			}
-		});
-		this.passives.removeIf(new Predicate<NetworkNode>() {
-			@Override
-			public boolean test(final NetworkNode node) {
-				return node.getPos().equals(pos);
-			}
-		});
+		this.nodes.removeIf(node -> node.getPos().equals(pos));
+		this.pullers.removeIf(node -> node.getPos().equals(pos));
+		this.pushers.removeIf(node -> node.getPos().equals(pos));
+		this.passives.removeIf(node -> node.getPos().equals(pos));
 	}
 
 	public void tick() {
