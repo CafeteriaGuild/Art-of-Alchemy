@@ -1,10 +1,15 @@
 <h1 align="center">Art of Alchemy</h1>
 <p align="center">
 	<!-- TODO: Mod Banner Here -->
-	<br />
-	<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img title="Requires Fabric API" height="50" src="https://i.imgur.com/Ol1Tcf8.png" /></a>
-	<br />
-	<a href="https://discord.gg/G4PjhEf"><img title="Cafeteria Guild Discord" height="60" src="https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2" /></a>
+	<br/>
+	<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img title="Requires Fabric API" height="50" src="https://i.imgur.com/Ol1Tcf8.png"/></a>
+	<br/>
+	<a href="https://discord.gg/G4PjhEf"><img title="Cafeteria Guild Discord" height="60" src="https://discordapp.com/api/guilds/707435077679841350/embed.png?style=banner2"/></a>
+	<br/>
+	<a href="https://github.com/CafeteriaGuild/Art-of-Alchemy/releases/latest">
+		<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/CafeteriaGuild/Art-of-Alchemy?style=for-the-badge"/>
+		<img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/CafeteriaGuild/Art-of-Alchemy?style=for-the-badge">
+	</a>
 </p>
 
 ---
