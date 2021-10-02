@@ -41,6 +41,7 @@ public class AoABlockEntities {
 		Registry.register(Registry.BLOCK_ENTITY_TYPE, ArtOfAlchemy.id(name), blockEntity);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void registerBlockEntities() {
 		AoABlockEntities.register("calcination_furnace", AoABlockEntities.CALCINATOR);
 		AoABlockEntities.register("calcination_furnace_plus", AoABlockEntities.CALCINATOR_PLUS);
@@ -55,6 +56,7 @@ public class AoABlockEntities {
 		AoABlockEntities.register("elemental_centrifuge", AoABlockEntities.ELEMENT_CENTRIFUGE);
 		AoABlockEntities.register("pipe", AoABlockEntities.PIPE);
 
+		@SuppressWarnings("rawtypes")
 		BlockEntityType[] alkahestBEs = {
 			AoABlockEntities.DISSOLVER, AoABlockEntities.DISSOLVER_PLUS, AoABlockEntities.DISTILLER,
 			AoABlockEntities.PROJECTOR

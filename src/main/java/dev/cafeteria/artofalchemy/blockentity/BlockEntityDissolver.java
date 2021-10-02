@@ -311,7 +311,6 @@ public class BlockEntityDissolver extends BlockEntity
 	public void tick(
 		final World world, final BlockPos pos, final BlockState state, final BlockEntityDissolver blockEntity
 	) {
-		boolean dirty = false;
 
 		if (!world.isClient()) {
 			final ItemStack inSlot = this.items.get(0);
@@ -333,7 +332,6 @@ public class BlockEntityDissolver extends BlockEntity
 							this.lit = true;
 						}
 						this.progress++;
-						dirty = true;
 					}
 					if (this.progress >= this.maxProgress) {
 						this.progress -= this.maxProgress;
@@ -341,7 +339,6 @@ public class BlockEntityDissolver extends BlockEntity
 						if (!this.hasAlkahest()) {
 							world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.FILLED, false));
 						}
-						dirty = true;
 					}
 				}
 			}
@@ -349,18 +346,13 @@ public class BlockEntityDissolver extends BlockEntity
 			if (!canWork) {
 				if (this.progress != 0) {
 					this.progress = 0;
-					dirty = true;
 				}
 				if (this.lit) {
 					this.lit = false;
 					world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, false));
-					dirty = true;
 				}
 			}
-		}
-
-		if (dirty) {
-			this.markDirty();
+			sync(); // TODO: Check if this is laggy & improve
 		}
 	}
 
