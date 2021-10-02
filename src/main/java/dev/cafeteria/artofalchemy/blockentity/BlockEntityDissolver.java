@@ -16,6 +16,7 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
@@ -57,7 +58,7 @@ public class BlockEntityDissolver extends BlockEntity
 	private int tankSize;
 	private float speedMod;
 	private float yield;
-	private final SingleVariantStorage<FluidVariant> alkahestTank = makeAlkahestTank(this.getTankSize());
+	private final SingleVariantStorage<FluidVariant> alkahestTank = this.makeAlkahestTank();
 	private int progress = 0;
 	private int maxProgress = 100;
 	private int status = 0;
@@ -67,22 +68,19 @@ public class BlockEntityDissolver extends BlockEntity
 	// Status 3: Full output buffer
 	private boolean lit = false;
 
-	@Override
-	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
-		return this.alkahestTank;
-	}
-
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
+
 	protected EssentiaContainer essentia;
+
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 
 		@Override
 		public int get(final int index) {
 			switch (index) {
 				case 0:
-					return (int) BlockEntityDissolver.this.getAlkahest();
+					return (int) ((BlockEntityDissolver.this.getAlkahest() / FluidConstants.BUCKET) * 1000);
 				case 1:
-					return (int) BlockEntityDissolver.this.getAlkahestCapacity();
+					return (int) ((BlockEntityDissolver.this.getAlkahestCapacity() / FluidConstants.BUCKET) * 1000);
 				case 2:
 					return BlockEntityDissolver.this.progress;
 				case 3:
@@ -132,7 +130,7 @@ public class BlockEntityDissolver extends BlockEntity
 		this.tankSize = settings.tankBasic;
 		this.speedMod = settings.speedBasic;
 		this.yield = settings.yieldBasic;
-		this.essentia = new EssentiaContainer().setCapacity(this.getTankSize()).setInput(false).setOutput(true);
+		this.essentia = new EssentiaContainer().setCapacity(this.tankSize).setInput(false).setOutput(true);
 	}
 
 	private boolean canCraft(final RecipeDissolution recipe) {
@@ -217,6 +215,16 @@ public class BlockEntityDissolver extends BlockEntity
 	}
 
 	@Override
+	public long getAlkahestCapacity() {
+		return (this.tankSize / 1000) * FluidConstants.BUCKET;
+	}
+
+	@Override
+	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
+		return this.alkahestTank;
+	}
+
+	@Override
 	public int[] getAvailableSlots(final Direction side) {
 		if (side == Direction.UP) {
 			return BlockEntityDissolver.TOP_SLOTS;
@@ -267,10 +275,6 @@ public class BlockEntityDissolver extends BlockEntity
 
 	public float getSpeedMod() {
 		return this.speedMod;
-	}
-
-	public int getTankSize() {
-		return this.tankSize;
 	}
 
 	@Override

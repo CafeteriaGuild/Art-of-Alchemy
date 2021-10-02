@@ -10,6 +10,7 @@ import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
@@ -50,26 +51,22 @@ public class BlockEntityProjector extends BlockEntity
 	};
 	private int tankSize;
 	private int operationTime;
-	private final SingleVariantStorage<FluidVariant> alkahestTank = makeAlkahestTank(this.getTankSize());
+	private final SingleVariantStorage<FluidVariant> alkahestTank = this.makeAlkahestTank();
 	private int progress = 0;
 	private int maxProgress = this.getOperationTime();
 	private boolean lit = false;
 
-	@Override
-	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
-		return this.alkahestTank;
-	}
-
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
+
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 
 		@Override
 		public int get(final int index) {
 			switch (index) {
 				case 0:
-					return (int) BlockEntityProjector.this.getAlkahest();
+					return (int) ((BlockEntityProjector.this.getAlkahest() / FluidConstants.BUCKET) * 1000);
 				case 1:
-					return (int) BlockEntityProjector.this.getAlkahestCapacity();
+					return (int) ((BlockEntityProjector.this.getAlkahestCapacity() / FluidConstants.BUCKET) * 1000);
 				case 2:
 					return BlockEntityProjector.this.progress;
 				case 3:
@@ -81,20 +78,6 @@ public class BlockEntityProjector extends BlockEntity
 
 		@Override
 		public void set(final int index, final int value) {
-			switch (index) {
-				case 0:
-					BlockEntityProjector.this.setAlkahest(value);
-					break;
-				case 1:
-					// No action
-					break;
-				case 2:
-					BlockEntityProjector.this.progress = value;
-					break;
-				case 3:
-					BlockEntityProjector.this.maxProgress = value;
-					break;
-			}
 		}
 
 		@Override
@@ -177,6 +160,16 @@ public class BlockEntityProjector extends BlockEntity
 	}
 
 	@Override
+	public long getAlkahestCapacity() {
+		return (this.tankSize / 1000) * FluidConstants.BUCKET;
+	}
+
+	@Override
+	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
+		return this.alkahestTank;
+	}
+
+	@Override
 	public int[] getAvailableSlots(final Direction side) {
 		if (side == Direction.UP) {
 			return BlockEntityProjector.TOP_SLOTS;
@@ -204,10 +197,6 @@ public class BlockEntityProjector extends BlockEntity
 	@Override
 	public PropertyDelegate getPropertyDelegate() {
 		return this.delegate;
-	}
-
-	public int getTankSize() {
-		return this.tankSize;
 	}
 
 	@Override

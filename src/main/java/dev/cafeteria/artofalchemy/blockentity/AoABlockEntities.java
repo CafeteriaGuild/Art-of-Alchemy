@@ -55,8 +55,12 @@ public class AoABlockEntities {
 		AoABlockEntities.register("elemental_centrifuge", AoABlockEntities.ELEMENT_CENTRIFUGE);
 		AoABlockEntities.register("pipe", AoABlockEntities.PIPE);
 
-		FluidStorage.SIDED
-			.registerForBlockEntity((be, dir) -> ((HasAlkahest) be).getAlkahestTank(), AoABlockEntities.DISTILLER);
+		BlockEntityType[] alkahestBEs = {
+			AoABlockEntities.DISSOLVER, AoABlockEntities.DISSOLVER_PLUS, AoABlockEntities.DISTILLER,
+			AoABlockEntities.PROJECTOR
+		};
+		for (BlockEntityType<? extends BlockEntity> alkahestBE : alkahestBEs)
+			FluidStorage.SIDED.registerForBlockEntity((be, dir) -> ((HasAlkahest) be).getAlkahestTank(), alkahestBE);
 	}
 
 }

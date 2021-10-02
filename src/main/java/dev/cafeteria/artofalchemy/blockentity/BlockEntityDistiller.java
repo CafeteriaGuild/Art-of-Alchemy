@@ -75,12 +75,12 @@ public class BlockEntityDistiller extends BlockEntity
 	protected int fuel = 0;
 	private int essentia = 0;
 
-	private final SingleVariantStorage<FluidVariant> alkahestTank = makeAlkahestTank(ALKAHEST_TANK_SIZE);
+	private final SingleVariantStorage<FluidVariant> alkahestTank = this.makeAlkahestTank();
 
 	private boolean lit = false;
+
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
 	protected EssentiaContainer essentiaInput;
-
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 		@Override
 		public int get(final int index) {
@@ -97,9 +97,9 @@ public class BlockEntityDistiller extends BlockEntity
 				case 4:
 					return BlockEntityDistiller.this.essentia;
 				case 5:
-					return (int) BlockEntityDistiller.this.alkahestTank.getAmount();
+					return (int) ((BlockEntityDistiller.this.getAlkahest() / FluidConstants.BUCKET) * 1000);
 				case 6:
-					return BlockEntityDistiller.this.tankSize;
+					return (int) ((BlockEntityDistiller.this.getAlkahestCapacity() / FluidConstants.BUCKET) * 1000);
 				default:
 					return 0;
 			}
@@ -167,6 +167,16 @@ public class BlockEntityDistiller extends BlockEntity
 	@Override
 	public void fromClientTag(final NbtCompound tag) {
 		this.readNbt(tag);
+	}
+
+	@Override
+	public long getAlkahestCapacity() {
+		return BlockEntityDistiller.ALKAHEST_TANK_SIZE;
+	}
+
+	@Override
+	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
+		return this.alkahestTank;
 	}
 
 	@Override
@@ -366,10 +376,5 @@ public class BlockEntityDistiller extends BlockEntity
 	@Override
 	public void writeScreenOpeningData(final ServerPlayerEntity player, final PacketByteBuf buf) {
 		buf.writeBlockPos(this.pos);
-	}
-
-	@Override
-	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
-		return this.alkahestTank;
 	}
 }
