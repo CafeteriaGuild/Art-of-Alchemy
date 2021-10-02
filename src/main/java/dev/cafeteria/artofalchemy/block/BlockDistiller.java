@@ -64,8 +64,8 @@ public class BlockDistiller extends BlockWithEntity {
 	public int getComparatorOutput(final BlockState state, final World world, final BlockPos pos) {
 		final BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof BlockEntityDistiller) {
-			final int capacity = ((BlockEntityDistiller) be).getTankSize();
-			final int filled = ((BlockEntityDistiller) be).getAlkahest();
+			final long capacity = ((BlockEntityDistiller) be).getAlkahestCapacity();
+			final long filled = ((BlockEntityDistiller) be).getAlkahest();
 			final double fillLevel = (double) filled / capacity;
 			if (fillLevel == 0.0) {
 				return 0;
@@ -128,7 +128,7 @@ public class BlockDistiller extends BlockWithEntity {
 
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDistiller distiller) {
-			if ((inHand.getItem() == Items.BUCKET) && distiller.withdrawAlkahest(1000)) {
+			if ((inHand.getItem() == Items.BUCKET) && distiller.addAlkahest(-1000)) {
 				if (!player.getAbilities().creativeMode) {
 					inHand.decrement(1);
 					player.giveItemStack(new ItemStack(AoAItems.ALKAHEST_BUCKET));

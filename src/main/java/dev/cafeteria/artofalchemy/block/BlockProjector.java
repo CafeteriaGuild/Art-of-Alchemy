@@ -64,8 +64,8 @@ public class BlockProjector extends BlockWithEntity {
 	public int getComparatorOutput(final BlockState state, final World world, final BlockPos pos) {
 		final BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof BlockEntityProjector) {
-			final int capacity = ((BlockEntityProjector) be).getTankSize();
-			final int filled = ((BlockEntityProjector) be).getAlkahest();
+			final int capacity = (int) ((BlockEntityProjector) be).getAlkahestCapacity();
+			final int filled = (int) ((BlockEntityProjector) be).getAlkahest();
 			final double fillLevel = (double) filled / capacity;
 			if (fillLevel == 0.0) {
 				return 0;

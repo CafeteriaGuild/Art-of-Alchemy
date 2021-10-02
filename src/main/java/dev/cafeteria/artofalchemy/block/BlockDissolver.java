@@ -65,8 +65,8 @@ public class BlockDissolver extends BlockWithEntity {
 	public int getComparatorOutput(final BlockState state, final World world, final BlockPos pos) {
 		final BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof BlockEntityDissolver) {
-			final int capacity = ((BlockEntityDissolver) be).getTankSize();
-			final int filled = ((BlockEntityDissolver) be).getAlkahest();
+			final int capacity = (int) ((BlockEntityDissolver) be).getAlkahestCapacity();
+			final int filled = (int) ((BlockEntityDissolver) be).getAlkahest();
 			final double fillLevel = (double) filled / capacity;
 			if (fillLevel == 0.0) {
 				return 0;

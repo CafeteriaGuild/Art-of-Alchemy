@@ -17,8 +17,6 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.TransferVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
@@ -68,10 +66,6 @@ public class BlockEntityDistiller extends BlockEntity
 	private static final int SLOT_AZOTH = 0;
 	private static final int SLOT_FUEL = 1;
 
-	public static Storage<FluidVariant> getFluidStorage(final BlockEntityDistiller distiller, final Direction dir) {
-		return distiller.getAlkahestTank(dir);
-	}
-
 	// Settable
 	private int tankSize;
 	private float speedMod;
@@ -81,20 +75,7 @@ public class BlockEntityDistiller extends BlockEntity
 	protected int fuel = 0;
 	private int essentia = 0;
 
-	private int alkahest = 0;
-
-	private final SingleVariantStorage<FluidVariant> alkahestTank = new SingleVariantStorage() {
-		@Override
-		protected TransferVariant getBlankVariant() {
-			return FluidVariant.of(AoAFluids.ALKAHEST);
-		}
-
-		@Override
-		protected long getCapacity(final TransferVariant variant) {
-			return BlockEntityDistiller.ALKAHEST_TANK_SIZE;
-		}
-
-	};
+	private final SingleVariantStorage<FluidVariant> alkahestTank = makeAlkahestTank(ALKAHEST_TANK_SIZE);
 
 	private boolean lit = false;
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
@@ -186,15 +167,6 @@ public class BlockEntityDistiller extends BlockEntity
 	@Override
 	public void fromClientTag(final NbtCompound tag) {
 		this.readNbt(tag);
-	}
-
-	@Override
-	public int getAlkahest() {
-		return this.alkahest;
-	}
-
-	public SingleVariantStorage<FluidVariant> getAlkahestTank(final Direction dir) {
-		return this.alkahestTank;
 	}
 
 	@Override
@@ -312,13 +284,8 @@ public class BlockEntityDistiller extends BlockEntity
 		this.progress = tag.getInt("progress");
 		this.fuel = tag.getInt("fuel");
 		this.essentia = tag.getInt("essentia");
-		this.alkahest = tag.getInt("alkahest");
+		this.setAlkahest(tag.getInt("alkahest"));
 		this.essentiaInput = new EssentiaContainer(tag.getCompound("essentiaInput"));
-	}
-
-	@Override
-	public boolean setAlkahest(final int amount) {
-		return false; // Alkahest is output
 	}
 
 	private void setLit(final boolean lit) {
@@ -385,20 +352,12 @@ public class BlockEntityDistiller extends BlockEntity
 		this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockDissolver.LIT, this.lit));
 	}
 
-	public boolean withdrawAlkahest(final int amount) {
-		if (this.alkahest > amount) {
-			this.alkahest -= amount;
-			return true;
-		}
-		return false; // Alkahest is output
-	}
-
 	@Override
 	public NbtCompound writeNbt(final NbtCompound tag) {
 		tag.putInt("progress", this.progress);
 		tag.putInt("fuel", this.fuel);
 		tag.putInt("essentia", this.essentia);
-		tag.putInt("alkahest", this.alkahest);
+		tag.putLong("alkahest", this.getAlkahest());
 		tag.put("essentiaInput", this.essentiaInput.writeNbt());
 		Inventories.writeNbt(tag, this.items);
 		return super.writeNbt(tag);
@@ -407,5 +366,10 @@ public class BlockEntityDistiller extends BlockEntity
 	@Override
 	public void writeScreenOpeningData(final ServerPlayerEntity player, final PacketByteBuf buf) {
 		buf.writeBlockPos(this.pos);
+	}
+
+	@Override
+	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
+		return this.alkahestTank;
 	}
 }

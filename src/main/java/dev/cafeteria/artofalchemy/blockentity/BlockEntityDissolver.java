@@ -16,6 +16,8 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -38,6 +40,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class BlockEntityDissolver extends BlockEntity
 	implements ImplementedInventory, BlockEntityTicker<BlockEntityDissolver>, PropertyDelegateHolder,
 	BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
@@ -54,8 +57,7 @@ public class BlockEntityDissolver extends BlockEntity
 	private int tankSize;
 	private float speedMod;
 	private float yield;
-	private int alkahest = 0;
-	protected int maxAlkahest = this.getTankSize();
+	private final SingleVariantStorage<FluidVariant> alkahestTank = makeAlkahestTank(this.getTankSize());
 	private int progress = 0;
 	private int maxProgress = 100;
 	private int status = 0;
@@ -65,6 +67,11 @@ public class BlockEntityDissolver extends BlockEntity
 	// Status 3: Full output buffer
 	private boolean lit = false;
 
+	@Override
+	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
+		return this.alkahestTank;
+	}
+
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
 	protected EssentiaContainer essentia;
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
@@ -73,9 +80,9 @@ public class BlockEntityDissolver extends BlockEntity
 		public int get(final int index) {
 			switch (index) {
 				case 0:
-					return BlockEntityDissolver.this.alkahest;
+					return (int) BlockEntityDissolver.this.getAlkahest();
 				case 1:
-					return BlockEntityDissolver.this.maxAlkahest;
+					return (int) BlockEntityDissolver.this.getAlkahestCapacity();
 				case 2:
 					return BlockEntityDissolver.this.progress;
 				case 3:
@@ -91,10 +98,10 @@ public class BlockEntityDissolver extends BlockEntity
 		public void set(final int index, final int value) {
 			switch (index) {
 				case 0:
-					BlockEntityDissolver.this.alkahest = value;
+					BlockEntityDissolver.this.setAlkahest(value);
 					break;
 				case 1:
-					BlockEntityDissolver.this.maxAlkahest = value;
+					// No action
 					break;
 				case 2:
 					BlockEntityDissolver.this.progress = value;
@@ -125,7 +132,6 @@ public class BlockEntityDissolver extends BlockEntity
 		this.tankSize = settings.tankBasic;
 		this.speedMod = settings.speedBasic;
 		this.yield = settings.yieldBasic;
-		this.maxAlkahest = this.getTankSize();
 		this.essentia = new EssentiaContainer().setCapacity(this.getTankSize()).setInput(false).setOutput(true);
 	}
 
@@ -153,7 +159,7 @@ public class BlockEntityDissolver extends BlockEntity
 			}
 			results.multiply(factor);
 
-			if (results.getCount() > this.alkahest) {
+			if (results.getCount() > this.getAlkahest()) {
 				return this.updateStatus(2);
 			} else if (!this.essentia.canAcceptIgnoreIO(results)) {
 				return this.updateStatus(3);
@@ -201,18 +207,13 @@ public class BlockEntityDissolver extends BlockEntity
 		}
 
 		this.essentia.addEssentia(results);
-		this.alkahest -= results.getCount();
+		this.addAlkahest(-results.getCount());
 
 	}
 
 	@Override
 	public void fromClientTag(final NbtCompound tag) {
 		this.readNbt(tag);
-	}
-
-	@Override
-	public int getAlkahest() {
-		return this.alkahest;
 	}
 
 	@Override
@@ -289,25 +290,11 @@ public class BlockEntityDissolver extends BlockEntity
 	public void readNbt(final NbtCompound tag) {
 		super.readNbt(tag);
 		Inventories.readNbt(tag, this.items);
-		this.alkahest = tag.getInt("alkahest");
+		this.setAlkahest(tag.getInt("alkahest"));
 		this.progress = tag.getInt("progress");
 		this.maxProgress = tag.getInt("max_progress");
 		this.status = tag.getInt("status");
 		this.essentia = new EssentiaContainer(tag.getCompound("essentia"));
-		this.maxAlkahest = this.getTankSize();
-	}
-
-	@Override
-	public boolean setAlkahest(final int amount) {
-		if ((amount >= 0) && (amount <= this.maxAlkahest)) {
-			this.alkahest = amount;
-			this.world
-				.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockDissolver.FILLED, this.alkahest > 0));
-			this.markDirty();
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	@Override
@@ -347,7 +334,7 @@ public class BlockEntityDissolver extends BlockEntity
 					if (this.progress >= this.maxProgress) {
 						this.progress -= this.maxProgress;
 						this.doCraft(recipe);
-						if (this.alkahest <= 0) {
+						if (!this.hasAlkahest()) {
 							world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.FILLED, false));
 						}
 						dirty = true;
@@ -388,7 +375,7 @@ public class BlockEntityDissolver extends BlockEntity
 
 	@Override
 	public NbtCompound writeNbt(final NbtCompound tag) {
-		tag.putInt("alkahest", this.alkahest);
+		tag.putLong("alkahest", this.getAlkahest());
 		tag.putInt("progress", this.progress);
 		tag.putInt("max_progress", this.maxProgress);
 		tag.putInt("status", this.status);

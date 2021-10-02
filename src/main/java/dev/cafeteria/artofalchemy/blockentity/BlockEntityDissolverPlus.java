@@ -17,7 +17,6 @@ public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 		this.tankSize = settings.tankPlus;
 		this.speedMod = settings.speedPlus;
 		this.yield = settings.yieldPlus;
-		this.maxAlkahest = this.getTankSize();
 		this.essentia = new EssentiaContainer().setCapacity(this.getTankSize()).setInput(false).setOutput(true);
 	}
 
