@@ -3,6 +3,7 @@ package dev.cafeteria.artofalchemy.block;
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityDissolver;
 import dev.cafeteria.artofalchemy.item.AoAItems;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -119,6 +120,7 @@ public class BlockDissolver extends BlockWithEntity {
 		}
 	}
 
+	@SuppressWarnings("deprecation") // Experimental API
 	@Override
 	public ActionResult onUse(
 		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
@@ -129,7 +131,7 @@ public class BlockDissolver extends BlockWithEntity {
 
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDissolver dissolver) {
-			if ((inHand.getItem() == AoAItems.ALKAHEST_BUCKET) && dissolver.addAlkahest(1000)) {
+			if ((inHand.getItem() == AoAItems.ALKAHEST_BUCKET) && dissolver.addAlkahest(FluidConstants.BUCKET)) {
 				if (!player.getAbilities().creativeMode) {
 					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
 				}
