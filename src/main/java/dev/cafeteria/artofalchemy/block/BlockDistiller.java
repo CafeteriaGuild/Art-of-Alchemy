@@ -131,7 +131,7 @@ public class BlockDistiller extends BlockWithEntity {
 	) {
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDistiller distiller) {
-			Storage<FluidVariant> tankItem = ContainerItemContext.ofPlayerHand(player, hand).find(FluidStorage.ITEM);
+			final Storage<FluidVariant> tankItem = ContainerItemContext.ofPlayerHand(player, hand).find(FluidStorage.ITEM);
 			if (tankItem != null) {
 				final Transaction trans = Transaction.openOuter();
 				StorageUtil.move(

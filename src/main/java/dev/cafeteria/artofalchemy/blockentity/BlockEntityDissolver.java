@@ -205,7 +205,7 @@ public class BlockEntityDissolver extends BlockEntity
 		}
 
 		this.essentia.addEssentia(results);
-		long alkahestCost = (results.getCount() / 1000) * FluidConstants.BUCKET;
+		final long alkahestCost = (results.getCount() / 1000) * FluidConstants.BUCKET;
 		this.addAlkahest(-alkahestCost);
 	}
 
