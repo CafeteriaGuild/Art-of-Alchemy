@@ -4,7 +4,6 @@ import dev.cafeteria.artofalchemy.AoAConfig;
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.block.BlockDissolver;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
-import dev.cafeteria.artofalchemy.fluid.AoAFluids;
 import dev.cafeteria.artofalchemy.gui.handler.HandlerDistiller;
 import dev.cafeteria.artofalchemy.item.AoAItems;
 import dev.cafeteria.artofalchemy.transport.HasAlkahest;
@@ -18,7 +17,6 @@ import net.fabricmc.fabric.api.tag.TagFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -158,9 +156,7 @@ public class BlockEntityDistiller extends BlockEntity
 			this.items.get(BlockEntityDistiller.SLOT_AZOTH).decrement(1);
 		}
 		// Else: Throw?
-		final Transaction trans = Transaction.openOuter();
-		this.alkahestTank.insert(FluidVariant.of(AoAFluids.ALKAHEST), BlockEntityDistiller.DISTILL_GAIN, trans);
-		trans.commit();
+		this.addAlkahest(BlockEntityDistiller.DISTILL_GAIN);
 		this.updateEssentiaTankSize();
 	}
 

@@ -157,7 +157,7 @@ public class BlockEntityDissolver extends BlockEntity
 			}
 			results.multiply(factor);
 
-			if (results.getCount() > this.getAlkahest()) {
+			if (((results.getCount() / 1000) * FluidConstants.BUCKET) > this.getAlkahest()) {
 				return this.updateStatus(2);
 			} else if (!this.essentia.canAcceptIgnoreIO(results)) {
 				return this.updateStatus(3);
@@ -205,8 +205,8 @@ public class BlockEntityDissolver extends BlockEntity
 		}
 
 		this.essentia.addEssentia(results);
-		this.addAlkahest(-results.getCount());
-
+		long alkahestCost = (results.getCount() / 1000) * FluidConstants.BUCKET;
+		this.addAlkahest(-alkahestCost);
 	}
 
 	@Override
@@ -352,7 +352,7 @@ public class BlockEntityDissolver extends BlockEntity
 					world.setBlockState(pos, world.getBlockState(pos).with(BlockDissolver.LIT, false));
 				}
 			}
-			sync(); // TODO: Check if this is laggy & improve
+			this.sync(); // TODO: Check if this is laggy & improve
 		}
 	}
 

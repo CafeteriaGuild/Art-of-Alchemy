@@ -57,12 +57,13 @@ public class AoABlockEntities {
 		AoABlockEntities.register("pipe", AoABlockEntities.PIPE);
 
 		@SuppressWarnings("rawtypes")
-		BlockEntityType[] alkahestBEs = {
+		final BlockEntityType[] alkahestBEs = {
 			AoABlockEntities.DISSOLVER, AoABlockEntities.DISSOLVER_PLUS, AoABlockEntities.DISTILLER,
 			AoABlockEntities.PROJECTOR
 		};
-		for (BlockEntityType<? extends BlockEntity> alkahestBE : alkahestBEs)
+		for (final BlockEntityType<? extends BlockEntity> alkahestBE : alkahestBEs) {
 			FluidStorage.SIDED.registerForBlockEntity((be, dir) -> ((HasAlkahest) be).getAlkahestTank(), alkahestBE);
+		}
 	}
 
 }

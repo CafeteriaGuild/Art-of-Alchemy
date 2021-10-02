@@ -22,6 +22,11 @@ public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 	}
 
 	@Override
+	public long getAlkahestCapacity() {
+		return (this.tankSize / 1000) * FluidConstants.BUCKET;
+	}
+
+	@Override
 	public float getEfficiency() {
 		return this.yield;
 	}
@@ -29,10 +34,5 @@ public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 	@Override
 	public float getSpeedMod() {
 		return this.speedMod;
-	}
-
-	@Override
-	public long getAlkahestCapacity() {
-		return (this.tankSize / 1000) * FluidConstants.BUCKET;
 	}
 }

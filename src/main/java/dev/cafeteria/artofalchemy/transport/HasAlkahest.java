@@ -9,12 +9,27 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 @SuppressWarnings("deprecation") // Experimental API
 public interface HasAlkahest {
 
+	default boolean setAlkahest(final int amount) {
+		if ((amount > this.getAlkahestTank().getCapacity()) || (amount < 0)) {
+			return false;
+		}
+		final Transaction trans = Transaction.openOuter();
+		this.getAlkahestTank().extract(FluidVariant.of(AoAFluids.ALKAHEST), this.getAlkahest(), trans);
+		this.getAlkahestTank().insert(FluidVariant.of(AoAFluids.ALKAHEST), amount, trans);
+		trans.commit();
+		return true;
+	}
+
 	default boolean addAlkahest(final long amount) {
 		if (((this.getAlkahest() + amount) > this.getAlkahestTank().getCapacity()) || ((this.getAlkahest() + amount) < 0)) {
 			return false;
 		}
 		final Transaction trans = Transaction.openOuter();
-		this.getAlkahestTank().insert(FluidVariant.of(AoAFluids.ALKAHEST), amount, trans);
+		if (amount > 0) { // insert requires positive value
+			this.getAlkahestTank().insert(FluidVariant.of(AoAFluids.ALKAHEST), amount, trans);
+		} else {
+			this.getAlkahestTank().extract(FluidVariant.of(AoAFluids.ALKAHEST), -amount, trans);
+		}
 		trans.commit();
 		return true;
 	}
@@ -46,17 +61,6 @@ public interface HasAlkahest {
 			}
 
 		};
-	}
-
-	default boolean setAlkahest(final int amount) {
-		if ((amount > this.getAlkahestTank().getCapacity()) || (amount < 0)) {
-			return false;
-		}
-		final Transaction trans = Transaction.openOuter();
-		this.getAlkahestTank().extract(FluidVariant.of(AoAFluids.ALKAHEST), this.getAlkahest(), trans);
-		this.getAlkahestTank().insert(FluidVariant.of(AoAFluids.ALKAHEST), amount, trans);
-		trans.commit();
-		return true;
 	}
 
 }
