@@ -2,6 +2,7 @@ package dev.cafeteria.artofalchemy.blockentity;
 
 import dev.cafeteria.artofalchemy.AoAConfig;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 
@@ -17,8 +18,12 @@ public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 		this.tankSize = settings.tankPlus;
 		this.speedMod = settings.speedPlus;
 		this.yield = settings.yieldPlus;
-		this.maxAlkahest = this.getTankSize();
-		this.essentia = new EssentiaContainer().setCapacity(this.getTankSize()).setInput(false).setOutput(true);
+		this.essentia = new EssentiaContainer().setCapacity(this.tankSize).setInput(false).setOutput(true);
+	}
+
+	@Override
+	public long getAlkahestCapacity() {
+		return (this.tankSize / 1000) * FluidConstants.BUCKET;
 	}
 
 	@Override
@@ -30,10 +35,4 @@ public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 	public float getSpeedMod() {
 		return this.speedMod;
 	}
-
-	@Override
-	public int getTankSize() {
-		return this.tankSize;
-	}
-
 }

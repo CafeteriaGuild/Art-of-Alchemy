@@ -14,6 +14,9 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -36,6 +39,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class BlockEntityDistiller extends BlockEntity
 	implements ImplementedInventory, BlockEntityTicker<BlockEntityDistiller>, PropertyDelegateHolder,
 	BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
@@ -51,9 +55,10 @@ public class BlockEntityDistiller extends BlockEntity
 	};
 
 	// Constant TODO: Allow config
+	private static final long ALKAHEST_TANK_SIZE = FluidConstants.BUCKET * 16;
 	private static final int TANK_MAX = 16000;
 	private static final int PROGRESS_MAX = 100;
-	private static final int DISTILL_GAIN = 1000;
+	private static final long DISTILL_GAIN = FluidConstants.BUCKET * 1;
 	private static final int DISTILL_ESSENTIA_COST = 1200;
 	private static final int DISTILL_AZOTH_COST = 1;
 	private static final int SLOT_AZOTH = 0;
@@ -62,12 +67,13 @@ public class BlockEntityDistiller extends BlockEntity
 	// Settable
 	private int tankSize;
 	private float speedMod;
-	private float yield;
 
+	private float yield;
 	protected int progress = 0;
 	protected int fuel = 0;
 	private int essentia = 0;
-	private int alkahest = 0;
+
+	private final SingleVariantStorage<FluidVariant> alkahestTank = this.makeAlkahestTank();
 
 	private boolean lit = false;
 
@@ -84,13 +90,14 @@ public class BlockEntityDistiller extends BlockEntity
 				case 2:
 					return BlockEntityDistiller.this.fuel;
 				case 3:
-					return 20; // Fuel Indicator
+					return 20; // Fuel
+											// Indicator
 				case 4:
 					return BlockEntityDistiller.this.essentia;
 				case 5:
-					return BlockEntityDistiller.this.alkahest;
+					return (int) ((BlockEntityDistiller.this.getAlkahest() / FluidConstants.BUCKET) * 1000);
 				case 6:
-					return BlockEntityDistiller.this.tankSize;
+					return (int) ((BlockEntityDistiller.this.getAlkahestCapacity() / FluidConstants.BUCKET) * 1000);
 				default:
 					return 0;
 			}
@@ -149,7 +156,7 @@ public class BlockEntityDistiller extends BlockEntity
 			this.items.get(BlockEntityDistiller.SLOT_AZOTH).decrement(1);
 		}
 		// Else: Throw?
-		this.alkahest += BlockEntityDistiller.DISTILL_GAIN;
+		this.addAlkahest(BlockEntityDistiller.DISTILL_GAIN);
 		this.updateEssentiaTankSize();
 	}
 
@@ -159,8 +166,13 @@ public class BlockEntityDistiller extends BlockEntity
 	}
 
 	@Override
-	public int getAlkahest() {
-		return this.alkahest;
+	public long getAlkahestCapacity() {
+		return BlockEntityDistiller.ALKAHEST_TANK_SIZE;
+	}
+
+	@Override
+	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
+		return this.alkahestTank;
 	}
 
 	@Override
@@ -248,7 +260,7 @@ public class BlockEntityDistiller extends BlockEntity
 	}
 
 	private boolean isFull() {
-		return this.alkahest > (this.tankSize - BlockEntityDistiller.DISTILL_GAIN);
+		return (this.alkahestTank.getCapacity() - this.alkahestTank.getAmount()) < BlockEntityDistiller.DISTILL_GAIN;
 	}
 
 	@Override
@@ -278,13 +290,8 @@ public class BlockEntityDistiller extends BlockEntity
 		this.progress = tag.getInt("progress");
 		this.fuel = tag.getInt("fuel");
 		this.essentia = tag.getInt("essentia");
-		this.alkahest = tag.getInt("alkahest");
+		this.setAlkahest(tag.getInt("alkahest"));
 		this.essentiaInput = new EssentiaContainer(tag.getCompound("essentiaInput"));
-	}
-
-	@Override
-	public boolean setAlkahest(final int amount) {
-		return false; // Alkahest is output
 	}
 
 	private void setLit(final boolean lit) {
@@ -351,20 +358,12 @@ public class BlockEntityDistiller extends BlockEntity
 		this.world.setBlockState(this.pos, this.world.getBlockState(this.pos).with(BlockDissolver.LIT, this.lit));
 	}
 
-	public boolean withdrawAlkahest(final int amount) {
-		if (this.alkahest > amount) {
-			this.alkahest -= amount;
-			return true;
-		}
-		return false; // Alkahest is output
-	}
-
 	@Override
 	public NbtCompound writeNbt(final NbtCompound tag) {
 		tag.putInt("progress", this.progress);
 		tag.putInt("fuel", this.fuel);
 		tag.putInt("essentia", this.essentia);
-		tag.putInt("alkahest", this.alkahest);
+		tag.putLong("alkahest", this.getAlkahest());
 		tag.put("essentiaInput", this.essentiaInput.writeNbt());
 		Inventories.writeNbt(tag, this.items);
 		return super.writeNbt(tag);

@@ -10,6 +10,9 @@ import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -32,6 +35,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class BlockEntityProjector extends BlockEntity
 	implements ImplementedInventory, BlockEntityTicker<BlockEntityProjector>, PropertyDelegateHolder,
 	BlockEntityClientSerializable, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
@@ -47,22 +51,22 @@ public class BlockEntityProjector extends BlockEntity
 	};
 	private int tankSize;
 	private int operationTime;
-	private int alkahest = 0;
-	private int maxAlkahest = this.getTankSize();
+	private final SingleVariantStorage<FluidVariant> alkahestTank = this.makeAlkahestTank();
 	private int progress = 0;
 	private int maxProgress = this.getOperationTime();
 	private boolean lit = false;
 
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
+
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 
 		@Override
 		public int get(final int index) {
 			switch (index) {
 				case 0:
-					return BlockEntityProjector.this.alkahest;
+					return (int) ((BlockEntityProjector.this.getAlkahest() / FluidConstants.BUCKET) * 1000);
 				case 1:
-					return BlockEntityProjector.this.maxAlkahest;
+					return (int) ((BlockEntityProjector.this.getAlkahestCapacity() / FluidConstants.BUCKET) * 1000);
 				case 2:
 					return BlockEntityProjector.this.progress;
 				case 3:
@@ -74,20 +78,6 @@ public class BlockEntityProjector extends BlockEntity
 
 		@Override
 		public void set(final int index, final int value) {
-			switch (index) {
-				case 0:
-					BlockEntityProjector.this.alkahest = value;
-					break;
-				case 1:
-					BlockEntityProjector.this.maxAlkahest = value;
-					break;
-				case 2:
-					BlockEntityProjector.this.progress = value;
-					break;
-				case 3:
-					BlockEntityProjector.this.maxProgress = value;
-					break;
-			}
 		}
 
 		@Override
@@ -107,7 +97,6 @@ public class BlockEntityProjector extends BlockEntity
 		this.operationTime = settings.opTime;
 		this.tankSize = settings.tankSize;
 		this.maxProgress = this.getOperationTime();
-		this.maxAlkahest = this.getTankSize();
 	}
 
 	private boolean canCraft(final RecipeProjection recipe) {
@@ -121,7 +110,7 @@ public class BlockEntityProjector extends BlockEntity
 			final int alkCost = recipe.getAlkahest();
 			final int itemCost = recipe.getCost();
 
-			if ((this.alkahest < alkCost) || (inSlot.getCount() < itemCost)) {
+			if ((this.getAlkahest() < alkCost) || (inSlot.getCount() < itemCost)) {
 				return false;
 			} else if (outSlot.isEmpty()) {
 				return true;
@@ -171,8 +160,13 @@ public class BlockEntityProjector extends BlockEntity
 	}
 
 	@Override
-	public int getAlkahest() {
-		return this.alkahest;
+	public long getAlkahestCapacity() {
+		return (this.tankSize / 1000) * FluidConstants.BUCKET;
+	}
+
+	@Override
+	public SingleVariantStorage<FluidVariant> getAlkahestTank() {
+		return this.alkahestTank;
 	}
 
 	@Override
@@ -205,10 +199,6 @@ public class BlockEntityProjector extends BlockEntity
 		return this.delegate;
 	}
 
-	public int getTankSize() {
-		return this.tankSize;
-	}
-
 	@Override
 	public boolean isValid(final int slot, final ItemStack stack) {
 		return slot == 0;
@@ -226,21 +216,9 @@ public class BlockEntityProjector extends BlockEntity
 	public void readNbt(final NbtCompound tag) {
 		super.readNbt(tag);
 		Inventories.readNbt(tag, this.items);
-		this.alkahest = tag.getInt("alkahest");
+		this.setAlkahest(tag.getInt("alkahest"));
 		this.progress = tag.getInt("progress");
 		this.maxProgress = this.getOperationTime();
-		this.maxAlkahest = this.getTankSize();
-	}
-
-	@Override
-	public boolean setAlkahest(final int amount) {
-		if ((amount >= 0) && (amount <= this.maxAlkahest)) {
-			this.alkahest = amount;
-			this.markDirty();
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	@Override
@@ -299,7 +277,7 @@ public class BlockEntityProjector extends BlockEntity
 
 	@Override
 	public NbtCompound writeNbt(final NbtCompound tag) {
-		tag.putInt("alkahest", this.alkahest);
+		tag.putLong("alkahest", this.getAlkahest());
 		tag.putInt("progress", this.progress);
 		Inventories.writeNbt(tag, this.items);
 		return super.writeNbt(tag);

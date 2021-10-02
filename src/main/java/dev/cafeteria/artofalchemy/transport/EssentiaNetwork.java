@@ -189,8 +189,7 @@ public class EssentiaNetwork {
 	public void transfer(final NetworkNode from, final NetworkNode to) {
 		final BlockEntity fromBE = from.getBlockEntity();
 		final BlockEntity toBE = to.getBlockEntity();
-		if ((fromBE instanceof HasEssentia fromEssenceBE) && (toBE instanceof HasEssentia)) {
-			final HasEssentia toEssenceBE = (HasEssentia) toBE;
+		if ((fromBE instanceof final HasEssentia fromEssenceBE) && (toBE instanceof final HasEssentia toEssenceBE)) {
 			for (int i = 0; i < fromEssenceBE.getNumContainers(); i++) {
 				EssentiaContainer fromContainer;
 				if (from.getDirection().isPresent()) {

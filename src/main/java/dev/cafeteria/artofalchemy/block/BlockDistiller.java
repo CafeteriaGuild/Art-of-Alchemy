@@ -1,8 +1,16 @@
 package dev.cafeteria.artofalchemy.block;
 
+import java.util.function.Predicate;
+
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityDistiller;
-import dev.cafeteria.artofalchemy.item.AoAItems;
+import dev.cafeteria.artofalchemy.fluid.AoAFluids;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -14,9 +22,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager.Builder;
@@ -64,8 +69,8 @@ public class BlockDistiller extends BlockWithEntity {
 	public int getComparatorOutput(final BlockState state, final World world, final BlockPos pos) {
 		final BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof BlockEntityDistiller) {
-			final int capacity = ((BlockEntityDistiller) be).getTankSize();
-			final int filled = ((BlockEntityDistiller) be).getAlkahest();
+			final long capacity = ((BlockEntityDistiller) be).getAlkahestCapacity();
+			final long filled = ((BlockEntityDistiller) be).getAlkahest();
 			final double fillLevel = (double) filled / capacity;
 			if (fillLevel == 0.0) {
 				return 0;
@@ -118,31 +123,27 @@ public class BlockDistiller extends BlockWithEntity {
 		}
 	}
 
+	@SuppressWarnings("deprecation") // Experimental API
 	@Override
 	public ActionResult onUse(
 		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
 		final BlockHitResult hit
 	) {
-
-		final ItemStack inHand = player.getStackInHand(hand);
-
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDistiller distiller) {
-			if ((inHand.getItem() == Items.BUCKET) && distiller.withdrawAlkahest(1000)) {
-				if (!player.getAbilities().creativeMode) {
-					inHand.decrement(1);
-					player.giveItemStack(new ItemStack(AoAItems.ALKAHEST_BUCKET));
-				}
-				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-				return ActionResult.SUCCESS;
-			} else if (inHand.getItem() == AoAItems.ESSENTIA_VESSEL) {
-				final ItemUsageContext itemContext = new ItemUsageContext(player, hand, hit);
-				final ActionResult itemResult = inHand.useOnBlock(itemContext);
-				if (itemResult != ActionResult.PASS) {
-					return itemResult;
-				}
-			}
-			if (!world.isClient()) {
+			final Storage<FluidVariant> tankItem = ContainerItemContext.ofPlayerHand(player, hand).find(FluidStorage.ITEM);
+			if (tankItem != null) {
+				final Transaction trans = Transaction.openOuter();
+				StorageUtil.move(
+					distiller.getAlkahestTank(),
+					tankItem,
+					(Predicate<FluidVariant>) fluid -> fluid.isOf(AoAFluids.ALKAHEST),
+					Long.MAX_VALUE,
+					trans
+				);
+				trans.commit();
+				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			} else if (!world.isClient()) {
 				player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
 			}
 			return ActionResult.SUCCESS;
