@@ -22,7 +22,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -128,9 +129,6 @@ public class BlockDistiller extends BlockWithEntity {
 		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
 		final BlockHitResult hit
 	) {
-
-		final ItemStack inHand = player.getStackInHand(hand);
-
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDistiller distiller) {
 			Storage<FluidVariant> tankItem = ContainerItemContext.ofPlayerHand(player, hand).find(FluidStorage.ITEM);
@@ -144,6 +142,7 @@ public class BlockDistiller extends BlockWithEntity {
 					trans
 				);
 				trans.commit();
+				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			} else if (!world.isClient()) {
 				player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
 			}

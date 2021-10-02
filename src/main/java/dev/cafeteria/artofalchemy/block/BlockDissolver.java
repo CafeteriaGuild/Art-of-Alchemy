@@ -1,9 +1,16 @@
 package dev.cafeteria.artofalchemy.block;
 
+import java.util.function.Predicate;
+
 import dev.cafeteria.artofalchemy.blockentity.AoABlockEntities;
 import dev.cafeteria.artofalchemy.blockentity.BlockEntityDissolver;
-import dev.cafeteria.artofalchemy.item.AoAItems;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import dev.cafeteria.artofalchemy.fluid.AoAFluids;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -15,9 +22,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager.Builder;
@@ -126,25 +130,21 @@ public class BlockDissolver extends BlockWithEntity {
 		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
 		final BlockHitResult hit
 	) {
-
-		final ItemStack inHand = player.getStackInHand(hand);
-
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof final BlockEntityDissolver dissolver) {
-			if ((inHand.getItem() == AoAItems.ALKAHEST_BUCKET) && dissolver.addAlkahest(FluidConstants.BUCKET)) {
-				if (!player.getAbilities().creativeMode) {
-					player.setStackInHand(hand, new ItemStack(Items.BUCKET));
-				}
+			Storage<FluidVariant> tankItem = ContainerItemContext.ofPlayerHand(player, hand).find(FluidStorage.ITEM);
+			if (tankItem != null) {
+				final Transaction trans = Transaction.openOuter();
+				StorageUtil.move(
+					tankItem,
+					dissolver.getAlkahestTank(),
+					(Predicate<FluidVariant>) fluid -> fluid.isOf(AoAFluids.ALKAHEST),
+					Long.MAX_VALUE,
+					trans
+				);
+				trans.commit();
 				world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-				return ActionResult.SUCCESS;
-			} else if (inHand.getItem() == AoAItems.ESSENTIA_VESSEL) {
-				final ItemUsageContext itemContext = new ItemUsageContext(player, hand, hit);
-				final ActionResult itemResult = inHand.useOnBlock(itemContext);
-				if (itemResult != ActionResult.PASS) {
-					return itemResult;
-				}
-			}
-			if (!world.isClient()) {
+			} else if (!world.isClient()) {
 				player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
 			}
 			return ActionResult.SUCCESS;
