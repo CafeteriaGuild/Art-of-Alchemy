@@ -4,6 +4,7 @@ import dev.cafeteria.artofalchemy.AoAConfig;
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.block.BlockDissolver;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
+import dev.cafeteria.artofalchemy.fluid.AoAFluids;
 import dev.cafeteria.artofalchemy.gui.handler.HandlerDistiller;
 import dev.cafeteria.artofalchemy.item.AoAItems;
 import dev.cafeteria.artofalchemy.transport.HasAlkahest;
@@ -14,6 +15,12 @@ import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.TransferVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -36,6 +43,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class BlockEntityDistiller extends BlockEntity
 	implements ImplementedInventory, BlockEntityTicker<BlockEntityDistiller>, PropertyDelegateHolder,
 	BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
@@ -51,28 +59,47 @@ public class BlockEntityDistiller extends BlockEntity
 	};
 
 	// Constant TODO: Allow config
+	private static final long ALKAHEST_TANK_SIZE = FluidConstants.BUCKET * 16;
 	private static final int TANK_MAX = 16000;
 	private static final int PROGRESS_MAX = 100;
-	private static final int DISTILL_GAIN = 1000;
+	private static final long DISTILL_GAIN = FluidConstants.BUCKET * 1;
 	private static final int DISTILL_ESSENTIA_COST = 1200;
 	private static final int DISTILL_AZOTH_COST = 1;
 	private static final int SLOT_AZOTH = 0;
 	private static final int SLOT_FUEL = 1;
 
+	public static Storage<FluidVariant> getFluidStorage(final BlockEntityDistiller distiller, final Direction dir) {
+		return distiller.getAlkahestTank(dir);
+	}
+
 	// Settable
 	private int tankSize;
 	private float speedMod;
-	private float yield;
 
+	private float yield;
 	protected int progress = 0;
 	protected int fuel = 0;
 	private int essentia = 0;
+
 	private int alkahest = 0;
 
-	private boolean lit = false;
+	private final SingleVariantStorage<FluidVariant> alkahestTank = new SingleVariantStorage() {
+		@Override
+		protected TransferVariant getBlankVariant() {
+			return FluidVariant.of(AoAFluids.ALKAHEST);
+		}
 
+		@Override
+		protected long getCapacity(final TransferVariant variant) {
+			return BlockEntityDistiller.ALKAHEST_TANK_SIZE;
+		}
+
+	};
+
+	private boolean lit = false;
 	protected final DefaultedList<ItemStack> items = DefaultedList.ofSize(2, ItemStack.EMPTY);
 	protected EssentiaContainer essentiaInput;
+
 	protected final PropertyDelegate delegate = new PropertyDelegate() {
 		@Override
 		public int get(final int index) {
@@ -84,11 +111,12 @@ public class BlockEntityDistiller extends BlockEntity
 				case 2:
 					return BlockEntityDistiller.this.fuel;
 				case 3:
-					return 20; // Fuel Indicator
+					return 20; // Fuel
+											// Indicator
 				case 4:
 					return BlockEntityDistiller.this.essentia;
 				case 5:
-					return BlockEntityDistiller.this.alkahest;
+					return (int) BlockEntityDistiller.this.alkahestTank.getAmount();
 				case 6:
 					return BlockEntityDistiller.this.tankSize;
 				default:
@@ -149,7 +177,9 @@ public class BlockEntityDistiller extends BlockEntity
 			this.items.get(BlockEntityDistiller.SLOT_AZOTH).decrement(1);
 		}
 		// Else: Throw?
-		this.alkahest += BlockEntityDistiller.DISTILL_GAIN;
+		final Transaction trans = Transaction.openOuter();
+		this.alkahestTank.insert(FluidVariant.of(AoAFluids.ALKAHEST), BlockEntityDistiller.DISTILL_GAIN, trans);
+		trans.commit();
 		this.updateEssentiaTankSize();
 	}
 
@@ -161,6 +191,10 @@ public class BlockEntityDistiller extends BlockEntity
 	@Override
 	public int getAlkahest() {
 		return this.alkahest;
+	}
+
+	public SingleVariantStorage<FluidVariant> getAlkahestTank(final Direction dir) {
+		return this.alkahestTank;
 	}
 
 	@Override
@@ -248,7 +282,7 @@ public class BlockEntityDistiller extends BlockEntity
 	}
 
 	private boolean isFull() {
-		return this.alkahest > (this.tankSize - BlockEntityDistiller.DISTILL_GAIN);
+		return (this.alkahestTank.getCapacity() - this.alkahestTank.getAmount()) < BlockEntityDistiller.DISTILL_GAIN;
 	}
 
 	@Override

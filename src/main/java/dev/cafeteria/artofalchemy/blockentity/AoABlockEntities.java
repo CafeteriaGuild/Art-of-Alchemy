@@ -3,10 +3,15 @@ package dev.cafeteria.artofalchemy.blockentity;
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.block.AoABlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class AoABlockEntities {
 
 	public static final BlockEntityType<?> CALCINATOR = FabricBlockEntityTypeBuilder
@@ -38,6 +43,10 @@ public class AoABlockEntities {
 		Registry.register(Registry.BLOCK_ENTITY_TYPE, ArtOfAlchemy.id(name), blockEntity);
 	}
 
+	public static Storage<FluidVariant> getAlkahestTank(final BlockEntityDistiller be, final Direction dir) {
+		return be.getAlkahestTank(dir);
+	}
+
 	public static void registerBlockEntities() {
 		AoABlockEntities.register("calcination_furnace", AoABlockEntities.CALCINATOR);
 		AoABlockEntities.register("calcination_furnace_plus", AoABlockEntities.CALCINATOR_PLUS);
@@ -51,6 +60,11 @@ public class AoABlockEntities {
 		AoABlockEntities.register("astral_centrifuge", AoABlockEntities.ASTRO_CENTRIFUGE);
 		AoABlockEntities.register("elemental_centrifuge", AoABlockEntities.ELEMENT_CENTRIFUGE);
 		AoABlockEntities.register("pipe", AoABlockEntities.PIPE);
+
+		FluidStorage.SIDED.registerForBlockEntity(
+			(be, dir) -> ((BlockEntityDistiller) be).getAlkahestTank(dir),
+			AoABlockEntities.DISTILLER
+		);
 	}
 
 }

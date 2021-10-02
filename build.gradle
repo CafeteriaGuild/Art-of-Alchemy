@@ -18,7 +18,7 @@ minecraft {
 }
 
 repositories {
-	jcenter()
+	mavenCentral()
 
 	maven {
 		name = "CottonMC"
