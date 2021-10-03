@@ -6,6 +6,7 @@ import dev.cafeteria.artofalchemy.gui.handler.HandlerProjector;
 import dev.cafeteria.artofalchemy.recipe.AoARecipes;
 import dev.cafeteria.artofalchemy.recipe.RecipeProjection;
 import dev.cafeteria.artofalchemy.transport.HasAlkahest;
+import dev.cafeteria.artofalchemy.util.AoAHelper;
 import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
@@ -110,7 +111,7 @@ public class BlockEntityProjector extends BlockEntity
 			final int alkCost = recipe.getAlkahest();
 			final int itemCost = recipe.getCost();
 
-			if ((this.getAlkahest() < alkCost) || (inSlot.getCount() < itemCost)) {
+			if ((this.mBGetAlkahest() < alkCost) || (inSlot.getCount() < itemCost)) {
 				return false;
 			} else if (outSlot.isEmpty()) {
 				return true;
@@ -145,7 +146,7 @@ public class BlockEntityProjector extends BlockEntity
 		final ItemStack outStack = recipe.getOutput();
 
 		inSlot.decrement(recipe.getCost());
-		this.addAlkahest(-recipe.getAlkahest());
+		this.mBAddAlkahest(-recipe.getAlkahest());
 
 		if (outSlot.isEmpty()) {
 			this.items.set(1, outStack.copy());
@@ -216,7 +217,7 @@ public class BlockEntityProjector extends BlockEntity
 	public void readNbt(final NbtCompound tag) {
 		super.readNbt(tag);
 		Inventories.readNbt(tag, this.items);
-		this.setAlkahest(tag.getInt("alkahest"));
+		this.setAlkahest((int) AoAHelper.mBToFluid(tag.getInt("alkahest"))); // As mB mostly for legacy reasons
 		this.progress = tag.getInt("progress");
 		this.maxProgress = this.getOperationTime();
 	}
@@ -277,7 +278,7 @@ public class BlockEntityProjector extends BlockEntity
 
 	@Override
 	public NbtCompound writeNbt(final NbtCompound tag) {
-		tag.putLong("alkahest", this.getAlkahest());
+		tag.putInt("alkahest", AoAHelper.mBFromFluid(this.getAlkahest())); // As mB mostly for legacy reasons
 		tag.putInt("progress", this.progress);
 		Inventories.writeNbt(tag, this.items);
 		return super.writeNbt(tag);

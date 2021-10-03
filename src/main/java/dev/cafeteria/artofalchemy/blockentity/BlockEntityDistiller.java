@@ -8,6 +8,7 @@ import dev.cafeteria.artofalchemy.gui.handler.HandlerDistiller;
 import dev.cafeteria.artofalchemy.item.AoAItems;
 import dev.cafeteria.artofalchemy.transport.HasAlkahest;
 import dev.cafeteria.artofalchemy.transport.HasEssentia;
+import dev.cafeteria.artofalchemy.util.AoAHelper;
 import dev.cafeteria.artofalchemy.util.FuelHelper;
 import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
@@ -290,7 +291,7 @@ public class BlockEntityDistiller extends BlockEntity
 		this.progress = tag.getInt("progress");
 		this.fuel = tag.getInt("fuel");
 		this.essentia = tag.getInt("essentia");
-		this.setAlkahest(tag.getInt("alkahest"));
+		this.setAlkahest((int) AoAHelper.mBToFluid(tag.getInt("alkahest"))); // As mB mostly for legacy reasons
 		this.essentiaInput = new EssentiaContainer(tag.getCompound("essentiaInput"));
 	}
 
@@ -363,7 +364,7 @@ public class BlockEntityDistiller extends BlockEntity
 		tag.putInt("progress", this.progress);
 		tag.putInt("fuel", this.fuel);
 		tag.putInt("essentia", this.essentia);
-		tag.putLong("alkahest", this.getAlkahest());
+		tag.putInt("alkahest", AoAHelper.mBFromFluid(this.getAlkahest())); // As mB mostly for legacy reasons
 		tag.put("essentiaInput", this.essentiaInput.writeNbt());
 		Inventories.writeNbt(tag, this.items);
 		return super.writeNbt(tag);

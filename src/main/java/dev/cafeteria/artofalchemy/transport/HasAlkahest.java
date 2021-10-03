@@ -1,6 +1,7 @@
 package dev.cafeteria.artofalchemy.transport;
 
 import dev.cafeteria.artofalchemy.fluid.AoAFluids;
+import dev.cafeteria.artofalchemy.util.AoAHelper;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
@@ -8,6 +9,10 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 
 @SuppressWarnings("deprecation") // Experimental API
 public interface HasAlkahest {
+
+	default boolean mBAddAlkahest(final int amount) {
+		return addAlkahest(AoAHelper.mBToFluid(amount));
+	}
 
 	default boolean addAlkahest(final long amount) {
 		if (((this.getAlkahest() + amount) > this.getAlkahestTank().getCapacity()) || ((this.getAlkahest() + amount) < 0)) {
@@ -25,6 +30,10 @@ public interface HasAlkahest {
 
 	default long getAlkahest() {
 		return this.getAlkahestTank().getAmount();
+	}
+
+	default int mBGetAlkahest() {
+		return AoAHelper.mBFromFluid(this.getAlkahest());
 	}
 
 	default long getAlkahestCapacity() {

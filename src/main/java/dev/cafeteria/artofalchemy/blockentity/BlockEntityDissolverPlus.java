@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class BlockEntityDissolverPlus extends BlockEntityDissolver {
 
 	private final float speedMod;
