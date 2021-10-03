@@ -146,7 +146,7 @@ public class BlockEntityProjector extends BlockEntity
 		final ItemStack outStack = recipe.getOutput();
 
 		inSlot.decrement(recipe.getCost());
-		this.addAlkahest(-recipe.getAlkahest());
+		this.mBAddAlkahest(-recipe.getAlkahest());
 
 		if (outSlot.isEmpty()) {
 			this.items.set(1, outStack.copy());
