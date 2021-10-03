@@ -36,6 +36,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class BlockDistiller extends BlockWithEntity {
 
 	public static final BooleanProperty LIT = Properties.LIT;
@@ -123,7 +124,6 @@ public class BlockDistiller extends BlockWithEntity {
 		}
 	}
 
-	@SuppressWarnings("deprecation") // Experimental API
 	@Override
 	public ActionResult onUse(
 		final BlockState state, final World world, final BlockPos pos, final PlayerEntity player, final Hand hand,
