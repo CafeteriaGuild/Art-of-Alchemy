@@ -61,7 +61,7 @@ public class AoAHelper {
 	}
 
 	public static long mBToFluid(final int fluid) {
-		return (((long) fluid) / 1000) * FluidConstants.BUCKET;
+		return ((long) fluid * FluidConstants.BUCKET) / 1000;
 	}
 
 }

@@ -111,7 +111,7 @@ public class BlockEntityProjector extends BlockEntity
 			final int alkCost = recipe.getAlkahest();
 			final int itemCost = recipe.getCost();
 
-			if ((this.getAlkahest() < alkCost) || (inSlot.getCount() < itemCost)) {
+			if ((this.mBGetAlkahest() < alkCost) || (inSlot.getCount() < itemCost)) {
 				return false;
 			} else if (outSlot.isEmpty()) {
 				return true;

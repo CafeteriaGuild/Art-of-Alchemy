@@ -32,6 +32,10 @@ public interface HasAlkahest {
 		return this.getAlkahestTank().getAmount();
 	}
 
+	default int mBGetAlkahest() {
+		return AoAHelper.mBFromFluid(this.getAlkahest());
+	}
+
 	default long getAlkahestCapacity() {
 		return FluidConstants.BUCKET * 4;
 	}
