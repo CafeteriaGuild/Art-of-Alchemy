@@ -11,6 +11,7 @@ import dev.cafeteria.artofalchemy.recipe.AoARecipes;
 import dev.cafeteria.artofalchemy.recipe.RecipeDissolution;
 import dev.cafeteria.artofalchemy.transport.HasAlkahest;
 import dev.cafeteria.artofalchemy.transport.HasEssentia;
+import dev.cafeteria.artofalchemy.util.AoAHelper;
 import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
@@ -294,7 +295,7 @@ public class BlockEntityDissolver extends BlockEntity
 	public void readNbt(final NbtCompound tag) {
 		super.readNbt(tag);
 		Inventories.readNbt(tag, this.items);
-		this.setAlkahest(tag.getInt("alkahest"));
+		this.setAlkahest((int) AoAHelper.mBToFluid(tag.getInt("alkahest"))); // As mB mostly for legacy reasons
 		this.progress = tag.getInt("progress");
 		this.maxProgress = tag.getInt("max_progress");
 		this.status = tag.getInt("status");
@@ -371,7 +372,7 @@ public class BlockEntityDissolver extends BlockEntity
 
 	@Override
 	public NbtCompound writeNbt(final NbtCompound tag) {
-		tag.putLong("alkahest", this.getAlkahest());
+		tag.putInt("alkahest", AoAHelper.mBFromFluid(this.getAlkahest())); // As mB mostly for legacy reasons
 		tag.putInt("progress", this.progress);
 		tag.putInt("max_progress", this.maxProgress);
 		tag.putInt("status", this.status);

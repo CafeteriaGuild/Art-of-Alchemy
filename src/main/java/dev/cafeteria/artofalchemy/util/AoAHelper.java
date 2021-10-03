@@ -2,14 +2,15 @@ package dev.cafeteria.artofalchemy.util;
 
 import dev.cafeteria.artofalchemy.item.ItemAlchemyFormula;
 import dev.cafeteria.artofalchemy.item.ItemJournal;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
+@SuppressWarnings("deprecation") // Experimental API
 public class AoAHelper {
-
 	public static int combineColor(final Vec3d color) {
 		final int r = (int) (color.getX() * 0xFF);
 		final int g = (int) (color.getY() * 0xFF);
@@ -53,6 +54,14 @@ public class AoAHelper {
 		final double frac = MathHelper.fractionalPart(x);
 		final int rounding = Math.random() >= frac ? 0 : 1;
 		return (int) (Math.floor(x) + rounding);
+	}
+
+	public static int mBFromFluid(final long fluid) {
+		return (int) ((fluid * 1000) / FluidConstants.BUCKET);
+	}
+
+	public static long mBToFluid(final int fluid) {
+		return (((long) fluid) / 1000) * FluidConstants.BUCKET;
 	}
 
 }
