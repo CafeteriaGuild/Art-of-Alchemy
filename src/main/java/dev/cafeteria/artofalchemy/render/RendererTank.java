@@ -45,7 +45,7 @@ public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 			buffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent());
 		}
 		final Sprite sprite = this.client.getBlockRenderManager().getModel(AoABlocks.ALKAHEST.getDefaultState())
-			.getSprite();
+			.getParticleSprite();
 		final BlockState state = blockEntity.getWorld().getBlockState(blockEntity.getPos());
 		state.getProperties();
 		final EssentiaContainer container = blockEntity.getContainer();
