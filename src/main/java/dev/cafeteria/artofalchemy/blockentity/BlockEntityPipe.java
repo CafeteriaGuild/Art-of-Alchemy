@@ -3,19 +3,24 @@ package dev.cafeteria.artofalchemy.blockentity;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 import dev.cafeteria.artofalchemy.transport.NetworkNode;
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachedBlockView;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockRenderView;
 
-public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSerializable, RenderAttachmentBlockEntity {
+public class BlockEntityPipe extends BlockEntity implements RenderAttachmentBlockEntity {
 
 	public enum IOFace implements StringIdentifiable {
 		NONE, CONNECT, BLOCK, INSERTER(NetworkNode.Type.PULL), EXTRACTOR(NetworkNode.Type.PUSH),
@@ -65,9 +70,10 @@ public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSer
 		}
 	}
 
+	@Nullable
 	@Override
-	public void fromClientTag(final NbtCompound tag) {
-		this.readNbt(tag);
+	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+		return BlockEntityUpdateS2CPacket.create(this);
 	}
 
 	public IOFace getFace(final Direction dir) {
@@ -104,22 +110,21 @@ public class BlockEntityPipe extends BlockEntity implements BlockEntityClientSer
 		this.faces = faces;
 	}
 
-	@Override
 	public void sync() {
-		BlockEntityClientSerializable.super.sync();
+		world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), Block.NOTIFY_LISTENERS);
 	}
 
 	@Override
-	public NbtCompound toClientTag(final NbtCompound tag) {
-		return this.writeNbt(tag);
+	public NbtCompound toInitialChunkDataNbt() {
+		return createNbt();
 	}
 
 	@Override
-	public NbtCompound writeNbt(final NbtCompound tag) {
+	public void writeNbt(final NbtCompound tag) {
 		for (final Direction dir : Direction.values()) {
 			tag.putString(dir.toString(), this.faces.get(dir).toString());
 		}
-		return super.writeNbt(tag);
+		super.writeNbt(tag);
 	}
 
 }
