@@ -1,5 +1,7 @@
 package dev.cafeteria.artofalchemy.blockentity;
 
+import org.jetbrains.annotations.Nullable;
+
 import dev.cafeteria.artofalchemy.AoAConfig;
 import dev.cafeteria.artofalchemy.ArtOfAlchemy;
 import dev.cafeteria.artofalchemy.block.BlockDissolver;
@@ -12,12 +14,12 @@ import dev.cafeteria.artofalchemy.util.AoAHelper;
 import dev.cafeteria.artofalchemy.util.FuelHelper;
 import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.tag.TagFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -28,7 +30,10 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -43,7 +48,7 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation") // Experimental API
 public class BlockEntityDistiller extends BlockEntity
 	implements ImplementedInventory, BlockEntityTicker<BlockEntityDistiller>, PropertyDelegateHolder,
-	BlockEntityClientSerializable, HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
+	HasEssentia, HasAlkahest, SidedInventory, ExtendedScreenHandlerFactory {
 
 	private static final int[] TOP_SLOTS = {
 		0
@@ -161,9 +166,10 @@ public class BlockEntityDistiller extends BlockEntity
 		this.updateEssentiaTankSize();
 	}
 
+	@Nullable
 	@Override
-	public void fromClientTag(final NbtCompound tag) {
-		this.readNbt(tag);
+	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+		return BlockEntityUpdateS2CPacket.create(this);
 	}
 
 	@Override
@@ -300,11 +306,10 @@ public class BlockEntityDistiller extends BlockEntity
 		this.updateLit();
 	}
 
-	@Override
 	public void sync() {
 		// AoANetworking.sendEssentiaPacket(world, pos, 0, essentiaInput); // KG: Is
 		// this needed?
-		BlockEntityClientSerializable.super.sync();
+		world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), Block.NOTIFY_LISTENERS);
 	}
 
 	@Override
@@ -339,8 +344,8 @@ public class BlockEntityDistiller extends BlockEntity
 	}
 
 	@Override
-	public NbtCompound toClientTag(final NbtCompound tag) {
-		return this.writeNbt(tag);
+	public NbtCompound toInitialChunkDataNbt() {
+		return createNbt();
 	}
 
 	private void tryConvertEssentia() { // KG: Not clean, could have issues if this function is missed for a tick.
@@ -360,14 +365,14 @@ public class BlockEntityDistiller extends BlockEntity
 	}
 
 	@Override
-	public NbtCompound writeNbt(final NbtCompound tag) {
+	public void writeNbt(final NbtCompound tag) {
 		tag.putInt("progress", this.progress);
 		tag.putInt("fuel", this.fuel);
 		tag.putInt("essentia", this.essentia);
 		tag.putInt("alkahest", AoAHelper.mBFromFluid(this.getAlkahest())); // As mB mostly for legacy reasons
 		tag.put("essentiaInput", this.essentiaInput.writeNbt());
 		Inventories.writeNbt(tag, this.items);
-		return super.writeNbt(tag);
+		super.writeNbt(tag);
 	}
 
 	@Override

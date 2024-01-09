@@ -34,8 +34,8 @@ public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 		final BlockEntityTank blockEntity, final float tickDelta, final MatrixStack matrices,
 		final VertexConsumerProvider vertexConsumers, final int light, final int overlay
 	) {
-		final Matrix4f model = matrices.peek().getModel();
-		final Matrix3f normal = matrices.peek().getNormal();
+		final Matrix4f model = matrices.peek().getPositionMatrix();
+		final Matrix3f normal = matrices.peek().getNormalMatrix();
 		VertexConsumer buffer;
 		if (this.client.options.graphicsMode == GraphicsMode.FABULOUS) {
 			// Translucent-layer quads don't show up under Fabulous settings, so here's a
@@ -45,7 +45,7 @@ public class RendererTank implements BlockEntityRenderer<BlockEntityTank> {
 			buffer = vertexConsumers.getBuffer(RenderLayer.getTranslucent());
 		}
 		final Sprite sprite = this.client.getBlockRenderManager().getModel(AoABlocks.ALKAHEST.getDefaultState())
-			.getSprite();
+			.getParticleSprite();
 		final BlockState state = blockEntity.getWorld().getBlockState(blockEntity.getPos());
 		state.getProperties();
 		final EssentiaContainer container = blockEntity.getContainer();

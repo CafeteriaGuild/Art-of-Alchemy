@@ -1,6 +1,5 @@
-<h1 align="center">Art of Alchemy</h1>
 <p align="center">
-	<!-- TODO: Mod Banner Here -->
+	<a href="https://github.com/CafeteriaGuild/Art-of-Alchemy"><img title="Art of Alchemy" height="300" src="https://raw.githubusercontent.com/CafeteriaGuild/Art-of-Alchemy/main/src/main/resources/assets/artofalchemy/banner.png"/></a>
 	<br/>
 	<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img title="Requires Fabric API" height="50" src="https://i.imgur.com/Ol1Tcf8.png"/></a>
 	<br/>
