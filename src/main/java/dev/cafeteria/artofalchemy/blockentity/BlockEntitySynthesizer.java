@@ -1,5 +1,7 @@
 package dev.cafeteria.artofalchemy.blockentity;
 
+import org.jetbrains.annotations.Nullable;
+
 import dev.cafeteria.artofalchemy.AoAConfig;
 import dev.cafeteria.artofalchemy.block.BlockSynthesizer;
 import dev.cafeteria.artofalchemy.essentia.EssentiaContainer;
@@ -13,8 +15,8 @@ import dev.cafeteria.artofalchemy.util.AoAHelper;
 import dev.cafeteria.artofalchemy.util.AoATags;
 import dev.cafeteria.artofalchemy.util.ImplementedInventory;
 import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -26,7 +28,10 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -41,7 +46,7 @@ import net.minecraft.world.World;
 
 public class BlockEntitySynthesizer extends BlockEntity
 	implements ImplementedInventory, BlockEntityTicker<BlockEntitySynthesizer>, SidedInventory, PropertyDelegateHolder,
-	BlockEntityClientSerializable, HasEssentia, ExtendedScreenHandlerFactory {
+	HasEssentia, ExtendedScreenHandlerFactory {
 
 	private static final int[] TOP_SLOTS = {
 		0
@@ -225,9 +230,10 @@ public class BlockEntitySynthesizer extends BlockEntity
 		// this.addXp(-xpCost);
 	}
 
+	@Nullable
 	@Override
-	public void fromClientTag(final NbtCompound tag) {
-		this.readNbt(tag);
+	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+		return BlockEntityUpdateS2CPacket.create(this);
 	}
 
 	@Override
@@ -329,10 +335,9 @@ public class BlockEntitySynthesizer extends BlockEntity
 		AoANetworking.sendEssentiaPacketWithRequirements(this.world, this.pos, 0, this.essentiaContainer, requirements);
 	}
 
-	@Override
 	public void sync() {
 		this.recipeSync();
-		BlockEntityClientSerializable.super.sync();
+		world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), Block.NOTIFY_LISTENERS);
 	}
 
 	@Override
@@ -389,8 +394,8 @@ public class BlockEntitySynthesizer extends BlockEntity
 	}
 
 	@Override
-	public NbtCompound toClientTag(final NbtCompound tag) {
-		return this.writeNbt(tag);
+	public NbtCompound toInitialChunkDataNbt() {
+		return createNbt();
 	}
 
 	private boolean updateStatus(final int status) {
@@ -402,13 +407,13 @@ public class BlockEntitySynthesizer extends BlockEntity
 	}
 
 	@Override
-	public NbtCompound writeNbt(final NbtCompound tag) {
+	public void writeNbt(final NbtCompound tag) {
 		tag.putInt("progress", this.progress);
 		tag.putInt("max_progress", this.maxProgress);
 		tag.putInt("status", this.status);
 		tag.put("essentia", this.essentiaContainer.writeNbt());
 		Inventories.writeNbt(tag, this.items);
-		return super.writeNbt(tag);
+		super.writeNbt(tag);
 	}
 
 	@Override

@@ -490,7 +490,7 @@ public class ModelPipe implements UnbakedModel, BakedModel, FabricBakedModel {
 	}
 
 	@Override
-	public Sprite getSprite() {
+	public Sprite getParticleSprite() {
 		return this.blockBreakSprite;
 	}
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "artofalchemy",
-  "version": "1.3.4",
+  "version": "1.3.5-alpha",
   "name": "Art of Alchemy",
   "description": "An industrial magic mod that allows you to unleash the power of transmutation!\nIn loving memory of Amelia aka SynthRose.",
   "authors": [
@@ -34,7 +34,7 @@
     "artofalchemy.mixins.json"
   ],
   "depends": {
-    "minecraft": "~1.17.1",
+    "minecraft": "~1.18",
     "libgui": ">=4.1.2",
     "fabricloader": ">=0.11.6",
     "fabric": ">=0.40.1"
