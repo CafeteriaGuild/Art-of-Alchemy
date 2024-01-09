@@ -24,7 +24,7 @@ repositories {
 
 	maven {
 		name = 'TerraformersMC'
-		url = 'https://maven.kotlindiscord.com/repository/terraformers/'
+		url = 'https://maven.terraformersmc.com/'
 	}
 
 	maven {
